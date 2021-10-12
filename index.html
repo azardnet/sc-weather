@@ -151,7 +151,11 @@
     inputEl.addEventListener('keydown', (event) => {
         if (event.key === "Enter") {
             event.preventDefault();
-            searchWeather(inputEl.value);
+            if (inputEl.value.length < 22) {
+                searchWeather(inputEl.value);
+            } else {
+                alert('invalid city');
+            }
         }
     });
 
@@ -170,11 +174,13 @@
         document.querySelector("main .weather .map-overlay .content-wrapper h1 b").innerHTML = city;
         document.querySelector("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url('./flags/${(result.sys.country).toLowerCase()}.svg')`;
         document.querySelector("form input").focus();
+        }).catch(() => {
+            alert('request fail');
         });
     }
 
     window.addEventListener('DOMContentLoaded', (event) => {
-        searchWeather('London');
+        searchWeather('Liverpool');
     });
     </script>
 </body>
