@@ -10,35 +10,172 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ephesis&display=swap" rel="stylesheet">
 <style>
- body, html {
-     padding: 0;
-     margin: 0;
- }
- body {
-     background-color: #093d3b;
- }
- main {
-    display: flex;
-    justify-content: center;
- }
- main .weather {
-    width: 600px;
-    margin-top: 50px;
-    text-align: center;
- }
- main .weather b {
-    font-family: Ephesis;
-    font-size: 70px;
-    letter-spacing: 5px;
-    color: #ffffff;
-    opacity: 0.5;
- }
+    body, html {
+        padding: 0;
+        margin: 0;
+    }
+    body {
+        background-color: #072322;
+    }
+    main {
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+        justify-content: center;
+    }
+    main .weather {
+        margin-top: 40px;
+        width: 80vh;
+        height: calc(80vh + 40px);
+        position: relative;
+    }
+    main .weather #map {
+     width: 100%;
+     height: calc(100% - 40px);
+    }
+    .map-overlay {
+        position: absolute;
+        width: 100%;
+        height: calc(100% - 42px);
+        top: 38px;
+        right: 0;
+        z-index: 1;
+        left: 0;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .map-overlay:before {
+        content: "";
+        position: absolute;
+        width: calc(100%  + 2px);
+        height: 35px;
+        background-color: #072322;
+        right: 0;
+        left: 0;
+        margin: auto;
+        bottom: calc(-16px - 3px);
+    }
+
+    .map-overlay:after {
+        content: "";
+        position: absolute;
+        width: calc(100% + 2px);
+        height: calc(100% - 32px);
+        background-color: #072322;
+        opacity: 0.90;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        top: 0;
+        margin: auto;
+        z-index: -1;
+    }
+    main .weather .map-overlay .content-wrapper h1 {
+        position: relative;
+    }
+    main .weather .map-overlay .content-wrapper h1 b {
+       font-family: Ephesis;
+       font-size: 70px;
+       letter-spacing: 10px;
+       color: #ffffff;
+       opacity: 0.85;
+    }
+    /* main .weather .map-overlay .content-wrapper h1 span {
+        width: 150%;
+        max-width: 350px;
+        height: 340%;
+        max-height: 315px;
+        position: absolute;
+        margin: auto;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-position: center;
+        opacity: 0.1;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    } */
+    main .weather .map-overlay .content-wrapper h1 span {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        right: -25px;
+        top: -10px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        opacity: 0.45;
+    }
+    .weather form {
+        margin-bottom: 16px;
+    }
+    .weather form input {
+        background-color: rgb(255 255 255 / 25%);
+        border: 0;
+        color: #fff;
+        font-size: 16px;
+        letter-spacing: 1px;
+        appearance: none;
+        padding: 10px;
+        width: 50%;
+    }
+    .weather form input:focus {
+        outline: #fff;
+    }
+    .weather form input::placeholder {
+        color: #bbbbbb;
+    }
 </style>
 <body>
     <main>
         <section class="weather">
-            <b>Tehran</b>
+            <form>
+                <input type="text" placeholder="type City and hit Enter" />
+            </form>
+            <div id="map"></div>
+            <div class="map-overlay">
+                <div class="content-wrapper">
+                    <h1><span></span><b></b></h1>
+                </div>
+            </div>
         </section>
     </main>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=4e6f722b-fb79-4cfc-a56b-cc91bcb27d72" type="text/javascript"></script>
+
+    <script>
+    const KEY = "dc996f609fa04ff24b36fd4c031ade1c";
+    const inputEl = document.querySelector("form input");
+
+    inputEl.addEventListener('keydown', (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            searchWeather(inputEl.value);
+        }
+    });
+
+    function searchWeather(city, country) {
+    document.querySelector("main .weather #map").innerHTML = "";
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${KEY}&units=metric`).then(result => {
+        return result.json();
+    }).then(result => {
+        ymaps.ready(function () {
+        const myMap = new ymaps.Map('map', {
+                center: [result.coord.lat, result.coord.lon],
+                zoom: 10.5,
+                controls: []
+            }) 
+        });
+        document.querySelector("main .weather .map-overlay .content-wrapper h1 b").innerHTML = city;
+        document.querySelector("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url('./flags/${(result.sys.country).toLowerCase()}.svg')`;
+        document.querySelector("form input").focus();
+        });
+    }
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+        searchWeather('London');
+    });
+    </script>
 </body>
 </html>
