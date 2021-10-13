@@ -1,0 +1,142 @@
+@font-face {
+    font-family: Vazir;
+    src: url('./font/Vazir-Medium.eot');
+    src: url('./font/Vazir-Medium.eot?#iefix') format('embedded-opentype'),
+         url('./font/Vazir-Medium.woff2') format('woff2'),
+         url('./font/Vazir-Medium.woff') format('woff'),
+         url('./font/Vazir-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+    body, html {
+        padding: 0;
+        margin: 0;
+    }
+    body {
+        background-color: #072322;
+    }
+    main {
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+        justify-content: center;
+    }
+    main .weather {
+        margin-top: 40px;
+        width: 80vh;
+        height: calc(80vh + 40px);
+        position: relative;
+    }
+    main .weather #map {
+     width: 100%;
+     height: calc(100% - 40px);
+    }
+    .map-overlay {
+        position: absolute;
+        width: 100%;
+        height: calc(100% - 35px);
+        top: 38px;
+        right: 0;
+        z-index: 1;
+        left: 0;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .map-overlay .bottom {
+        content: "";
+        position: absolute;
+        width: calc(100%  + 2px);
+        height: 35px;
+        background-color: #072322;
+        right: 0;
+        left: 0;
+        margin: auto;
+        bottom: calc(-16px - 3px);
+    }
+
+    .map-overlay .cover {
+        content: "";
+        position: absolute;
+        width: calc(100% + 2px);
+        height: calc(100% - 32px);
+        background-color: #072322;
+        opacity: 0.90;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        top: 0;
+        margin: auto;
+        z-index: -1;
+    }
+    main .weather .map-overlay .content-wrapper h1 {
+        position: relative;
+    }
+    main .weather .map-overlay .content-wrapper h1 b {
+       font-family: Ephesis, Vazir;
+       font-size: 70px;
+       letter-spacing: 10px;
+       color: #ffffff;
+       opacity: 0.80;
+       text-transform: capitalize;
+       text-shadow: 3px 5px 0px rgb(255 255 255 / 10%);
+    }
+    main .weather .map-overlay .content-wrapper h1.rtl b {
+        letter-spacing: 2px;
+        font-size: 85px;
+    }
+    main .weather .map-overlay .content-wrapper h1.rtl span {
+        right: unset;
+        left: -25px;
+    }
+    main form.search.rtl {
+        direction: rtl;
+    }
+    /* main .weather .map-overlay .content-wrapper h1 span {
+        width: 150%;
+        max-width: 350px;
+        height: 340%;
+        max-height: 315px;
+        position: absolute;
+        margin: auto;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-position: center;
+        opacity: 0.1;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    } */
+    main .weather .map-overlay .content-wrapper h1 span {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        right: -25px;
+        top: -10px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        opacity: 0.45;
+    }
+    .weather form.search {
+        margin-bottom: 16px;
+    }
+    .weather form.search input {
+        background-color: rgb(255 255 255 / 25%);
+        border: 0;
+        font-family: Vazir;
+        color: #fff;
+        font-size: 16px;
+        letter-spacing: 1px;
+        appearance: none;
+        padding: 10px;
+        width: 50%;
+    }
+    .weather form.search input:focus {
+        outline: #fff;
+    }
+    .weather form.search input::placeholder {
+        color: #bbbbbb;
+    }
+    
