@@ -1,5 +1,5 @@
     const KEY = "dc996f609fa04ff24b36fd4c031ade1c";
-    const inputEl = document.querySelector("form.search input");
+    const inputEl = document.querySelector("main header form.search input");
     const colorEL = document.getElementById("favcolor");
     const mapOpacityRangeEl = document.getElementById("mapOpacity");
 
@@ -42,10 +42,10 @@
         if (event.code !== "Backspace" && event.key !== "Control" && event.key !== "Alt" && event.key !== "Shift" &&
         event.key !== "CapsLock" && event.key !== "Tab" && event.code !== "Space") {
             if (check(event.key)) {
-                document.querySelector("main form.search").classList.add("rtl");
+                document.querySelector("main header form.search").classList.add("rtl");
                 inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید."
             } else {
-                document.querySelector("main form.search").classList.remove("rtl");
+                document.querySelector("main header form.search").classList.remove("rtl");
                 inputEl.placeholder = "type City and hit Enter";
             }
         }
@@ -72,11 +72,11 @@
         changeColor(color);
         if (check(city)) {
             document.querySelector("main .weather .map-overlay .content-wrapper h1").classList.add("rtl");
-            document.querySelector("main form.search").classList.add("rtl");
+            document.querySelector("main header form.search").classList.add("rtl");
             inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید."
         } else {
             document.querySelector("main .weather .map-overlay .content-wrapper h1").classList.remove("rtl");
-            document.querySelector("main form.search").classList.remove("rtl");
+            document.querySelector("main header form.search").classList.remove("rtl");
             inputEl.placeholder = "type City and hit Enter";
         }
 
@@ -93,7 +93,7 @@
         });
         document.querySelector("main .weather .map-overlay .content-wrapper h1 b").innerHTML = city;
         document.querySelector("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url('./flags/${(result.sys.country).toLowerCase()}.svg')`;
-        document.querySelector("form.search input").focus();
+        document.querySelector("main header form.search input").focus();
         }).catch(() => {
             alert('request fail');
         });

@@ -19,23 +19,30 @@
         display: flex;
         height: 100vh;
         width: 100vw;
-        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    main header {
+        margin-top: 20px;
+        display: flex;
+        width: 80vh;
+        justify-content: space-between;
     }
     main .weather {
-        margin-top: 40px;
+        margin-top: 10px;
         width: 80vh;
         height: calc(80vh + 40px);
         position: relative;
     }
     main .weather #map {
      width: 100%;
-     height: calc(100% - 40px);
+     height: 100%;
     }
     .map-overlay {
         position: absolute;
         width: 100%;
-        height: calc(100% - 35px);
-        top: 38px;
+        height: 100%;
+        top: 0px;
         right: 0;
         z-index: 1;
         left: 0;
@@ -53,14 +60,14 @@
         right: 0;
         left: 0;
         margin: auto;
-        bottom: calc(-16px - 3px);
+        bottom: -2px;
     }
 
     .map-overlay .cover {
         content: "";
         position: absolute;
         width: calc(100% + 2px);
-        height: calc(100% - 32px);
+        height: 100%;
         background-color: #072322;
         opacity: 0.90;
         right: 0;
@@ -90,7 +97,7 @@
         right: unset;
         left: -25px;
     }
-    main form.search.rtl {
+    main header form.search.rtl {
         direction: rtl;
     }
     /* main .weather .map-overlay .content-wrapper h1 span {
@@ -119,10 +126,10 @@
         background-position: center;
         opacity: 0.45;
     }
-    .weather form.search {
-        margin-bottom: 16px;
+    main header form.search {
+        width: 50%;
     }
-    .weather form.search input {
+    main header form.search input {
         background-color: rgb(255 255 255 / 25%);
         border: 0;
         font-family: Vazir;
@@ -131,12 +138,23 @@
         letter-spacing: 1px;
         appearance: none;
         padding: 10px;
-        width: 50%;
+        width: 100%;
     }
-    .weather form.search input:focus {
+    main header form.search input:focus {
         outline: #fff;
     }
-    .weather form.search input::placeholder {
+    main header form.search input::placeholder {
         color: #bbbbbb;
     }
     
+    .setting-button {
+        width: 50px;
+        height: 50px;
+        border: 0;
+        appearance: none;
+        background-color: rgb(255 255 255 / 30%);
+        cursor: pointer;
+    }
+    .setting-button svg path {
+        fill: rgb(255 255 255 / 70%);
+    }

@@ -16,15 +16,22 @@
 <body>
     <main>
         <header>
-            <form class="color">
+            <form class="search">
+                <input type="text" placeholder="type City and hit Enter" />
+            </form>
+            <button class="setting-button">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;" viewBox="0 0 333 333" x="0px" y="0px" fill-rule="evenodd" clip-rule="evenodd">
+                    <g>
+                        <path class="fil0" fill-rule="nonzero" d="M88 201c38,-37 23,-38 70,9 7,7 -11,20 -26,35 17,43 -16,78 -60,62 -14,-5 9,-22 18,-32l-6 -27 -26 -5c-9,10 -27,33 -32,18 -15,-47 22,-76 62,-60zm0 -69c-42,17 -77,-17 -61,-60 5,-14 22,9 31,18l27 -7 5 -25c-9,-10 -32,-27 -18,-32 47,-15 76,22 60,62l113 113c43,-16 78,17 62,60 -5,14 -22,-8 -32,-18l-25 5 -7 27c10,10 32,27 18,32 -43,16 -77,-19 -60,-62l-113 -113zm-25 -9c19,2 25,-10 32,-4 168,168 111,101 115,152 2,19 18,28 36,26 -22,-22 -20,-11 -8,-56 2,-7 21,-8 37,-12 7,-1 13,8 22,17 4,-32 -25,-44 -50,-31 -3,1 -6,1 -8,-1 -168,-168 -111,-100 -116,-151 -2,-20 -17,-29 -36,-27 25,25 18,11 10,54 -2,8 -22,9 -39,14 -6,2 -13,-8 -22,-17 -2,19 8,34 27,36zm151 -28l-24 24 24 24c47,-46 17,-17 57,-20 19,-2 28,-17 26,-36 -23,23 -10,20 -56,8 -7,-1 -14,-40 -10,-44l15 -15c-30,-4 -44,23 -31,51 1,3 1,6 -1,8zm-38 19l25 -26c-15,-40 13,-77 60,-62 15,5 -8,22 -18,32l6 25 26 7c10,-9 27,-32 32,-18 16,43 -19,77 -62,60 -38,37 -23,38 -69,-8 -3,-3 -3,-7 0,-10zm-57 76c-46,46 -17,17 -56,20 -19,2 -29,18 -27,36 25,-24 11,-18 54,-10 8,2 9,22 14,39 2,6 -8,13 -17,22 33,4 44,-27 31,-50 -4,-8 12,-19 26,-33l-25 -24z"/>
+                    </g>
+                </svg>
+            </button>
+            <form style="display: none;" class="color">
                 <input type="color" id="favcolor" >
                 <input id="mapOpacity" type="range" min="0" max="100">
             </form>
         </header>
         <section class="weather">
-            <form class="search">
-                <input type="text" placeholder="type City and hit Enter" />
-            </form>
             <div id="map"></div>
             <div class="map-overlay">
                 <span class="bottom"></span>
