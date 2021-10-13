@@ -1,0 +1,161 @@
+@font-face {
+    font-family: Vazir;
+    src: url('./font/Vazir-Medium.eot');
+    src: url('./font/Vazir-Medium.eot?#iefix') format('embedded-opentype'),
+         url('./font/Vazir-Medium.woff2') format('woff2'),
+         url('./font/Vazir-Medium.woff') format('woff'),
+         url('./font/Vazir-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+    body, html {
+        padding: 0;
+        margin: 0;
+    }
+    body {
+        background-color: #072322;
+    }
+    main {
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+        align-items: center;
+        flex-direction: column;
+    }
+    main header {
+        margin-top: 20px;
+        display: flex;
+        width: 80vh;
+        justify-content: space-between;
+    }
+    main .weather {
+        margin-top: 10px;
+        width: 80vh;
+        height: calc(80vh + 40px);
+        position: relative;
+    }
+    main .weather #map {
+     width: 100%;
+     height: 100%;
+    }
+    .map-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        right: 0;
+        z-index: 1;
+        left: 0;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .map-overlay .bottom {
+        content: "";
+        position: absolute;
+        width: calc(100%  + 2px);
+        height: 35px;
+        background-color: #072322;
+        right: 0;
+        left: 0;
+        margin: auto;
+        bottom: -2px;
+    }
+
+    .map-overlay .cover {
+        content: "";
+        position: absolute;
+        width: calc(100% + 2px);
+        height: 100%;
+        background-color: #072322;
+        opacity: 0.90;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        top: 0;
+        margin: auto;
+        z-index: -1;
+    }
+    main .weather .map-overlay .content-wrapper h1 {
+        position: relative;
+    }
+    main .weather .map-overlay .content-wrapper h1 b {
+       font-family: Ephesis, Vazir;
+       font-size: 70px;
+       letter-spacing: 10px;
+       color: #ffffff;
+       opacity: 0.80;
+       text-transform: capitalize;
+       text-shadow: 3px 5px 0px rgb(255 255 255 / 10%);
+    }
+    main .weather .map-overlay .content-wrapper h1.rtl b {
+        letter-spacing: 2px;
+        font-size: 85px;
+    }
+    main .weather .map-overlay .content-wrapper h1.rtl span {
+        right: unset;
+        left: -25px;
+    }
+    main header.rtl {
+        direction: rtl;
+    }
+    /* main .weather .map-overlay .content-wrapper h1 span {
+        width: 150%;
+        max-width: 350px;
+        height: 340%;
+        max-height: 315px;
+        position: absolute;
+        margin: auto;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-position: center;
+        opacity: 0.1;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    } */
+    main .weather .map-overlay .content-wrapper h1 span {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        right: -25px;
+        top: -10px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        opacity: 0.45;
+    }
+    main header form.search {
+        width: 50%;
+    }
+    main header form.search input {
+        background-color: rgb(255 255 255 / 25%);
+        border: 0;
+        font-family: Vazir;
+        color: #fff;
+        font-size: 16px;
+        letter-spacing: 1px;
+        appearance: none;
+        padding: 10px;
+        width: 100%;
+    }
+    main header form.search input:focus {
+        outline: 0;
+        box-shadow: 0 0 0px 1px rgb(255 255 255 / 60%);
+    }
+    main header form.search input::placeholder {
+        color: #bbbbbb;
+    }
+    
+    .setting-button {
+        width: 50px;
+        height: 50px;
+        border: 0;
+        appearance: none;
+        background-color: rgb(255 255 255 / 30%);
+        cursor: pointer;
+    }
+    .setting-button svg path {
+        fill: rgb(255 255 255 / 70%);
+    }
