@@ -91,6 +91,8 @@
        letter-spacing: 10px;
        color: #ffffff;
        opacity: 0.80;
+       text-transform: capitalize;
+       text-shadow: 3px 5px 0px rgb(255 255 255 / 10%);
     }
     main .weather .map-overlay .content-wrapper h1.rtl b {
         letter-spacing: 2px;
@@ -210,7 +212,7 @@
 
     inputEl.addEventListener('keydown', (event) => {
         if (event.code !== "Backspace" && event.key !== "Control" && event.key !== "Alt" && event.key !== "Shift" &&
-        event.key !== "CapsLock" && event.key !== "Tab" && event.key !== "Space") {
+        event.key !== "CapsLock" && event.key !== "Tab" && event.code !== "Space") {
             if (check(event.key)) {
                 document.querySelector("main form.search").classList.add("rtl");
                 inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید."
