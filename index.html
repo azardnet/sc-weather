@@ -10,6 +10,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ephesis&display=swap" rel="stylesheet">
 <style>
+    @font-face {
+    font-family: Vazir;
+    src: url('./font/Vazir-Medium.eot');
+    src: url('./font/Vazir-Medium.eot?#iefix') format('embedded-opentype'),
+         url('./font/Vazir-Medium.woff2') format('woff2'),
+         url('./font/Vazir-Medium.woff') format('woff'),
+         url('./font/Vazir-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
     body, html {
         padding: 0;
         margin: 0;
@@ -36,7 +46,7 @@
     .map-overlay {
         position: absolute;
         width: 100%;
-        height: calc(100% - 42px);
+        height: calc(100% - 35px);
         top: 38px;
         right: 0;
         z-index: 1;
@@ -46,7 +56,7 @@
         align-items: center;
         justify-content: center;
     }
-    .map-overlay:before {
+    .map-overlay .bottom {
         content: "";
         position: absolute;
         width: calc(100%  + 2px);
@@ -58,7 +68,7 @@
         bottom: calc(-16px - 3px);
     }
 
-    .map-overlay:after {
+    .map-overlay .cover {
         content: "";
         position: absolute;
         width: calc(100% + 2px);
@@ -76,11 +86,22 @@
         position: relative;
     }
     main .weather .map-overlay .content-wrapper h1 b {
-       font-family: Ephesis;
+       font-family: Ephesis, Vazir;
        font-size: 70px;
        letter-spacing: 10px;
        color: #ffffff;
-       opacity: 0.85;
+       opacity: 0.80;
+    }
+    main .weather .map-overlay .content-wrapper h1.rtl b {
+        letter-spacing: 2px;
+        font-size: 85px;
+    }
+    main .weather .map-overlay .content-wrapper h1.rtl span {
+        right: unset;
+        left: -25px;
+    }
+    main form.search.rtl {
+        direction: rtl;
     }
     /* main .weather .map-overlay .content-wrapper h1 span {
         width: 150%;
@@ -108,12 +129,13 @@
         background-position: center;
         opacity: 0.45;
     }
-    .weather form {
+    .weather form.search {
         margin-bottom: 16px;
     }
-    .weather form input {
+    .weather form.search input {
         background-color: rgb(255 255 255 / 25%);
         border: 0;
+        font-family: Vazir;
         color: #fff;
         font-size: 16px;
         letter-spacing: 1px;
@@ -121,21 +143,30 @@
         padding: 10px;
         width: 50%;
     }
-    .weather form input:focus {
+    .weather form.search input:focus {
         outline: #fff;
     }
-    .weather form input::placeholder {
+    .weather form.search input::placeholder {
         color: #bbbbbb;
     }
+    
 </style>
 <body>
     <main>
+        <header>
+            <form class="color">
+                <input type="color" id="favcolor" >
+                <input id="mapOpacity" type="range" min="0" max="100">
+            </form>
+        </header>
         <section class="weather">
-            <form>
+            <form class="search">
                 <input type="text" placeholder="type City and hit Enter" />
             </form>
             <div id="map"></div>
             <div class="map-overlay">
+                <span class="bottom"></span>
+                <span class="cover"></span>
                 <div class="content-wrapper">
                     <h1><span></span><b></b></h1>
                 </div>
@@ -146,9 +177,48 @@
 
     <script>
     const KEY = "dc996f609fa04ff24b36fd4c031ade1c";
-    const inputEl = document.querySelector("form input");
+    const inputEl = document.querySelector("form.search input");
+    const colorEL = document.getElementById("favcolor");
+    const mapOpacityRangeEl = document.getElementById("mapOpacity");
+    function debounce(func, wait, immediate) {
+	let timeout;
+	return function() {
+		var context = this, args = arguments;
+		clearTimeout(timeout);
+		timeout = setTimeout(function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		}, wait);
+		if (immediate && !timeout) func.apply(context, args);
+	};
+}
+
+    const handleChangeColor = debounce(function() {
+        changeColor(colorEL.value);
+        localStorage.setItem("color", colorEL.value);
+    }, 20);
+
+    const handleMapOpacityChange = debounce(function() {
+        changeMapOpacity(mapOpacityRangeEl.value)
+        // localStorage.setItem("color", colorEL.value);
+    }, 20);
+
+
+    colorEL.addEventListener("input", handleChangeColor, false);
+
+    mapOpacityRangeEl.addEventListener("input", handleMapOpacityChange, false);
 
     inputEl.addEventListener('keydown', (event) => {
+        if (event.code !== "Backspace" && event.key !== "Control" && event.key !== "Alt" && event.key !== "Shift" &&
+        event.key !== "CapsLock" && event.key !== "Tab" && event.key !== "Space") {
+            if (check(event.key)) {
+                document.querySelector("main form.search").classList.add("rtl");
+                inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید."
+            } else {
+                document.querySelector("main form.search").classList.remove("rtl");
+                inputEl.placeholder = "type City and hit Enter";
+            }
+        }
         if (event.key === "Enter") {
             event.preventDefault();
             if (inputEl.value.length < 22) {
@@ -159,11 +229,31 @@
         }
     });
 
-    function searchWeather(city, country) {
-    document.querySelector("main .weather #map").innerHTML = "";
+    function check(string) {
+    const p = /^[\u0600-\u06FF\s]+$/;
+    if (p.test(string)) return true;
+    return false;
+}
+
+    function searchWeather(city) {
+        const color = localStorage.getItem("color");
+        document.querySelector("main form.color input").value = color; 
+        document.querySelector("main .weather #map").innerHTML = "";
+        changeColor(color);
+        if (check(city)) {
+            document.querySelector("main .weather .map-overlay .content-wrapper h1").classList.add("rtl");
+            document.querySelector("main form.search").classList.add("rtl");
+            inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید."
+        } else {
+                document.querySelector("main .weather .map-overlay .content-wrapper h1").classList.remove("rtl");
+                document.querySelector("main form.search").classList.remove("rtl");
+                inputEl.placeholder = "type City and hit Enter";
+        }
+
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${KEY}&units=metric`).then(result => {
         return result.json();
     }).then(result => {
+        localStorage.setItem("last_search", city);
         ymaps.ready(function () {
         const myMap = new ymaps.Map('map', {
                 center: [result.coord.lat, result.coord.lon],
@@ -173,15 +263,24 @@
         });
         document.querySelector("main .weather .map-overlay .content-wrapper h1 b").innerHTML = city;
         document.querySelector("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url('./flags/${(result.sys.country).toLowerCase()}.svg')`;
-        document.querySelector("form input").focus();
+        document.querySelector("form.search input").focus();
         }).catch(() => {
             alert('request fail');
         });
     }
 
     window.addEventListener('DOMContentLoaded', (event) => {
-        searchWeather('Liverpool');
+        searchWeather(localStorage.getItem("last_search") ||  "Liverpool");
     });
+
+    function changeColor(color) {
+       document.body.style.backgroundColor = color;
+        document.querySelector(".map-overlay .bottom").style.backgroundColor = color;
+        document.querySelector(".map-overlay .cover").style.backgroundColor = color;
+    }
+    function changeMapOpacity(value) {
+        document.querySelector(".map-overlay .cover").style.opacity = value/100;
+    }
     </script>
 </body>
 </html>
