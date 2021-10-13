@@ -141,7 +141,8 @@
         width: 100%;
     }
     main header form.search input:focus {
-        outline: #fff;
+        outline: 0;
+        box-shadow: 0 0 0px 1px rgb(255 255 255 / 60%);
     }
     main header form.search input::placeholder {
         color: #bbbbbb;

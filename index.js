@@ -51,7 +51,7 @@
         }
         if (event.key === "Enter") {
             event.preventDefault();
-            if (inputEl.value.length < 22) {
+            if (inputEl.value.length < 22 && inputEl.value.length > 1) {
                 searchWeather(inputEl.value);
             } else {
                 alert('invalid city');
