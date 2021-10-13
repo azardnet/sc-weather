@@ -97,7 +97,7 @@
         right: unset;
         left: -25px;
     }
-    main header form.search.rtl {
+    main header.rtl {
         direction: rtl;
     }
     /* main .weather .map-overlay .content-wrapper h1 span {

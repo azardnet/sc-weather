@@ -42,10 +42,10 @@
         if (event.code !== "Backspace" && event.key !== "Control" && event.key !== "Alt" && event.key !== "Shift" &&
         event.key !== "CapsLock" && event.key !== "Tab" && event.code !== "Space") {
             if (check(event.key)) {
-                document.querySelector("main header form.search").classList.add("rtl");
+                document.querySelector("main header").classList.add("rtl");
                 inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید."
             } else {
-                document.querySelector("main header form.search").classList.remove("rtl");
+                document.querySelector("main header").classList.remove("rtl");
                 inputEl.placeholder = "type City and hit Enter";
             }
         }
@@ -72,11 +72,11 @@
         changeColor(color);
         if (check(city)) {
             document.querySelector("main .weather .map-overlay .content-wrapper h1").classList.add("rtl");
-            document.querySelector("main header form.search").classList.add("rtl");
+            document.querySelector("main header").classList.add("rtl");
             inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید."
         } else {
             document.querySelector("main .weather .map-overlay .content-wrapper h1").classList.remove("rtl");
-            document.querySelector("main header form.search").classList.remove("rtl");
+            document.querySelector("main header").classList.remove("rtl");
             inputEl.placeholder = "type City and hit Enter";
         }
 
