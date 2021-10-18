@@ -83,6 +83,9 @@
         justify-content: center;
         align-items: center;
     }
+    main .weather .map-overlay .content-wrapper.rtl {
+        direction: rtl;
+    }
     main .weather .map-overlay .content-wrapper h1 {
         position: relative;
         margin: 0;
@@ -144,6 +147,7 @@
     main .weather .map-overlay .content-wrapper .weather-data .temp_min:before {
         transform: rotate(180deg);
     }
+    
     main .weather .map-overlay .content-wrapper.rtl h1 b {
         letter-spacing: 2px;
         font-size: 85px;
@@ -194,6 +198,9 @@
         appearance: none;
         padding: 10px;
         width: 100%;
+    }
+    main header.rtl form.search input { 
+        letter-spacing: 0;
     }
     main header form.search input:focus {
         outline: 0;
