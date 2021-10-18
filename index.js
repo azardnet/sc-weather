@@ -2,6 +2,7 @@
     const inputEl = document.querySelector("main header form.search input");
     const colorEL = document.getElementById("favcolor");
     const mapOpacityRangeEl = document.getElementById("mapOpacity");
+    const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
 
     const NumbersToPersian = (text) => {
         const farsiDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
@@ -75,44 +76,47 @@
         if (PersianCharactersRange.test(string)) return true;
         return false;
     }
-
-    function searchWeather(city) {
-        const isPersianCharacter = checkPersianCharacters(city);
-        const color = localStorage.getItem("color") || "#072322";
-        document.querySelector("main form.color input").value = color; 
-        document.querySelector("main .weather #map").innerHTML = "";
-        changeColor(color);
-        if (isPersianCharacter) {
-            document.querySelector("main .weather .map-overlay .content-wrapper").classList.add("rtl");
-            document.querySelector("main header").classList.add("rtl");
-            inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید."
-        } else {
-            document.querySelector("main .weather .map-overlay .content-wrapper").classList.remove("rtl");
-            document.querySelector("main header").classList.remove("rtl");
-            inputEl.placeholder = "type City and hit Enter";
+    
+    function searchWeather(city, interval = false) {
+        if (!interval) {
+            const isPersianCharacter = checkPersianCharacters(city);
+            const color = localStorage.getItem("color") || "#072322";
+            document.querySelector("main .weather #map").innerHTML = "";
+            document.querySelector("main form.color input").value = color;
+            changeColor(color);
+            if (isPersianCharacter) {
+                document.querySelector("main .weather .map-overlay .content-wrapper").classList.add("rtl");
+                document.querySelector("main header").classList.add("rtl");
+                inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید."
+            } else {
+                document.querySelector("main .weather .map-overlay .content-wrapper").classList.remove("rtl");
+                document.querySelector("main header").classList.remove("rtl");
+                inputEl.placeholder = "type City and hit Enter";
+            }
         }
-
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${KEY}&units=metric`).then(result => {
-        return result.json();
-    }).then(result => {
-        computeUI(result, city);
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${KEY}&units=metric`).then(result => {
+            return result.json();
+        }).then(result => {
+            computeUI(result, city, interval);
         }).catch(() => {
             alert('request fail');
         });
     }
 
-    function computeUI(result, city) {
-        const isPersianCharacter = checkPersianCharacters(city);
-        localStorage.setItem("last_search", isPersianCharacter ? city : result.name);
-        ymaps.ready(function () {
-        new ymaps.Map('map', {
-                center: [result.coord.lat, result.coord.lon],
-                zoom: 10.5,
-                controls: []
-            }) 
-        });
-        document.querySelector("main .weather .map-overlay .content-wrapper h1 b").innerHTML = isPersianCharacter ? city : result.name;
-        document.querySelector("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url('./flags/${(result.sys.country).toLowerCase()}.svg')`;
+    function computeUI(result, city, interval) {
+        if (!interval) {
+            const isPersianCharacter = checkPersianCharacters(city);
+            localStorage.setItem("last_search", isPersianCharacter ? city : result.name);
+            ymaps.ready(function () {
+            new ymaps.Map('map', {
+                    center: [result.coord.lat, result.coord.lon],
+                    zoom: 10.5,
+                    controls: []
+                }) 
+            });
+            document.querySelector("main .weather .map-overlay .content-wrapper h1 b").innerHTML = isPersianCharacter ? city : result.name;
+            document.querySelector("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url('./flags/${(result.sys.country).toLowerCase()}.svg')`;
+        }
         document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .temperature").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp) : result.main.temp;
         document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .feels_like").innerHTML = isPersianCharacter ? `احساس دما: ${NumbersToPersian(result.main.feels_like)}` : `Feels Like: ${result.main.feels_like}`;
         // document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .humidity").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.humidity) : result.main.humidity;
@@ -123,7 +127,7 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-        searchWeather(localStorage.getItem("last_search") ||  "Liverpool");
+        searchWeather(localStorage.getItem("last_search") ||  "Liverpool", false);
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js');
           }
@@ -163,6 +167,10 @@
     //         document.exitFullscreen();
     //     }
     // });
+
+    setInterval(() => {
+        searchWeather(localStorage.getItem("last_search") ||  "Liverpool", true);
+    }, REQUEST_INTERVAL);
 
 
     document.querySelector("main header button.full-screen").addEventListener('click', onFullScreenClick)
