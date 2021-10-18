@@ -3,6 +3,7 @@
     const colorEL = document.getElementById("favcolor");
     const mapOpacityRangeEl = document.getElementById("mapOpacity");
     const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
+    let cacheData = {lat: 53.4106, lon: -2.9779};
 
     const NumbersToPersian = (text) => {
         const farsiDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
@@ -64,7 +65,7 @@
         if (event.key === "Enter") {
             event.preventDefault();
             if (inputEl.value.length < 22 && inputEl.value.length > 1) {
-                searchWeather(inputEl.value);
+                searchWeather(inputEl.value, false);
             } else {
                 alert('invalid city');
             }
@@ -77,11 +78,10 @@
         return false;
     }
     
-    function searchWeather(city, interval = false) {
+    function searchWeather(city, interval) {
         if (!interval) {
             const isPersianCharacter = checkPersianCharacters(city);
             const color = localStorage.getItem("color") || "#072322";
-            document.querySelector("main .weather #map").innerHTML = "";
             document.querySelector("main form.color input").value = color;
             changeColor(color);
             if (isPersianCharacter) {
@@ -103,18 +103,26 @@
         });
     }
 
-    function computeUI(result, city, interval) {
-        if (!interval) {
-            const isPersianCharacter = checkPersianCharacters(city);
-            localStorage.setItem("last_search", isPersianCharacter ? city : result.name);
-            ymaps.ready(function () {
+    function createMap(lat, lon) {
+        document.querySelector("main .weather #map").innerHTML = "";
+        ymaps.ready(function () {
             new ymaps.Map('map', {
-                    center: [result.coord.lat, result.coord.lon],
+                    center: (lat && lon) ? [lat, lon] : [cacheData.lat, cacheData.lon],
                     zoom: 10.5,
                     controls: []
                 }) 
             });
+    }
+
+    function computeUI(result, city, interval) {
+        const isPersianCharacter = checkPersianCharacters(city);
+        if (!interval) {
+            localStorage.setItem("last_search", isPersianCharacter ? city : result.name);
+            cacheData.lat = result.coord.lat;
+            cacheData.lon = result.coord.lon;
+            createMap(result.coord.lat, result.coord.lon);
             document.querySelector("main .weather .map-overlay .content-wrapper h1 b").innerHTML = isPersianCharacter ? city : result.name;
+            document.querySelector("main header form.search input").focus();
             document.querySelector("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url('./flags/${(result.sys.country).toLowerCase()}.svg')`;
         }
         document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .temperature").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp) : result.main.temp;
@@ -123,7 +131,6 @@
         // document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .pressure").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.pressure) : result.main.pressure;
         document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .temp_max").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_max) : result.main.temp_max;
         document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .temp_min").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_min) : result.main.temp_min;
-        document.querySelector("main header form.search input").focus();
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -133,9 +140,7 @@
           }
     });
 
-    let fullScreenMode = false;
     function onFullScreenClick() {
-        fullScreenMode = true;
         document.querySelector('header').style.visibility = 'hidden';
         document.querySelector('header').style.opacity = 0;
         document.querySelector("main .weather").style.marginTop = 0;
@@ -148,24 +153,20 @@
         document.documentElement.requestFullscreen();
     }
 
-    // document.onfullscreenchange = function ( event ) {
-    // };
-
-    // document.addEventListener("keydown", function(event) {
-    //     console.log('asc', event);
-    //     if (fullScreenMode === true && (event.code === "Escape")) {
-    //         document.querySelector('header').style.visibility = 'visible';
-    //         document.querySelector('header').style.opacity = 1;
-    //         document.querySelector("main .weather").style.marginTop = "10px";
-    //         document.querySelector("main .weather").style.position = "relative";
-    //         document.querySelector("main .weather").style.width = "80vh";
-    //         document.querySelector("main .weather").style.height = "calc(80vh + 40px)";
-    //         document.querySelector("main .weather").style.right = "unset";
-    //         document.querySelector("main .weather").style.top = "unset";
-    //         document.querySelector("main .weather").style.overflow = "visible";
-    //         document.exitFullscreen();
-    //     }
-    // });
+    function onFullScreenChange() {
+        if (!((screen.availHeight || screen.height-30) <= window.innerHeight)) {
+            document.querySelector('header').style.visibility = 'visible';
+            document.querySelector('header').style.opacity = 1;
+            document.querySelector("main .weather").style.marginTop = "10px";
+            document.querySelector("main .weather").style.position = "relative";
+            document.querySelector("main .weather").style.width = "80vh";
+            document.querySelector("main .weather").style.height = "calc(80vh + 40px)";
+            document.querySelector("main .weather").style.right = "unset";
+            document.querySelector("main .weather").style.top = "unset";
+            document.querySelector("main .weather").style.overflow = "visible";
+            createMap();
+        }
+    }
 
     document.querySelector("main header button.full-screen").addEventListener('click', onFullScreenClick);
 
