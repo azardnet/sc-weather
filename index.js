@@ -149,7 +149,6 @@
     }
 
     // document.onfullscreenchange = function ( event ) {
-    //     console.log('asc', fullScreenMode)
     // };
 
     // document.addEventListener("keydown", function(event) {
@@ -168,9 +167,8 @@
     //     }
     // });
 
+    document.querySelector("main header button.full-screen").addEventListener('click', onFullScreenClick);
+
     setInterval(() => {
         searchWeather(localStorage.getItem("last_search") ||  "Liverpool", true);
     }, REQUEST_INTERVAL);
-
-
-    document.querySelector("main header button.full-screen").addEventListener('click', onFullScreenClick)
