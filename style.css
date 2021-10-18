@@ -77,8 +77,15 @@
         margin: auto;
         z-index: -1;
     }
+    main .weather .map-overlay .content-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
     main .weather .map-overlay .content-wrapper h1 {
         position: relative;
+        margin: 0;
     }
     main .weather .map-overlay .content-wrapper h1 b {
        font-family: Ephesis, Vazir;
@@ -89,11 +96,59 @@
        text-transform: capitalize;
        text-shadow: 3px 5px 0px rgb(255 255 255 / 10%);
     }
-    main .weather .map-overlay .content-wrapper h1.rtl b {
+    main .weather .map-overlay .content-wrapper .weather-data {
+        font-family: Vazir;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    main .weather .map-overlay .content-wrapper .weather-data span {
+        position: relative;
+    }
+    main .weather .map-overlay .content-wrapper .weather-data .temperature {
+        font-size: 40px;    
+    }
+    main .weather .map-overlay .content-wrapper .weather-data .feels_like {
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+    main .weather .map-overlay .content-wrapper .weather-data .temperature:after,
+    main .weather .map-overlay .content-wrapper .weather-data .feels_like:after, 
+    main .weather .map-overlay .content-wrapper .weather-data .temp_max:after,
+    main .weather .map-overlay .content-wrapper .weather-data .temp_min:after {
+        content: "°";
+    }
+    main .weather .map-overlay .content-wrapper .weather-data .temp_min,
+    main .weather .map-overlay .content-wrapper .weather-data .temp_max {
+        padding-left: 40px;
+        margin: 0 8px;
+    }
+    main .weather .map-overlay .content-wrapper .weather-data .temp_min:before,
+    main .weather .map-overlay .content-wrapper .weather-data .temp_max:before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        top: 0;
+        margin: auto;
+        left: 0px;
+        width: 30px;
+        height: 30px;
+        background-image: url(./static/icons/arrow-up.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 70%;
+        box-shadow: 0 0 0 1px #ffffff;
+    }
+    main .weather .map-overlay .content-wrapper .weather-data .temp_min:before {
+        transform: rotate(180deg);
+    }
+    main .weather .map-overlay .content-wrapper.rtl h1 b {
         letter-spacing: 2px;
         font-size: 85px;
     }
-    main .weather .map-overlay .content-wrapper h1.rtl span {
+    main .weather .map-overlay .content-wrapper.rtl h1 span {
         right: unset;
         left: -25px;
     }
@@ -149,8 +204,8 @@
     }
     
     .setting-button {
-        width: 50px;
-        height: 50px;
+        width: 46px;
+        height: 46px;
         border: 0;
         appearance: none;
         background-color: rgb(255 255 255 / 30%);
