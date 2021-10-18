@@ -209,15 +209,15 @@
     main header form.search input::placeholder {
         color: #bbbbbb;
     }
-    
-    .setting-button {
+    main header button {
         width: 46px;
         height: 46px;
         border: 0;
         appearance: none;
         background-color: rgb(255 255 255 / 30%);
         cursor: pointer;
+
     }
-    .setting-button svg path {
+    main header button svg path, main header button svg polygon {
         fill: rgb(255 255 255 / 70%);
     }
