@@ -4,6 +4,15 @@
     const mapOpacityRangeEl = document.getElementById("mapOpacity");
     const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
     let cacheData = {lat: 53.4106, lon: -2.9779};
+    const translate = {
+        fa: {
+            Clear: "صاف",
+            Clouds: "ابری",
+            Rain: "بارانی",
+            Thunderstorm: "رعد و برق",
+            Snow: "برفی",
+        }
+    }
 
     const NumbersToPersian = (text) => {
         const farsiDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
@@ -125,12 +134,15 @@
             document.querySelector("main header form.search input").focus();
             document.querySelector("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url('./flags/${(result.sys.country).toLowerCase()}.svg')`;
         }
-        document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .temperature").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp) : result.main.temp;
-        document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .feels_like").innerHTML = isPersianCharacter ? `احساس دما: ${NumbersToPersian(result.main.feels_like)}` : `Feels Like: ${result.main.feels_like}`;
+        document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .temperature .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp.toFixed(1)) : result.main.temp.toFixed(1);
+        document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .temperature .unit").innerHTML = "°C";
+        document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .feels_like .text").innerHTML = isPersianCharacter ? "احساس واقعی:" : "Feels Like:";
+        document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .feels_like .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.feels_like.toFixed(1)) : result.main.feels_like.toFixed(1);
+        document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .feels_like .unit").innerHTML = "°C";
         // document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .humidity").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.humidity) : result.main.humidity;
         // document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .pressure").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.pressure) : result.main.pressure;
-        document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .temp_max").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_max) : result.main.temp_max;
-        document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .temp_min").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_min) : result.main.temp_min;
+        document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .temp_max").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_max.toFixed(1)) : result.main.temp_max.toFixed(1);
+        document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .temp_min").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_min.toFixed(1)) : result.main.temp_min.toFixed(1);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
