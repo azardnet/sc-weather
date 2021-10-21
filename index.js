@@ -1,4 +1,4 @@
-    import './style.css';
+    import './style.scss';
     const KEY = "dc996f609fa04ff24b36fd4c031ade1c";
     const inputEl = document.querySelector("main header form.search input");
     const colorEL = document.getElementById("favcolor");

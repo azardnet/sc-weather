@@ -9,10 +9,9 @@ module.exports = {
   },    
   output: {
     path: path.join(__dirname, './build'),
-    filename: '[name].[chunkhash:8].bundle.js',
-    chunkFilename: '[name].[chunkhash:8].chunk.js',
+    filename: "[name].bundle.js"
   },
-  mode: "develop",
+  mode: "development",
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
@@ -21,12 +20,10 @@ module.exports = {
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
   ],
-  mode: 'development',
   devServer: {
     compress: true,
-    port: 3000,
+    port: 3700,
   },
-
   module: {
     rules: [
       {
@@ -37,11 +34,12 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
+        test: /\.(s*)css$/,
         use: [
-            { loader: "style-loader" },
-            { loader: "css-loader" }
-          ]
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
       },
       {
         test: /((?<!arrow.*)\.svg)$/,

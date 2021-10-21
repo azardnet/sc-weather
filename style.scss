@@ -124,7 +124,7 @@
        color: #ffffff;
        opacity: 0.80;
        text-transform: capitalize;
-       text-shadow: 3px 5px 0px rgb(255 255 255 / 10%);
+       text-shadow: 3px 5px 0px rgba(255, 255, 255, 0.1);
     }
     main .weather .map-overlay .content-wrapper .weather-data {
         font-family: Vazir;
@@ -404,7 +404,7 @@
         width: 50%;
     }
     main header form.search input {
-        background-color: rgb(255 255 255 / 25%);
+        background-color: rgba(255, 255, 255, 0.25);
         border: 0;
         font-family: Vazir;
         color: #fff;
@@ -419,7 +419,7 @@
     }
     main header form.search input:focus {
         outline: 0;
-        box-shadow: 0 0 0px 1px rgb(255 255 255 / 60%);
+        box-shadow: 0 0 0px 1px rgba(255, 255, 255, 0.6);
     }
     main header form.search input::placeholder {
         color: #bbbbbb;
@@ -429,12 +429,12 @@
         height: 46px;
         border: 0;
         appearance: none;
-        background-color: rgb(255 255 255 / 30%);
+        background-color: rgba(255, 255, 255, 0.3);
         cursor: pointer;
 
     }
     main header button svg path, main header button svg polygon {
-        fill: rgb(255 255 255 / 70%);
+        fill: rgba(255, 255, 255, 0.7);
     }
 
     .portal-loading {
@@ -446,7 +446,7 @@
         width: 100%;
         height: 100%;
         z-index: 1;
-        background-color: rgb(0 0 0 / 95%);
+        background-color: rgba(0, 0, 0, 0.9);
         display: flex;
         transition-delay: 150ms;
         transition-duration: 250ms;
@@ -471,7 +471,7 @@
     }
 
     .portal-loading .logo svg.azard path {
-        fill: hsl(32 100% 40% / 1);
+        fill: hsla(32, 100%, 40%, 1);
         animation-name: Logo;
         animation-iteration-count: infinite;
         animation-duration: 5000ms;
@@ -479,19 +479,19 @@
     }
     @keyframes Logo {
         0% {
-            fill: hsl(32 100% 40% / 1);
+            fill: hsla(32, 100%, 40%, 1);
         }
         25% {
-            fill: hsl(66 100% 40% / 1);
+            fill: hsla(66, 100%, 40%, 1);
         }
         50% {
-            fill: hsl(32 100% 40% / 1);
+            fill: hsla(32, 100%, 40%, 1);
         }
         75% {
-            fill: hsl(66 100% 40% / 1);
+            fill: hsla(66, 100%, 40%, 1);
         }
         100% {
-            fill: hsl(32 100% 40% / 1);
+            fill: hsla(32, 100%, 40%, 1);
         }     
     }
 

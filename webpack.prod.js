@@ -25,15 +25,37 @@ module.exports = {
       filename: 'index.html'
     }),
     new CleanWebpackPlugin(),
+    new PurgecssPlugin({
+      paths: glob.sync(path.resolve(__dirname, '../src/**/*'), { nodir: true })
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].[chunkhash:8].bundle.css",
+      chunkFilename: "[name].[chunkhash:8].chunk.css",
+    }),
+    new CompressionPlugin({
+      algorithm: 'gzip',
+    }),
+    new BrotliPlugin(),
   ],
-  mode: 'development',
-  devServer: {
-    // contentBase: path.join(__dirname, '../build'),
-    compress: true,
-    port: 3000,
-    // overlay: true,
+  optimization: {
+    minimizer: [
+      new TerserJSPlugin(),
+      new OptimizeCSSAssetsPlugin(),
+    ],
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+      chunks: 'all',
+    },
+    runtimeChunk: {
+      name: 'runtime'
+    },
   },
-//   devtool: 'cheap-module-eval-source-map',
   module: {
     rules: [
       {
@@ -44,43 +66,34 @@ module.exports = {
         }
       },
       {
-        test: /\.(png|svg|jpe?g|gif)$/,
+        test: /\.(s*)css$/,
         use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "[name].[ext]",
-              outputPath: "assets/"
-            }
-          }
+          'style-loader',
+          'css-loader',
+          'sass-loader'
         ]
       },
       {
-        test: /\.(sa|sc|c)ss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader', // translates CSS into CommonJS
-          'sass-loader', // compiles Sass to CSS, using Node Sass by default
-        ],
-      },
-      {
-        test: /\.css$/,
-        use: [
-            { loader: "style-loader" },
-            { loader: "css-loader" }
-          ]
+        test: /((?<!arrow.*)\.svg)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: "[name].[hash].[ext]",
+            outputPath: "img",
+            esModule: false
+          }
+        }
       },
       {
         test: /\.html$/,
         use: {
           loader: 'html-loader',
           options: {
-            // attrs: ['img:src', ':data-src'],
             minimize: true,
           },
         },
       },
     ]
-  },
+    },
   
 };
