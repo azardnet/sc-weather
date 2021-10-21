@@ -4,11 +4,16 @@
 
 @font-face {
     font-family: Vazir;
-    src: url('./font/Vazir-Medium.eot');
-    src: url('./font/Vazir-Medium.eot?#iefix') format('embedded-opentype'),
-         url('./font/Vazir-Medium.woff2') format('woff2'),
-         url('./font/Vazir-Medium.woff') format('woff'),
-         url('./font/Vazir-Medium.ttf') format('truetype');
+    src: url('./static/fonts/Vazir-Medium.woff2') format('woff2'),
+         url('./static/fonts/Vazir-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Ephesis;
+    src: url('./static/fonts/Ephesis-Regular.woff2') format('woff2'),
+         url('./static/fonts/Ephesis-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -21,11 +26,23 @@
     }
     main {
         display: flex;
-        height: 100vh;
         width: 100vw;
         align-items: center;
         flex-direction: column;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0px);
     }
+    .loading main {
+        opacity: 0.25;
+        filter: blur(3px);
+    }
+    .loaded main {
+        opacity: 1;
+        filter: blur(0px);
+    }
+
     main header {
         margin-top: 20px;
         display: flex;
@@ -418,4 +435,134 @@
     }
     main header button svg path, main header button svg polygon {
         fill: rgb(255 255 255 / 70%);
+    }
+
+    .portal-loading {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        top: 0;
+        margin: auto;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background-color: rgb(0 0 0 / 95%);
+        display: flex;
+        transition-delay: 150ms;
+        transition-duration: 250ms;
+        justify-content: center;
+        align-items: center;
+    }
+    .portal-loading .logo {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        background-color: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .portal-loading .logo svg.azard {
+        width: 80%;
+        height: 80%;
+    }
+
+    .portal-loading .logo svg.azard path {
+        fill: hsl(32 100% 40% / 1);
+        animation-name: Logo;
+        animation-iteration-count: infinite;
+        animation-duration: 5000ms;
+        transform: translate3d(0px, -50px, 0px);
+    }
+    @keyframes Logo {
+        0% {
+            fill: hsl(32 100% 40% / 1);
+        }
+        25% {
+            fill: hsl(66 100% 40% / 1);
+        }
+        50% {
+            fill: hsl(32 100% 40% / 1);
+        }
+        75% {
+            fill: hsl(66 100% 40% / 1);
+        }
+        100% {
+            fill: hsl(32 100% 40% / 1);
+        }     
+    }
+
+    .portal-loading .logo svg.circle {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        margin: auto;
+        transform-origin:center center;
+        transform:rotate(90deg)scale(3);
+    }
+
+    .portal-loading .logo svg.circle path {
+        transform: translate3d(0,0,0);
+        stroke-width: 3px;
+        stroke-linecap: round;
+        stroke-dasharray: 628px;
+        stroke-dashoffset: 40px;
+        transition: stroke-dashoffset 200ms;
+    }
+
+    .loaded .portal-loading .circle path {
+        stroke-dashoffset: 0px !important;
+        animation: unset;
+    }
+    .loading .portal-loading .circle path {
+        animation-name: circle;
+        animation-duration: 6000ms;
+        animation-iteration-count: 1;
+    }
+    .loaded .portal-loading {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    @keyframes circle {
+        0% {
+            stroke-dashoffset: 620px;
+        }
+        5% {
+            stroke-dashoffset: 610px;
+        }
+        15% {
+            stroke-dashoffset: 570px;
+        }
+        20% {
+            stroke-dashoffset: 560px;
+        }
+        30% {
+            stroke-dashoffset: 500px;
+        }
+        40% {
+            stroke-dashoffset: 370px; 
+        }
+        45% {
+            stroke-dashoffset: 370px;
+        }
+        60% {
+            stroke-dashoffset: 190px;
+        }
+        70% {
+            stroke-dashoffset: 70px;
+        }
+        75% {
+            stroke-dashoffset: 40px;
+        }
+        100% {
+            stroke-dashoffset: 40px;
+        }
     }

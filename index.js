@@ -3,6 +3,7 @@
     const colorEL = document.getElementById("favcolor");
     const mapOpacityRangeEl = document.getElementById("mapOpacity");
     const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
+    const LOADING_DELAY = 800; // ms
     let cacheData = {lat: 53.4106, lon: -2.9779};
     const translate = {
         fa: {
@@ -89,6 +90,7 @@
     
     function searchWeather(city, interval) {
         if (!interval) {
+            loading();
             const isPersianCharacter = checkPersianCharacters(city);
             const color = localStorage.getItem("color") || "#072322";
             document.querySelector("main form.color input").value = color;
@@ -112,15 +114,32 @@
         });
     }
 
+    function loaded() {
+        setTimeout(() => {
+            document.body.classList.remove('loading');
+            document.body.classList.add('loaded');
+        }, LOADING_DELAY);
+    }
+
+    function loading() {
+        document.body.classList.remove('loaded');
+        document.body.classList.add('loading');
+    }
+
     function createMap(lat, lon) {
         document.querySelector("main .weather #map").innerHTML = "";
-        ymaps.ready(function () {
-            new ymaps.Map('map', {
-                    center: (lat && lon) ? [lat, lon] : [cacheData.lat, cacheData.lon],
-                    zoom: 10.5,
-                    controls: []
-                }) 
-            });
+        try {
+            ymaps.ready(function () {
+                new ymaps.Map('map', {
+                        center: (lat && lon) ? [lat, lon] : [cacheData.lat, cacheData.lon],
+                        zoom: 10.5,
+                        controls: []
+                });
+                    loaded();
+                });
+        } catch (error) {
+            
+        }
     }
 
     function computeUI(result, city, interval) {
@@ -149,7 +168,7 @@
         searchWeather(localStorage.getItem("last_search") ||  "Liverpool", false);
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js');
-          }
+          };
     });
 
     function onFullScreenClick() {
