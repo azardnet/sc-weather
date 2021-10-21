@@ -76,6 +76,7 @@
         if (event.key === "Enter") {
             event.preventDefault();
             if (inputEl.value.length < 22 && inputEl.value.length > 1) {
+                loading();
                 searchWeather(inputEl.value, false);
             } else {
                 alert('invalid city');
@@ -91,7 +92,6 @@
     
     function searchWeather(city, interval) {
         if (!interval) {
-            loading();
             const isPersianCharacter = checkPersianCharacters(city);
             const color = localStorage.getItem("color") || "#072322";
             document.querySelector("main form.color input").value = color;
