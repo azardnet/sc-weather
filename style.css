@@ -351,7 +351,7 @@
         height: 34px;
         opacity: 0.75;
         margin-right: 15px;    
-        background-image: url(./static/icons/arrow-up.svg);
+        background-image: url('./static/icons/arrow-up.svg');
         background-repeat: no-repeat;
         background-position: center;
         background-size: 70%;

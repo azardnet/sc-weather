@@ -1,3 +1,4 @@
+    import './style.css';
     const KEY = "dc996f609fa04ff24b36fd4c031ade1c";
     const inputEl = document.querySelector("main header form.search input");
     const colorEL = document.getElementById("favcolor");
@@ -151,7 +152,9 @@
             createMap(result.coord.lat, result.coord.lon);
             document.querySelector("main .weather .map-overlay .content-wrapper h1 b").innerHTML = isPersianCharacter ? city : result.name;
             document.querySelector("main header form.search input").focus();
-            document.querySelector("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url('./flags/${(result.sys.country).toLowerCase()}.svg')`;
+            const flagImage = require(`./static/flags/${(result.sys.country).toLowerCase()}.svg`);
+            // const flagImage = `~static/flags/${(result.sys.country).toLowerCase()}.svg`;
+            document.querySelector("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url('${flagImage}')`;
         }
         document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .temperature .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp.toFixed(1)) : result.main.temp.toFixed(1);
         document.querySelector("main .weather .map-overlay .content-wrapper .weather-data .temperature .unit").innerHTML = "°C";
