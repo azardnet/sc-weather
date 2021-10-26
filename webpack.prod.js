@@ -1,3 +1,4 @@
+const Dotenv = require('dotenv-webpack');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -22,7 +23,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
-      filename: 'index.html'
+      filename: 'index.html',
+      scriptLoading: 'defer',
     }),
     new CleanWebpackPlugin(),
     new PurgecssPlugin({
@@ -36,8 +38,10 @@ module.exports = {
       algorithm: 'gzip',
     }),
     new BrotliPlugin(),
+    new Dotenv(),
   ],
   optimization: {
+    minimize: true,
     minimizer: [
       new TerserJSPlugin(),
       new OptimizeCSSAssetsPlugin(),
@@ -46,14 +50,14 @@ module.exports = {
       cacheGroups: {
         commons: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
+          name: 'azard_vendors',
           chunks: 'all',
         },
       },
       chunks: 'all',
     },
     runtimeChunk: {
-      name: 'runtime'
+      name: 'run'
     },
   },
   module: {
