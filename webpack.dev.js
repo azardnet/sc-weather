@@ -1,24 +1,26 @@
-const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   entry: {
-    main: './index.js'
-  },    
+    main: "./index.js"
+  },
   output: {
-    path: path.join(__dirname, './build'),
+    path: path.join(__dirname, "./build"),
     filename: "[name].bundle.js"
   },
   mode: "development",
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
-      filename: 'index.html'
+      template: "./index.html",
+      filename: "index.html"
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
+    new Dotenv()
   ],
   devServer: {
     compress: true,
@@ -30,15 +32,15 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
+          loader: "babel-loader"
         }
       },
       {
         test: /\.(s*)css$/,
         use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
+          "style-loader",
+          "css-loader",
+          "sass-loader"
         ]
       },
       {
@@ -55,7 +57,7 @@ module.exports = {
       {
         test: /\.html$/,
         use: {
-          loader: 'html-loader',
+          loader: "html-loader",
           options: {
             minimize: true,
           },
