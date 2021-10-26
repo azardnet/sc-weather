@@ -196,30 +196,26 @@
     function onFullScreenClick() {
         document.querySelector('header').style.visibility = 'hidden';
         document.querySelector('header').style.opacity = 0;
-        sl("main .weather").style.marginTop = 0;
-        sl("main .weather").style.position = "absolute";
-        sl("main .weather").style.width = "100%";
-        sl("main .weather").style.height = "calc(100% - 35px)";
-        sl("main .weather").style.right = "0";
-        sl("main .weather").style.top = "35px";
-        sl("main .weather").style.overflow = "hidden";
+        sl("main .weather").style.marginTop = "-30px";
+        sl("main .weather").style.width = "calc(100vw - 160px)";
+        sl("main .weather").style.height = "calc(100vh - 110px)";
         document.documentElement.requestFullscreen();
     }
 
     function onFullScreenChange() {
-        if (!((screen.availHeight || screen.height-30) <= window.innerHeight)) {
             document.querySelector('header').style.visibility = 'visible';
             document.querySelector('header').style.opacity = 1;
             sl("main .weather").style.marginTop = "10px";
-            sl("main .weather").style.position = "relative";
             sl("main .weather").style.width = "80vh";
             sl("main .weather").style.height = "calc(80vh + 40px)";
-            sl("main .weather").style.right = "unset";
-            sl("main .weather").style.top = "unset";
-            sl("main .weather").style.overflow = "visible";
             createMap();
-        }
     }
+
+    document.addEventListener('fullscreenchange', (event) => {
+        if (!document.fullscreenElement) {
+            onFullScreenChange();
+        }
+      });
 
     sl("main header button.full-screen").addEventListener('click', onFullScreenClick);
 
