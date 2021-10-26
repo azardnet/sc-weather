@@ -552,3 +552,26 @@
             stroke-dashoffset: 40px;
         }
     }
+
+    .digital-clock {
+        display: flex;
+        margin-top: 4em;
+        .time-wrapper {
+            color: #ffffff;
+            font-size: 7em;
+            position: relative;
+            width: 4.5em;
+            text-shadow: 3px 5px 0px rgba(255, 255, 255, 0.2);
+            .hour, .second {
+                font-family: Ephesis, Vazir;
+            }
+            .minutes {
+                font-size: 0.125em;
+                font-family: Vazir;
+                position: absolute;
+                top: -0.5em;
+                right: -1em;
+                text-align: center;
+            }
+        }
+    }
