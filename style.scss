@@ -184,6 +184,10 @@
         align-items: center;
     }
 
+    .map-overlay .content-wrapper.rtl .weather-data .current-weather-icon {
+        margin-left: 5em;
+    }
+
     .map-overlay .content-wrapper .weather-data .current-weather-icon svg {
         width: 60px;
         height: 60px;
@@ -340,6 +344,11 @@
             background-size: 50%;
             background-color: rgba(255,255,255,0.25);
         }
+    }
+
+    main .weather .map-overlay .content-wrapper.rtl .weather-data .temp_min,
+    main .weather .map-overlay .content-wrapper.rtl .weather-data .temp_max {
+        direction: ltr;
     }
 
     main .weather .map-overlay .content-wrapper .weather-data .temp_min {
@@ -571,8 +580,11 @@
                 font-family: Vazir;
                 position: absolute;
                 top: -0.5em;
-                right: -0.5em;
+                left: 0em;
                 text-align: center;
             }
         }
+    }
+    main .weather .map-overlay .content-wrapper.rtl .time-wrapper {
+        direction: ltr;
     }
