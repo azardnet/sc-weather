@@ -555,13 +555,14 @@
 
     .digital-clock {
         display: flex;
-        margin-top: 4em;
+        margin-top: 5em;
         .time-wrapper {
             color: #ffffff;
-            font-size: 7em;
+            font-size: 5em;
             position: relative;
-            width: 4.5em;
+            width: 4.6em;
             text-shadow: 3px 5px 0px rgba(255, 255, 255, 0.2);
+            display: flex;
             .hour, .second {
                 font-family: Ephesis, Vazir;
             }
@@ -570,7 +571,7 @@
                 font-family: Vazir;
                 position: absolute;
                 top: -0.5em;
-                right: -1em;
+                right: -0.5em;
                 text-align: center;
             }
         }

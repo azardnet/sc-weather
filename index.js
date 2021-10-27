@@ -255,7 +255,7 @@
         sec = updateTime(sec);
         curr_date = updateTime(curr_date);
         sl(".digital-clock .time-wrapper .hour").innerHTML = `${hour}:${min}`;
-        sl(".digital-clock .time-wrapper .second").innerHTML = `${sec}`;
+        sl(".digital-clock .time-wrapper .second").innerHTML = `:${sec}`;
         sl(".digital-clock .time-wrapper .minutes").innerHTML = `${midday}`;
         document.querySelector(
           "#full__date"
