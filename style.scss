@@ -569,7 +569,7 @@
             color: #ffffff;
             font-size: 5em;
             position: relative;
-            width: 4.6em;
+            width: 4.25em;
             text-shadow: 3px 5px 0px rgba(255, 255, 255, 0.2);
             display: flex;
             .hour, .second {
@@ -586,5 +586,7 @@
         }
     }
     main .weather .map-overlay .content-wrapper.rtl .time-wrapper {
-        direction: ltr;
+        direction: ltr; 
+        font-size: 5.5em;
+        width: 3.75em;
     }

@@ -225,6 +225,9 @@
     }, REQUEST_INTERVAL);
 
     function currentTime() {
+        const city = localStorage.getItem("last_search") ||  "Liverpool";
+        const isPersianCharacter = checkPersianCharacters(city);
+
         const date = new Date();
         const day = date.getDay();
         let hour = date.getHours();
@@ -255,13 +258,13 @@
         min = updateTime(min);
         sec = updateTime(sec);
         curr_date = updateTime(curr_date);
-        sl(".digital-clock .time-wrapper .hour").innerHTML = `${hour}:${min}`;
-        sl(".digital-clock .time-wrapper .second").innerHTML = `:${sec}`;
+        sl(".digital-clock .time-wrapper .hour").innerHTML = `${isPersianCharacter ? NumbersToPersian(hour) : hour }:${isPersianCharacter ? NumbersToPersian(min) : min}`;
+        sl(".digital-clock .time-wrapper .second").innerHTML = `:${isPersianCharacter ? NumbersToPersian(sec) : sec}`;
         sl(".digital-clock .time-wrapper .minutes").innerHTML = `${midday}`;
-        document.querySelector(
-          "#full__date"
-        ).innerHTML = `${month_name[month]} ${curr_date} ${year}`;
-        showDay[day].style.opacity = "1";
+        // document.querySelector(
+        //   "#full__date"
+        // ).innerHTML = `${month_name[month]} ${curr_date} ${year}`;
+        // showDay[day].style.opacity = "1";
       }
       function updateTime(k) {
         if (k < 10) {
