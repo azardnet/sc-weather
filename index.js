@@ -128,6 +128,7 @@
     }
 
     function loaded(delay = true) {
+        sl("main").style.display = "flex";
         if (delay) {
             setTimeout(() => {
                 document.body.classList.remove('loading');
