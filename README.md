@@ -11,3 +11,4 @@
 - [ ] notification service
 - [ ] add change font settings
 - [ ] image background
+- [ ] refactor scss file
