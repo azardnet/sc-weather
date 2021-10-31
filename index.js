@@ -1,11 +1,10 @@
-    import './style.scss';
+    import "./style.scss";
     const KEY = process.env.KEY;
     const UNIT = "°C";
-    const inputEl = sl("main header form.search input");
-    const colorEL = document.getElementById("favcolor");
-    const mapOpacityRangeEl = document.getElementById("mapOpacity");
     const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
-    const LOADING_DELAY = 800; // ms
+    const LOADING_DELAY = 200; // ms
+    const LOADING_TRANSITION_DELAY = 150; // ms
+    const PORTAL_MODAL_DELAY = 2500; // 1s
     const TO_FIXED = 2;
     let cacheData = {lat: 53.4106, lon: -2.9779};
     const translate = {
@@ -16,6 +15,12 @@
             Thunderstorm: "رعد و برق",
             Snow: "برفی",
             FeelsLike: "دمایی که احساس می‌شود",
+            CityNotFound: "شهر مورد نظر یافت نشد.",
+            TypeCity: "اسم شهر را وارد کنید و Enter بزنید",
+        },
+        en: {
+            CityNotFound: "City not found.",
+            TypeCity: "type City and hit Enter"
         }
     }
 
@@ -32,6 +37,19 @@
                 .replace(/\d/g, (char) => farsiDigits[char]);
         }
     };
+
+    function activePortalModal(text) {
+        document.body.classList.remove("loading");
+        document.body.classList.add("loaded");
+        document.body.classList.add("blur");
+        sl(".portal-model").classList.add("active");
+        sl(".portal-model .text").innerHTML = text;
+        sl(".portal-model .text").style.color = "#ffffff";
+        setTimeout(() => {
+            sl(".portal-model").classList.remove("active");
+            document.body.classList.remove("blur");
+        }, PORTAL_MODAL_DELAY);
+    }
     
     function debounce(func, wait, immediate) {
     let timeout;
@@ -64,35 +82,36 @@
         changeMapOpacity(mapOpacityRangeEl.value)
     }, 20);
 
-
-    colorEL.addEventListener("input", handleChangeColor, false);
-
-    mapOpacityRangeEl.addEventListener("input", handleMapOpacityChange, false);
-
-    inputEl.addEventListener('keydown', (event) => {
+    function onInputKeydown(event) {
         if (event.code !== "Backspace" && event.key !== "Control" && event.key !== "Alt" && event.key !== "Shift" &&
-        event.key !== "CapsLock" && event.key !== "Tab" && event.code !== "Space") {
+        event.key !== "CapsLock" && event.key !== "Tab" && event.code !== "Space" && event.key !== "Enter") {
             if (checkPersianCharacters(event.key)) {
-                sl("main header").classList.add("rtl");
-                inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید."
+                sl("header").classList.add("right");
+                sl("header").classList.remove("left");
+                inputEl.placeholder = translate.fa.TypeCity;
             } else {
-                sl("main header").classList.remove("rtl");
-                inputEl.placeholder = "type City and hit Enter";
+                sl("header").classList.remove("right");
+                sl("header").classList.add("left");
+                inputEl.placeholder = translate.en.TypeCity;
             }
         }
         if (event.key === "Enter") {
             event.preventDefault();
-            if (inputEl.value.length < 22 && inputEl.value.length > 1) {
-                loading();
-                searchWeather(inputEl.value, false);
-                setTimeout(() => {
-                    sl(".weather").style.opacity = 1;
-                }, LOADING_DELAY);
-            } else {
-                alert('invalid city');
+            if (!document.body.classList.contains("blur")) {
+                if (inputEl.value.length < 22 && inputEl.value.length > 1) {
+                    loading();
+                    setTimeout(() => {
+                        searchWeather(inputEl.value, false);
+                    }, 120);
+                    setTimeout(() => {
+                        sl(".weather").style.opacity = 1;
+                    }, Math.max(0, LOADING_DELAY - LOADING_TRANSITION_DELAY));
+                } else {
+                    activePortalModal("invalid city");
+                }
             }
         }
-    });
+    }
 
     function checkPersianCharacters(string) {
         const PersianCharactersRange = /^[\u0600-\u06FF\s]+$/;
@@ -107,12 +126,10 @@
             sl("main form.color input").value = color;
             changeColor(color);
             if (isPersianCharacter) {
-                sl("main .weather .map-overlay .content-wrapper").classList.add("rtl");
-                sl("main header").classList.add("rtl");
+                document.body.classList.add("rtl");
                 inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید."
             } else {
-                sl("main .weather .map-overlay .content-wrapper").classList.remove("rtl");
-                sl("main header").classList.remove("rtl");
+                document.body.classList.remove("rtl");
                 inputEl.placeholder = "type City and hit Enter";
             }
         }
@@ -120,10 +137,6 @@
             return result.json();
         }).then(result => {
             computeUI(result, city, interval);
-        }).catch(() => {
-            alert('request fail');
-            sl(".weather").style.opacity = 0;
-            loaded(false);
         });
     }
 
@@ -131,25 +144,28 @@
         sl("main").style.display = "flex";
         if (delay) {
             setTimeout(() => {
-                document.body.classList.remove('loading');
-                document.body.classList.add('loaded');
-            }, LOADING_DELAY);
+                document.body.classList.remove("loading");
+                document.body.classList.add("loaded");
+                document.body.classList.remove("blur");
+            }, Math.max(0, LOADING_DELAY - LOADING_TRANSITION_DELAY));
         } else {
-            document.body.classList.remove('loading');
-            document.body.classList.add('loaded');
+            document.body.classList.remove("loading");
+            document.body.classList.add("loaded");
+            document.body.classList.remove("blur");
         }
     }
 
     function loading() {
-        document.body.classList.remove('loaded');
-        document.body.classList.add('loading');
+        document.body.classList.remove("loaded");
+        document.body.classList.add("blur");
+        document.body.classList.add("loading");
     }
 
     function createMap(lat, lon) {
         sl("main .weather #map").innerHTML = "";
         try {
             ymaps.ready(function () {
-                new ymaps.Map('map', {
+                new ymaps.Map("map", {
                         center: (lat && lon) ? [lat, lon] : [cacheData.lat, cacheData.lon],
                         zoom: 10.5,
                         controls: []
@@ -171,8 +187,10 @@
                 sl("main .weather .map-overlay .content-wrapper h1 b").innerHTML = isPersianCharacter ? city : result.name;
                 sl("main header form.search input").focus();
                 const flagImage = require(`./static/flags/${(result.sys.country).toLowerCase()}.svg`);
-                sl("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url('${flagImage}')`;
+                sl("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url("${flagImage}")`;
                 localStorage.setItem("last_search", isPersianCharacter ? city : result.name);
+            } else if (result && result.cod === "404" && city) {
+                activePortalModal(checkPersianCharacters(city) ? translate.fa.CityNotFound : translate.en.CityNotFound);
             }
         }
         sl("main .weather .map-overlay .content-wrapper .weather-data .temperature .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp.toFixed(TO_FIXED)) : result.main.temp.toFixed(TO_FIXED);
@@ -188,16 +206,9 @@
         sl("main .weather .map-overlay .content-wrapper .weather-data .temp_min .unit").innerHTML = UNIT;
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-        searchWeather(localStorage.getItem("last_search") ||  "Liverpool", false);
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js');
-          };
-    });
-
     function onFullScreenClick() {
-        document.querySelector('header').style.visibility = 'hidden';
-        document.querySelector('header').style.opacity = 0;
+        document.querySelector("header").style.visibility = "hidden";
+        document.querySelector("header").style.opacity = 0;
         sl("main .weather").style.marginTop = "-30px";
         sl("main .weather").style.width = "calc(100vw - 160px)";
         sl("main .weather").style.height = "calc(100vh - 110px)";
@@ -205,21 +216,15 @@
     }
 
     function onFullScreenChange() {
-            document.querySelector('header').style.visibility = 'visible';
-            document.querySelector('header').style.opacity = 1;
+        if (!document.fullscreenElement) {
+            document.querySelector("header").style.visibility = "visible";
+            document.querySelector("header").style.opacity = 1;
             sl("main .weather").style.marginTop = "10px";
-            sl("main .weather").style.width = "80vh";
+            sl("main .weather").style.width = "80vw";
             sl("main .weather").style.height = "calc(80vh + 40px)";
             createMap();
-    }
-
-    document.addEventListener('fullscreenchange', (event) => {
-        if (!document.fullscreenElement) {
-            onFullScreenChange();
         }
-      });
-
-    sl("main header button.full-screen").addEventListener('click', onFullScreenClick);
+    }
 
     setInterval(() => {
         searchWeather(localStorage.getItem("last_search") ||  "Liverpool", true);
@@ -274,5 +279,27 @@
           return k;
         }
       }
-      setInterval(currentTime, 1000);
       
+    function onPortalModalClose() {
+        document.body.classList.remove("blur");
+        sl(".portal-model").classList.remove("active");
+    }
+        
+    function onContentLoaded() {
+        searchWeather(localStorage.getItem("last_search") ||  "Liverpool", false);
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/service-worker.js");
+        };
+    }
+        
+    const inputEl = sl("main header form.search input");
+    const colorEL = document.getElementById("favcolor");
+    const mapOpacityRangeEl = document.getElementById("mapOpacity");
+    sl(".portal-model .close").addEventListener("click", onPortalModalClose)    
+    sl("main header button.full-screen").addEventListener("click", onFullScreenClick);
+    inputEl.addEventListener("keydown", onInputKeydown);
+    colorEL.addEventListener("input", handleChangeColor, false);
+    mapOpacityRangeEl.addEventListener("input", handleMapOpacityChange, false);
+    document.addEventListener("fullscreenchange", onFullScreenChange);
+    window.addEventListener("DOMContentLoaded", onContentLoaded);
+    setInterval(currentTime, 1000);

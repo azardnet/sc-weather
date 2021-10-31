@@ -35,40 +35,35 @@
         transform: translate3d(-50%, -50%, 0px);
         transition: all 200ms;
     }
-    .loading main {
-        opacity: 0.15;
-        filter: blur(3px);
-    }
-    .loaded main {
-        opacity: 1;
-        filter: blur(0px);
+    .blur main {
+        opacity: 0.25;
+        filter: blur(5px);
     }
 
     main header {
         margin-top: 20px;
         display: flex;
-        width: 80vh;
+        width: 80vw;
         justify-content: space-between;
     }
     main .weather {
         margin-top: 10px;
-        width: 80vh;
+        width: 80vw;
         height: calc(80vh + 40px);
         position: relative;
     }
     main .weather #map {
      width: 100%;
      height: 100%;
-     overflow: hidden;
     }
     .map-overlay {
         position: absolute;
         width: 100%;
         height: 100%;
-        top: 0px;
-        right: 0;
+        top: -1px;
+        right: 0px;
         z-index: 1;
-        left: 0;
+        left: -1px;
         margin: auto;
         display: flex;
         align-items: baseline;
@@ -108,10 +103,10 @@
         align-items: center;
         width: 90%;
     }
-    main .weather .map-overlay .content-wrapper.rtl {
+    .rtl .weather .map-overlay .content-wrapper {
         direction: rtl;
     }
-    main .weather .map-overlay .content-wrapper.rtl .weather-data .temperature {
+    .rtl .weather .map-overlay .content-wrapper .weather-data .temperature {
         direction: ltr;
     }
     main .weather .map-overlay .content-wrapper h1 {
@@ -161,11 +156,11 @@
         margin: 0 3px;
     }
 
-    main .weather .map-overlay .content-wrapper.rtl .weather-data span .value-wrapper {
+    .rtl main .weather .map-overlay .content-wrapper .weather-data span .value-wrapper {
         direction: ltr;
     }
 
-    main .weather .map-overlay .content-wrapper.rtl .weather-data span .value {
+    .rtl main .weather .map-overlay .content-wrapper .weather-data span .value {
         display: inline-block;
         direction: ltr;
     }
@@ -185,7 +180,7 @@
         align-items: center;
     }
 
-    .map-overlay .content-wrapper.rtl .weather-data .current-weather-icon {
+    .rtl .map-overlay .content-wrapper .weather-data .current-weather-icon {
         margin-left: 5em;
     }
 
@@ -347,8 +342,8 @@
         }
     }
 
-    main .weather .map-overlay .content-wrapper.rtl .weather-data .temp_min,
-    main .weather .map-overlay .content-wrapper.rtl .weather-data .temp_max {
+    .rtl main .weather .map-overlay .content-wrapper .weather-data .temp_min,
+    .rtl main .weather .map-overlay .content-wrapper .weather-data .temp_max {
         direction: ltr;
     }
 
@@ -359,15 +354,15 @@
         }
     }
     
-    main .weather .map-overlay .content-wrapper.rtl h1 b {
+    .rtl main .weather .map-overlay .content-wrapper h1 b {
         letter-spacing: 2px;
         font-size: 85px;
     }
-    main .weather .map-overlay .content-wrapper.rtl h1 span {
+    .rtl main .weather .map-overlay .content-wrapper h1 span {
         right: unset;
         left: -25px;
     }
-    main header.rtl {
+    .rtl main header {
         direction: rtl;
     }
     /* main .weather .map-overlay .content-wrapper h1 span {
@@ -410,8 +405,14 @@
         padding: 10px;
         width: 100%;
     }
-    main header.rtl form.search input { 
+    .rtl main header form.search input { 
         letter-spacing: 0;
+    }
+    main header.right {
+        direction: rtl;
+    }
+    main header.left {
+        direction: ltr;
     }
     main header form.search input:focus {
         outline: 0;
@@ -443,7 +444,7 @@
     }
     .loading .portal-loading .circle path {
         animation-name: circle;
-        animation-duration: 4000ms;
+        animation-duration: 2000ms;
         animation-iteration-count: 1;
     }
     .loaded .portal-loading {
@@ -510,8 +511,80 @@
             }
         }
     }
-    main .weather .map-overlay .content-wrapper.rtl .time-wrapper {
+    .rtl main .weather .map-overlay .content-wrapper .time-wrapper {
         direction: ltr; 
         font-size: 5.5em;
         width: 3.75em;
+    }
+    .portal-model {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 450px;
+        width: 40vw;
+        min-height: 150px;
+        height: 30vh;
+        background-color: rgba(0, 0, 0, 0.65);
+        top: 50%;
+        left: 50%;
+        transform: translate3d(-50%, -20% , 0px);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 200ms;
+        box-shadow: 0 0 0 1px #fff;
+        &.active {
+            transform: translate3d(-50%, -50% , 0px);
+            opacity: 1;
+            visibility: visible;
+            &:before {
+                content: "";
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                background-color: rgba(255,255,255, 0.15);
+                transform: translate3d(0,0,0) scaleX(1);
+                animation-name: portalModal;
+                animation-duration: 2.5s;
+                animation-iteration-count: 1;
+                animation-timing-function: ease-in-out;
+            }
+            @keyframes portalModal {
+                0% {
+                    transform: translate3d(0,0,0) scaleX(0);
+                }
+                100% {
+                    transform: translate3d(0,0,0) scaleX(1);
+                }
+            }
+        }
+        .close {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: 20px;
+            top: 15px;
+            cursor: pointer;
+            &:before , &:after {
+                content: "";
+                width: 100%;
+                height: 1px;
+                position: absolute;
+                background-color: #ffffff;
+                top: 10px;
+            }
+            &:before {
+                transform: rotate(45deg);
+            }
+            &:after {
+                transform: rotate(135deg);
+            }
+
+        }
+        .text {
+            font-family: Vazir;
+        }
+    }
+    .rtl .portal-model {
+        direction: rtl;
     }
