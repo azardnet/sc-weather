@@ -41,7 +41,7 @@
     }
 
     main header {
-        margin-top: 20px;
+        margin-top: 1.9em;
         display: flex;
         width: 80vw;
         justify-content: space-between;
@@ -590,4 +590,10 @@
     }
     .rtl .portal-model {
         direction: rtl;
+    }
+
+    @media only screen and (max-width: 750px) {
+        main header, main .weather {
+            width: 95%;
+        }
     }
