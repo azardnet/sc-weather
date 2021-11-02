@@ -1,5 +1,5 @@
 ### sc-weather TODO
-- [ ] add loading
+- [x] add loading
 - [ ] svg for all type of weather state
 - [ ] wrapper back-end with express
 - [ ] responsive
@@ -12,3 +12,4 @@
 - [ ] add change font settings
 - [ ] image background
 - [ ] refactor scss file
+- [ ] spotify integration
