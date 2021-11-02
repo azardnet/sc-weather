@@ -1,10 +1,11 @@
     import "./style.scss";
+    import { sl, NumbersToPersian, debounce, checkPersianCharacters } from "./utils"
     const KEY = process.env.KEY;
     const UNIT = "°C";
     const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
     const LOADING_DELAY = 200; // ms
-    const LOADING_TRANSITION_DELAY = 150; // ms
-    const PORTAL_MODAL_DELAY = 2500; // 1s
+    const LOADING_TRANSITION_DELAY = 500; // ms
+    const PORTAL_MODAL_DELAY = 2500; // 2.5s
     const TO_FIXED = 2;
     let cacheData = {lat: 53.4106, lon: -2.9779};
     const translate = {
@@ -24,20 +25,6 @@
         }
     }
 
-    function sl(selector) {
-        return document.querySelector(selector);
-    }
-
-    const NumbersToPersian = (text) => {
-        const farsiDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-        if (text === 0) {
-            return "۰"
-        } else {
-            return text && text.toString()
-                .replace(/\d/g, (char) => farsiDigits[char]);
-        }
-    };
-
     function activePortalModal(text) {
         document.body.classList.remove("loading");
         document.body.classList.add("loaded");
@@ -49,19 +36,6 @@
             sl(".portal-model").classList.remove("active");
             document.body.classList.remove("blur");
         }, PORTAL_MODAL_DELAY);
-    }
-    
-    function debounce(func, wait, immediate) {
-    let timeout;
-        return function() {
-            const context = this, args = arguments;
-            clearTimeout(timeout);
-            timeout = setTimeout(function() {
-                timeout = null;
-                if (!immediate) func.apply(context, args);
-            }, wait);
-            if (immediate && !timeout) func.apply(context, args);
-        };
     }
 
     function changeColor(color) {
@@ -112,16 +86,10 @@
             }
         }
     }
-
-    function checkPersianCharacters(string) {
-        const PersianCharactersRange = /^[\u0600-\u06FF\s]+$/;
-        if (PersianCharactersRange.test(string)) return true;
-        return false;
-    }
     
     function searchWeather(city, interval) {
+        const isPersianCharacter = checkPersianCharacters(city);
         if (!interval) {
-            const isPersianCharacter = checkPersianCharacters(city);
             const color = localStorage.getItem("color") || "#072322";
             sl("main form.color input").value = color;
             changeColor(color);
@@ -133,7 +101,7 @@
                 inputEl.placeholder = "type City and hit Enter";
             }
         }
-        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${KEY}&units=metric`).then(result => {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${KEY}&units=metric&lang=${isPersianCharacter ? "fa" : "en"}`).then(result => {
             return result.json();
         }).then(result => {
             computeUI(result, city, interval);
@@ -200,6 +168,7 @@
         sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .unit").innerHTML = UNIT;
         // sl("main .weather .map-overlay .content-wrapper .weather-data .humidity").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.humidity) : result.main.humidity;
         // sl("main .weather .map-overlay .content-wrapper .weather-data .pressure").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.pressure) : result.main.pressure;
+        sl(".map-overlay .content-wrapper .weather-data .current-weather-icon span").innerHTML = result.weather[0].description;    
         sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_max.toFixed(TO_FIXED)) : result.main.temp_max.toFixed(TO_FIXED);
         sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .unit").innerHTML = UNIT;
         sl("main .weather .map-overlay .content-wrapper .weather-data .temp_min .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_min.toFixed(TO_FIXED)) : result.main.temp_min.toFixed(TO_FIXED);

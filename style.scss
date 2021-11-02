@@ -178,6 +178,9 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        span {
+            text-transform: capitalize;
+        }
     }
 
     .rtl .map-overlay .content-wrapper .weather-data .current-weather-icon {
