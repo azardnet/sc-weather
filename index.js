@@ -1,6 +1,8 @@
     import "./style.scss";
-    import { sl, NumbersToPersian, debounce, checkPersianCharacters } from "./utils"
-    const KEY = process.env.KEY;
+    import { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap } from "./utils"
+    const OPENWEATHER_KEY = process.env.OPENWEATHER;
+    const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
+    const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`;
     const UNIT = "°C";
     const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
     const LOADING_DELAY = 200; // ms
@@ -8,6 +10,7 @@
     const PORTAL_MODAL_DELAY = 2500; // 2.5s
     const TO_FIXED = 2;
     let cacheData = {lat: 53.4106, lon: -2.9779};
+    const CITY_HAVE_IMAGE = ["liverpool", "ahvāz"];
     const translate = {
         fa: {
             Clear: "صاف",
@@ -101,7 +104,7 @@
                 inputEl.placeholder = "type City and hit Enter";
             }
         }
-        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${KEY}&units=metric&lang=${isPersianCharacter ? "fa" : "en"}`).then(result => {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${OPENWEATHER_KEY}&units=metric&lang=${isPersianCharacter ? "fa" : "en"}`).then(result => {
             return result.json();
         }).then(result => {
             computeUI(result, city, interval);
@@ -130,19 +133,24 @@
     }
 
     function createMap(lat, lon) {
-        sl("main .weather #map").innerHTML = "";
-        try {
-            ymaps.ready(function () {
-                new ymaps.Map("map", {
-                        center: (lat && lon) ? [lat, lon] : [cacheData.lat, cacheData.lon],
-                        zoom: 10.5,
-                        controls: []
-                });
-                    loaded();
-                });
-        } catch (error) {
-            
+        deleteMap();
+        if (!checkExistJsFile("yandex")) {
+            createJsFile(MAP_URL);
         }
+        setTimeout(() => {
+            try {
+                ymaps.ready(function () {
+                    new ymaps.Map("map", {
+                            center: (lat && lon) ? [lat, lon] : [cacheData.lat, cacheData.lon],
+                            zoom: 10.5,
+                            controls: []
+                    });
+                        loaded();
+                    });
+            } catch (error) {
+                
+            }
+        }, 3000);
     }
 
     function computeUI(result, city, interval) {
@@ -151,7 +159,14 @@
             if (result && result.cod === 200 && city) {
                 cacheData.lat = result.coord.lat;
                 cacheData.lon = result.coord.lon;
-                createMap(result.coord.lat, result.coord.lon);
+                if (!(CITY_HAVE_IMAGE.includes(city.toLocaleLowerCase()))) {
+                    createMap(result.coord.lat, result.coord.lon);
+                } else {
+                    deleteMap();
+                    // const imagel = require("./static/image/liverpool.jpg");
+                    // sl("main .weather").style.backgroundImage = `url("https://i.ibb.co/Mn0YJ95/liverpool.jpg")`;
+                    loaded();
+                }
                 sl("main .weather .map-overlay .content-wrapper h1 b").innerHTML = isPersianCharacter ? city : result.name;
                 sl("main header form.search input").focus();
                 const flagImage = require(`./static/flags/${(result.sys.country).toLowerCase()}.svg`);

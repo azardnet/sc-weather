@@ -493,7 +493,7 @@
 
     .digital-clock {
         display: flex;
-        margin-top: 5em;
+        margin-top: 3em;
         .time-wrapper {
             color: #ffffff;
             font-size: 5em;
@@ -501,6 +501,9 @@
             width: 4.25em;
             text-shadow: 3px 5px 0px rgba(255, 255, 255, 0.2);
             display: flex;
+            > div {
+                display: flex;
+            }
             .hour, .second {
                 font-family: Ephesis, Vazir;
             }

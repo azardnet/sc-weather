@@ -31,4 +31,24 @@ function checkPersianCharacters(string) {
     return false;
 };
 
-export { sl, NumbersToPersian, debounce, checkPersianCharacters }
+function createJsFile(url) {
+    const script = document.createElement("script");
+    script.src = url;
+    script.type = "text/javascript";
+    document.body.appendChild(script);
+}
+
+function checkExistJsFile(filename) {
+    let result = false;
+    const allScriptFile = document.querySelectorAll('script');
+    for (let i = 0; i < allScriptFile.length; i++) {
+        result = allScriptFile[i].src.includes(filename);
+    }
+    return result;
+}
+
+function deleteMap() {
+    sl("main .weather #map").innerHTML = "";
+}
+
+export { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap }
