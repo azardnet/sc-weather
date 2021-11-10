@@ -163,8 +163,8 @@
                     createMap(result.coord.lat, result.coord.lon);
                 } else {
                     deleteMap();
-                    // const imagel = require("./static/image/liverpool.jpg");
-                    // sl("main .weather").style.backgroundImage = `url("https://i.ibb.co/Mn0YJ95/liverpool.jpg")`;
+                    const imagel = require("./static/image/liverpool.jpg");
+                    sl("main .weather").style.backgroundImage = `url("https://i.ibb.co/Mn0YJ95/liverpool.jpg")`;
                     loaded();
                 }
                 sl("main .weather .map-overlay .content-wrapper h1 b").innerHTML = isPersianCharacter ? city : result.name;
