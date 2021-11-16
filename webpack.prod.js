@@ -89,6 +89,13 @@ module.exports = {
         }
       },
       {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]',
+        },
+      },
+      {
         test: /\.html$/,
         use: {
           loader: 'html-loader',
