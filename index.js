@@ -8,6 +8,7 @@
     const LOADING_DELAY = 200; // ms
     const LOADING_TRANSITION_DELAY = 500; // ms
     const PORTAL_MODAL_DELAY = 2500; // 2.5s
+    const CREATE_MAP_DELAY = 3000 // 3s
     const TO_FIXED = 2;
     let cacheData = {lat: 53.4106, lon: -2.9779};
     const CITY_HAVE_IMAGE = ["liverpool", "ahvāz"];
@@ -150,7 +151,7 @@
             } catch (error) {
                 
             }
-        }, 3000);
+        }, CREATE_MAP_DELAY);
     }
 
     function computeUI(result, city, interval) {
@@ -164,7 +165,7 @@
                 } else {
                     deleteMap();
                     const imagel = require("./static/image/liverpool.jpg");
-                    sl("main .weather").style.backgroundImage = `url("https://i.ibb.co/Mn0YJ95/liverpool.jpg")`;
+                    sl("main .weather").style.backgroundImage = `url(${imagel})`;
                     loaded();
                 }
                 sl("main .weather .map-overlay .content-wrapper h1 b").innerHTML = isPersianCharacter ? city : result.name;

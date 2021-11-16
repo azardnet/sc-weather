@@ -51,6 +51,9 @@
         width: 80vw;
         height: calc(80vh + 40px);
         position: relative;
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
     }
     main .weather #map {
      width: 100%;
