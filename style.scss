@@ -54,6 +54,16 @@
         background-position: center center;
         background-size: cover;
         background-repeat: no-repeat;
+        .image-copyright {
+            position: absolute;
+            bottom: 3em;
+            left: 0.5em;
+            color: #ffffff;
+            z-index: 2;
+            font-family: 'Ephesis';
+            letter-spacing: 4px;
+            font-size: .75em;
+        }
     }
     main .weather #map {
      width: 100%;

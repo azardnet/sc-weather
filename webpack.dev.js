@@ -44,7 +44,7 @@ module.exports = {
         ]
       },
       {
-        test: /((?<!arrow.*)\.svg)$/,
+        test: /((?<!arrow.*)\.svg|\.(png|jpg))$/,
         use: {
           loader: "file-loader",
           options: {
@@ -53,13 +53,6 @@ module.exports = {
             esModule: false
           }
         }
-      },
-      {
-        test: /\.(png|jpe?g|gif|svg)$/i,
-        loader: 'file-loader',
-        options: {
-          name: '[path][name].[ext]',
-        },
       },
       {
         test: /\.html$/,

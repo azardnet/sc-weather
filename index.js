@@ -11,7 +11,15 @@
     const CREATE_MAP_DELAY = 3000 // 3s
     const TO_FIXED = 2;
     let cacheData = {lat: 53.4106, lon: -2.9779};
-    const CITY_HAVE_IMAGE = ["liverpool", "ahvāz"];
+    const CITY_HAVE_IMAGE = [{
+        name: "liverpool",
+        photographer: "Neil Martin",
+        link: "https://unsplash.com/@anagoge"
+    }, {
+        name: "ahvāz",
+        photographer: "Ashkan Forouzani",
+        link: "https://unsplash.com/@ashkfor121"
+    }];
     const translate = {
         fa: {
             Clear: "صاف",
@@ -160,12 +168,17 @@
             if (result && result.cod === 200 && city) {
                 cacheData.lat = result.coord.lat;
                 cacheData.lon = result.coord.lon;
-                if (!(CITY_HAVE_IMAGE.includes(city.toLocaleLowerCase()))) {
+                sl("main .weather .image-copyright").style.display = "none";
+                if (!(CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase()))) {
                     createMap(result.coord.lat, result.coord.lon);
                 } else {
                     deleteMap();
-                    const imagel = require("./static/image/liverpool.jpg");
-                    sl("main .weather").style.backgroundImage = `url(${imagel})`;
+                    const image = require(`./static/image/${result.name.toLocaleLowerCase()}.jpg`);
+                    const cityData = CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase());
+                    sl("main .weather").style.backgroundImage = `url(${image})`;
+                    sl("main .weather .image-copyright").style.display = "block";
+                    sl("main .weather .image-copyright").innerHTML = cityData.photographer;
+                    sl("main .weather .image-copyright").href = cityData.link;
                     loaded();
                 }
                 sl("main .weather .map-overlay .content-wrapper h1 b").innerHTML = isPersianCharacter ? city : result.name;
