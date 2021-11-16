@@ -59,6 +59,7 @@ module.exports = {
         loader: 'file-loader',
         options: {
           name: '[path][name].[ext]',
+          // outputPath: './static/image/liverpool.jpg',
         },
       },
       {
@@ -67,6 +68,7 @@ module.exports = {
           loader: "html-loader",
           options: {
             minimize: true,
+            // outputPath: "./static/image/liverpool.jpg",
           },
         },
       },
