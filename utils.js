@@ -1,6 +1,7 @@
 const imageLink = "https://sc.azard.net/img/liverpool-1.97342c1405e780ce5f2e972c3720b19c.jpg"; 
 const downloadSize = 219894.53125; // bytes
-const NUMBER_ANIMATION_SPEED = 10;
+const NUMBER_ANIMATION_SPEED = 8;
+let lastNumber;
 
 function sl(selector) {
     return document.querySelector(selector);
@@ -81,8 +82,6 @@ export function startNumberAnimation(selector, start, end, unit) {
     }
   };
 
-  let lastNumber;
-
 export function MeasureConnectionSpeed() {
     let startTime, endTime;
     const download = new Image();
@@ -97,7 +96,7 @@ export function MeasureConnectionSpeed() {
     }
     
     startTime = (new Date()).getTime();
-    const cacheBuster = "?d =" + startTime;
+    const cacheBuster = `?d=${startTime}`;
     download.src = imageLink + cacheBuster;
     function showResults() {
         const duration = (endTime - startTime) / 1000;
@@ -110,10 +109,10 @@ export function MeasureConnectionSpeed() {
         setTimeout(() => {
             startNumberAnimation("main .weather .bottom-overlay span", lastNumber, result, (speedKbps/1024 > 1.24) ? "Mb/s" : "Kb/s");
             setTimeout(() => {
-                sl("main .weather .bottom-overlay span").classList.add(lastNumber > result*1 ? "down" : "top");
                 sl("main .weather .bottom-overlay span").classList.remove(lastNumber > result*1 ? "top" : "down");
+                sl("main .weather .bottom-overlay span").classList.add(lastNumber > result*1 ? "down" : "top");
+                lastNumber = result - 1;
             }, 250);
-            lastNumber = (result*1);
         }, 150);
     }
 }
