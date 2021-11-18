@@ -8,7 +8,8 @@
     const LOADING_DELAY = 200; // ms
     const LOADING_TRANSITION_DELAY = 500; // ms
     const PORTAL_MODAL_DELAY = 2500; // 2.5s
-    const CREATE_MAP_DELAY = 3000 // 3s
+    const CREATE_MAP_DELAY = 3000; // 3s
+    const SPEED_DETECTION_DELAY = 5000 // 15s;
     const TO_FIXED = 2;
     let cacheData = {lat: 53.4106, lon: -2.9779};
     const CITY_HAVE_IMAGE = [{
@@ -252,7 +253,7 @@
 
     setInterval(() => {
         MeasureConnectionSpeed();
-    }, 10000);
+    }, SPEED_DETECTION_DELAY);
 
     function currentTime() {
         const city = localStorage.getItem("last_search") ||  "Liverpool";
@@ -310,7 +311,10 @@
     }
         
     function onContentLoaded() {
-        InitiateSpeedDetection();
+        sl("main .weather .bottom-overlay span").classList.add("error");
+        setTimeout(() => {
+            InitiateSpeedDetection();   
+        }, 400);
         searchWeather(localStorage.getItem("last_search") ||  "Liverpool", false);
         if ("serviceWorker" in navigator) {
             navigator.serviceWorker.register("/service-worker.js");

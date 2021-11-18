@@ -1,4 +1,4 @@
-const imageLink = require("./static/image/liverpool-1.jpg"); 
+const imageLink = "https://sc.azard.net/img/liverpool-1.97342c1405e780ce5f2e972c3720b19c.jpg"; 
 const downloadSize = 219894.53125; // bytes
 const NUMBER_ANIMATION_SPEED = 10;
 
@@ -59,18 +59,24 @@ export function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-export function startNumberAnimation(selector, start, end) {
-    increaseNumber(start, end, sl(selector));
+export function startNumberAnimation(selector, start, end, unit) {
+    increaseNumber(start, end, sl(selector), unit);
   }
   
-  function increaseNumber(start, end, el) {
+  function increaseNumber(start, end, el, unit) {
     if (start <= end) {
-      el.innerHTML = `${start.toFixed(2)} Kb/s`;
+      el.innerHTML = `${start.toFixed(2)} ${unit}`;
       setTimeout(() => {
-        increaseNumber(start + 1, end, el);
+        increaseNumber(start + 1, end, el, unit);
       }, NUMBER_ANIMATION_SPEED);
+      setTimeout(() => {
+            if (start > end) { 
+                el.innerHTML = `${end.toFixed(2)} ${unit}`;
+                return false;
+            }
+    }, 1000);
     } else {
-        el.innerHTML = `${end.toFixed(2)} Kb/s`;
+        el.innerHTML = `${end.toFixed(2)} ${unit}`;
         return false;
     }
   };
@@ -91,22 +97,23 @@ export function MeasureConnectionSpeed() {
     }
     
     startTime = (new Date()).getTime();
-    const cacheBuster = "?d=" + startTime;
+    const cacheBuster = "?d =" + startTime;
     download.src = imageLink + cacheBuster;
     function showResults() {
         const duration = (endTime - startTime) / 1000;
         const bitsLoaded = downloadSize * 8;
         const speedBps = (bitsLoaded / duration).toFixed(2);
-        const speedKbps = (speedBps / 1024).toFixed(2);
-        // const speedMbps = (speedKbps / 1024).toFixed(2);
+        const speedKbps = ((speedBps / 1024).toFixed(2)) * 1;
+        const speedMbps = ((speedKbps / 1024).toFixed(2)) * 1;
         sl("main .weather .bottom-overlay span").className = "loaded";
+        const result = speedKbps/1024 > 1.24 ? speedMbps : speedKbps;
         setTimeout(() => {
-            startNumberAnimation("main .weather .bottom-overlay span", lastNumber, speedKbps*1);
+            startNumberAnimation("main .weather .bottom-overlay span", lastNumber, result, (speedKbps/1024 > 1.24) ? "Mb/s" : "Kb/s");
             setTimeout(() => {
-                sl("main .weather .bottom-overlay span").classList.add(lastNumber > speedKbps*1 ? "down" : "top");
-                sl("main .weather .bottom-overlay span").classList.remove(lastNumber > speedKbps*1 ? "top" : "down");
+                sl("main .weather .bottom-overlay span").classList.add(lastNumber > result*1 ? "down" : "top");
+                sl("main .weather .bottom-overlay span").classList.remove(lastNumber > result*1 ? "top" : "down");
             }, 250);
-            lastNumber = ((speedKbps*1) - 1);
+            lastNumber = (result*1);
         }, 150);
     }
 }
