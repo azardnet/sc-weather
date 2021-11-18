@@ -1,7 +1,5 @@
-import { SpeedDetectionFetch } from "./request";
-
-const imageLink = "https://sc.azard.net/img/liverpool-1.97342c1405e780ce5f2e972c3720b19c.jpg"; 
-const downloadSize = 219894.53125; //bytes
+const imageLink = require("./static/image/liverpool-1.jpg"); 
+const downloadSize = 219894.53125; // bytes
 const NUMBER_ANIMATION_SPEED = 10;
 
 function sl(selector) {
@@ -114,7 +112,7 @@ export function MeasureConnectionSpeed() {
 }
 
 export function InitiateSpeedDetection() {
-    SpeedDetectionFetch();
+    // SpeedDetectionFetch();
     sl("main .weather .bottom-overlay span").className = "loading";
     setTimeout(MeasureConnectionSpeed, 10);
 };
