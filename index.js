@@ -1,5 +1,5 @@
     import "./style.scss";
-    import { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap } from "./utils"
+    import { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap, randomIntFromInterval } from "./utils"
     const OPENWEATHER_KEY = process.env.OPENWEATHER;
     const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
     const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`;
@@ -14,6 +14,7 @@
     let cacheData = {lat: 53.4106, lon: -2.9779};
     const CITY_HAVE_IMAGE = [{
         name: "liverpool",
+        images: ["1", "2", "3"],
         photographer: "Neil Martin",
         link: "https://unsplash.com/@anagoge"
     }, {
@@ -175,8 +176,8 @@
                     createMap(result.coord.lat, result.coord.lon);
                 } else {
                     deleteMap();
-                    const image = require(`./static/image/${result.name.toLocaleLowerCase()}.jpg`);
                     const cityData = CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase());
+                    const image = require(`./static/image/${result.name.toLocaleLowerCase()}-${randomIntFromInterval(1,cityData.images.length)}.jpg`);
                     sl("main .weather").style.backgroundImage = `url(${image})`;
                     sl("main .weather .image-copyright").style.display = "block";
                     sl("main .weather .image-copyright").innerHTML = cityData.photographer;
@@ -192,21 +193,23 @@
                 activePortalModal(checkPersianCharacters(city) ? translate.fa.CityNotFound : translate.en.CityNotFound);
             }
         }
-        sl("main .weather .map-overlay .content-wrapper .weather-data .temperature .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp.toFixed(TO_FIXED)) : result.main.temp.toFixed(TO_FIXED);
-        sl("main .weather .map-overlay .content-wrapper .weather-data .temperature .unit").innerHTML = UNIT;
-        sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .text").innerHTML = isPersianCharacter ? `${translate.fa.FeelsLike}:` : "Feels Like:";
-        sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.feels_like.toFixed(TO_FIXED)) : result.main.feels_like.toFixed(TO_FIXED);
-        sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .unit").innerHTML = UNIT;
-        // sl("main .weather .map-overlay .content-wrapper .weather-data .humidity").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.humidity) : result.main.humidity;
-        // sl("main .weather .map-overlay .content-wrapper .weather-data .pressure").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.pressure) : result.main.pressure;
-        sl(".map-overlay .content-wrapper .weather-data .current-weather-icon span").innerHTML = result.weather[0].description;    
-        sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_max.toFixed(TO_FIXED)) : result.main.temp_max.toFixed(TO_FIXED);
-        sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .unit").innerHTML = UNIT;
-        sl("main .weather .map-overlay .content-wrapper .weather-data .temp_min .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_min.toFixed(TO_FIXED)) : result.main.temp_min.toFixed(TO_FIXED);
-        sl("main .weather .map-overlay .content-wrapper .weather-data .temp_min .unit").innerHTML = UNIT;
-        setTimeout(() => {
-            sl("main .weather .map-overlay").classList.add("interval");
-        }, 250);
+        if (result && result.main) {
+            sl("main .weather .map-overlay .content-wrapper .weather-data .temperature .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp.toFixed(TO_FIXED)) : result.main.temp.toFixed(TO_FIXED);
+            sl("main .weather .map-overlay .content-wrapper .weather-data .temperature .unit").innerHTML = UNIT;
+            sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .text").innerHTML = isPersianCharacter ? `${translate.fa.FeelsLike}:` : "Feels Like:";
+            sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.feels_like.toFixed(TO_FIXED)) : result.main.feels_like.toFixed(TO_FIXED);
+            sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .unit").innerHTML = UNIT;
+            // sl("main .weather .map-overlay .content-wrapper .weather-data .humidity").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.humidity) : result.main.humidity;
+            // sl("main .weather .map-overlay .content-wrapper .weather-data .pressure").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.pressure) : result.main.pressure;
+            sl(".map-overlay .content-wrapper .weather-data .current-weather-icon span").innerHTML = result.weather[0].description;    
+            sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_max.toFixed(TO_FIXED)) : result.main.temp_max.toFixed(TO_FIXED);
+            sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .unit").innerHTML = UNIT;
+            sl("main .weather .map-overlay .content-wrapper .weather-data .temp_min .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_min.toFixed(TO_FIXED)) : result.main.temp_min.toFixed(TO_FIXED);
+            sl("main .weather .map-overlay .content-wrapper .weather-data .temp_min .unit").innerHTML = UNIT;
+            setTimeout(() => {
+                sl("main .weather .map-overlay").classList.add("interval");
+            }, 250);
+        }
     }
 
     function onFullScreenClick() {

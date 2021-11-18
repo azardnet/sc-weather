@@ -51,4 +51,10 @@ function deleteMap() {
     sl("main .weather #map").innerHTML = "";
 }
 
+export function randomIntFromInterval(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+
+
 export { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap }
