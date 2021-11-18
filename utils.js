@@ -1,3 +1,9 @@
+import { SpeedDetectionFetch } from "./request";
+
+const imageLink = "https://sc.azard.net/img/liverpool-1.97342c1405e780ce5f2e972c3720b19c.jpg"; 
+const downloadSize = 219894.53125; //bytes
+const NUMBER_ANIMATION_SPEED = 10;
+
 function sl(selector) {
     return document.querySelector(selector);
 }
@@ -51,8 +57,74 @@ function deleteMap() {
     sl("main .weather #map").innerHTML = "";
 }
 
-export function randomIntFromInterval(min, max) { // min and max included 
+export function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+export function startNumberAnimation(selector, start, end) {
+    increaseNumber(start, end, sl(selector));
+  }
+  
+  function increaseNumber(start, end, el) {
+    if (start <= end) {
+      el.innerHTML = `${start.toFixed(2)} Kb/s`;
+      setTimeout(() => {
+        increaseNumber(start + 1, end, el);
+      }, NUMBER_ANIMATION_SPEED);
+    } else {
+        el.innerHTML = `${end.toFixed(2)} Kb/s`;
+        return false;
+    }
+  };
+
+  let lastNumber;
+
+export function MeasureConnectionSpeed() {
+    let startTime, endTime;
+    const download = new Image();
+    download.onload = () => {
+        sl("main .weather .bottom-overlay span").className = "";
+        endTime = (new Date()).getTime();
+        showResults();
+    }
+    
+    download.onerror = () => {
+        sl("main .weather .bottom-overlay span").className = "error";
+    }
+    
+    startTime = (new Date()).getTime();
+    const cacheBuster = "?d=" + startTime;
+    download.src = imageLink + cacheBuster;
+    function showResults() {
+        const duration = (endTime - startTime) / 1000;
+        const bitsLoaded = downloadSize * 8;
+        const speedBps = (bitsLoaded / duration).toFixed(2);
+        const speedKbps = (speedBps / 1024).toFixed(2);
+        // const speedMbps = (speedKbps / 1024).toFixed(2);
+        sl("main .weather .bottom-overlay span").className = "loaded";
+        setTimeout(() => {
+            startNumberAnimation("main .weather .bottom-overlay span", lastNumber, speedKbps*1);
+            setTimeout(() => {
+                sl("main .weather .bottom-overlay span").classList.add(lastNumber > speedKbps*1 ? "down" : "top");
+                sl("main .weather .bottom-overlay span").classList.remove(lastNumber > speedKbps*1 ? "top" : "down");
+            }, 250);
+            lastNumber = ((speedKbps*1) - 1);
+        }, 150);
+    }
+}
+
+export function InitiateSpeedDetection() {
+    SpeedDetectionFetch();
+    sl("main .weather .bottom-overlay span").className = "loading";
+    setTimeout(MeasureConnectionSpeed, 10);
+};
+
+export function setStorage(key, data) {
+    return localStorage.setItem(key, JSON.stringify(data));
+}
+
+export function getStorage(key) {
+    return JSON.parse(localStorage.setItem(key));
 }
 
 

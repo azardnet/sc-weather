@@ -58,15 +58,74 @@
         background-position: center center;
         background-size: cover;
         background-repeat: no-repeat;
-        .image-copyright {
+        .bottom-overlay {
+            width: calc(100% - 2em);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: absolute;
             bottom: 3em;
-            left: 0.5em;
+            left: 0em;
+            right: 0em;
+            margin: auto;
+            font-size: .75em;
             color: #ffffff;
             z-index: 2;
-            font-family: 'Ephesis';
-            letter-spacing: 4px;
-            font-size: .75em;
+            .image-copyright {
+                font-family: 'Ephesis';
+                letter-spacing: 4px;
+                color: #fff;
+            }
+            span {
+                font-family: Vazir;
+                position: relative;
+                min-height: 40px;
+                height: 3em;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition-property: color;
+                transition-duration: 250ms;
+                color: #fff;
+                &:before {
+                    content: "";
+                    width: 40px;
+                    height: 40px;
+                    left: -10px;
+                    top: -10px;
+                    background-size: cover;
+                    background-position: center center;
+                    transform: rotate(0deg) translate3d(0px,0px,0px);
+                    transform-origin: center center;
+                    transition-property: opacity;
+                }   
+                @keyframes loading-rotate {
+                    0% {
+                        transform: rotate(0deg) translate3d(0px,0px,0px);
+                    }
+                    100% {
+                        transform: rotate(360deg) translate3d(0px,0px,0px);
+                    }
+                }
+                &.loading:before {
+                    background-image: url("./static/icons/import-loading.svg");
+                    animation-name: loading-rotate;
+                    animation-duration: 2000ms;
+                    animation-iteration-count: infinite;
+                    animation-timing-function: ease-in;
+                }
+                &.loaded:before {
+                    background-image: url("./static/icons/import-wifi.svg");
+                }
+                &.top {
+                    color: rgba(0,255,0, 0.35);
+                }
+                &.down {
+                    color: rgba(255,0,0,0.35);
+                }
+            }
+
+
         }
     }
     main .weather #map {
@@ -356,7 +415,7 @@
             height: 100%;
             opacity: 0.75;
             margin-right: 10px;
-            background-image: url('./static/icons/arrow-up.svg');
+            background-image: url('./static/icons/import-arrow-up.svg');
             background-repeat: no-repeat;
             background-position: center;
             background-size: 50%;

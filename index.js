@@ -1,10 +1,9 @@
     import "./style.scss";
-    import { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap, randomIntFromInterval } from "./utils"
+    import { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap, randomIntFromInterval, InitiateSpeedDetection, MeasureConnectionSpeed } from "./utils"
     const OPENWEATHER_KEY = process.env.OPENWEATHER;
     const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
     const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`;
     const UNIT = "°C";
-    // const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
     const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
     const LOADING_DELAY = 200; // ms
     const LOADING_TRANSITION_DELAY = 500; // ms
@@ -14,28 +13,42 @@
     let cacheData = {lat: 53.4106, lon: -2.9779};
     const CITY_HAVE_IMAGE = [{
         name: "liverpool",
-        images: ["1", "2", "3"],
-        photographer: "Neil Martin",
-        link: "https://unsplash.com/@anagoge"
+        images: [{
+            photographer: "Neil Martin",
+            link: "https://unsplash.com/@anagoge"
+        }, {
+            photographer: "Fleur",
+            link: "https://unsplash.com/@yer_a_wizard",
+        }, {
+            photographer: "Phil Kiel",
+            link: "https://unsplash.com/@pk_drone",
+        }],
     }, {
         name: "ahvāz",
         photographer: "Ashkan Forouzani",
         link: "https://unsplash.com/@ashkfor121"
+    },{
+        name: "tehran",
+        images: [{
+            photographer: "Amirreza Kimiyaei",
+            link: "https://unsplash.com/@amirrezakm"
+        }, {
+            photographer: "Amirreza Kimiyaei",
+            link: "https://unsplash.com/@amirrezakm",
+        }],
     }];
     const translate = {
         fa: {
-            Clear: "صاف",
-            Clouds: "ابری",
-            Rain: "بارانی",
-            Thunderstorm: "رعد و برق",
-            Snow: "برفی",
             FeelsLike: "دمایی که احساس می‌شود",
             CityNotFound: "شهر مورد نظر یافت نشد.",
             TypeCity: "اسم شهر را وارد کنید و Enter بزنید",
+            ErrorDownloading: "خطا در دریافت اطلاعات."
         },
         en: {
+            FeelsLike: "Feels Like",
             CityNotFound: "City not found.",
-            TypeCity: "type City and hit Enter"
+            TypeCity: "type City and hit Enter",
+            ErrorDownloading: "Error downloading."
         }
     }
 
@@ -171,17 +184,18 @@
             if (result && result.cod === 200 && city) {
                 cacheData.lat = result.coord.lat;
                 cacheData.lon = result.coord.lon;
-                sl("main .weather .image-copyright").style.display = "none";
+                sl("main .weather .bottom-overlay .image-copyright").style.display = "none";
                 if (!(CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase()))) {
                     createMap(result.coord.lat, result.coord.lon);
                 } else {
                     deleteMap();
                     const cityData = CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase());
-                    const image = require(`./static/image/${result.name.toLocaleLowerCase()}-${randomIntFromInterval(1,cityData.images.length)}.jpg`);
+                    const randomNumber = randomIntFromInterval(0,cityData.images.length-1);
+                    const image = require(`./static/image/${result.name.toLocaleLowerCase()}-${randomNumber+1}.jpg`);
                     sl("main .weather").style.backgroundImage = `url(${image})`;
                     sl("main .weather .image-copyright").style.display = "block";
-                    sl("main .weather .image-copyright").innerHTML = cityData.photographer;
-                    sl("main .weather .image-copyright").href = cityData.link;
+                    sl("main .weather .image-copyright").innerHTML = cityData.images[randomNumber].photographer;
+                    sl("main .weather .image-copyright").href = cityData.images[randomNumber].link;
                     loaded();
                 }
                 sl("main .weather .map-overlay .content-wrapper h1 b").innerHTML = isPersianCharacter ? city : result.name;
@@ -196,7 +210,7 @@
         if (result && result.main) {
             sl("main .weather .map-overlay .content-wrapper .weather-data .temperature .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp.toFixed(TO_FIXED)) : result.main.temp.toFixed(TO_FIXED);
             sl("main .weather .map-overlay .content-wrapper .weather-data .temperature .unit").innerHTML = UNIT;
-            sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .text").innerHTML = isPersianCharacter ? `${translate.fa.FeelsLike}:` : "Feels Like:";
+            sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .text").innerHTML = translate[isPersianCharacter ? "fa" : "en"].FeelsLike;
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.feels_like.toFixed(TO_FIXED)) : result.main.feels_like.toFixed(TO_FIXED);
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .unit").innerHTML = UNIT;
             // sl("main .weather .map-overlay .content-wrapper .weather-data .humidity").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.humidity) : result.main.humidity;
@@ -235,6 +249,10 @@
     setInterval(() => {
         searchWeather(localStorage.getItem("last_search") ||  "Liverpool", true);
     }, REQUEST_INTERVAL);
+
+    setInterval(() => {
+        MeasureConnectionSpeed();
+    }, 10000);
 
     function currentTime() {
         const city = localStorage.getItem("last_search") ||  "Liverpool";
@@ -292,6 +310,7 @@
     }
         
     function onContentLoaded() {
+        InitiateSpeedDetection();
         searchWeather(localStorage.getItem("last_search") ||  "Liverpool", false);
         if ("serviceWorker" in navigator) {
             navigator.serviceWorker.register("/service-worker.js");
