@@ -4,6 +4,7 @@
     const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
     const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`;
     const UNIT = "°C";
+    // const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
     const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
     const LOADING_DELAY = 200; // ms
     const LOADING_TRANSITION_DELAY = 500; // ms
@@ -163,6 +164,7 @@
     }
 
     function computeUI(result, city, interval) {
+        sl("main .weather .map-overlay").classList.remove("interval");
         const isPersianCharacter = checkPersianCharacters(city);
         if (!interval) {
             if (result && result.cod === 200 && city) {
@@ -202,6 +204,9 @@
         sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .unit").innerHTML = UNIT;
         sl("main .weather .map-overlay .content-wrapper .weather-data .temp_min .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_min.toFixed(TO_FIXED)) : result.main.temp_min.toFixed(TO_FIXED);
         sl("main .weather .map-overlay .content-wrapper .weather-data .temp_min .unit").innerHTML = UNIT;
+        setTimeout(() => {
+            sl("main .weather .map-overlay").classList.add("interval");
+        }, 250);
     }
 
     function onFullScreenClick() {

@@ -40,6 +40,10 @@
         filter: blur(5px);
     }
 
+    main .weather .map-overlay.interval {
+        background-color: rgba(0, 0, 0, 0.25);
+    }
+
     main header {
         margin-top: 1.9em;
         display: flex;
@@ -81,6 +85,8 @@
         display: flex;
         align-items: baseline;
         justify-content: center;
+        transition-property: background-color;
+        transition-duration: 250ms;
     }
     .map-overlay .bottom {
         content: "";
