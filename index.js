@@ -26,8 +26,10 @@
         }],
     }, {
         name: "ahvāz",
-        photographer: "Ashkan Forouzani",
-        link: "https://unsplash.com/@ashkfor121"
+        images: [{
+            photographer: "Ashkan Forouzani",
+            link: "https://unsplash.com/@ashkfor121"
+        }],
     },{
         name: "tehran",
         images: [{
@@ -43,13 +45,15 @@
             FeelsLike: "دمایی که احساس می‌شود",
             CityNotFound: "شهر مورد نظر یافت نشد.",
             TypeCity: "اسم شهر را وارد کنید و Enter بزنید",
-            ErrorDownloading: "خطا در دریافت اطلاعات."
+            ErrorDownloading: "خطا در دریافت اطلاعات.",
+            ErrorLoadMap: "نقشه در حال حاضر در دسترس نیست."
         },
         en: {
             FeelsLike: "Feels Like",
             CityNotFound: "City not found.",
             TypeCity: "type City and hit Enter",
-            ErrorDownloading: "Error downloading."
+            ErrorDownloading: "Error downloading.",
+            ErrorLoadMap: "Map is not accessible right now."
         }
     }
 
@@ -173,7 +177,9 @@
                         loaded();
                     });
             } catch (error) {
-                
+                deleteMap();
+                loaded();
+                activePortalModal(checkPersianCharacters(localStorage.getItem("last_search") ||  "Liverpool") ? translate.fa.ErrorLoadMap : translate.en.ErrorLoadMap);
             }
         }, CREATE_MAP_DELAY);
     }
