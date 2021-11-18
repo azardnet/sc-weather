@@ -179,12 +179,12 @@
 
     function computeUI(result, city, interval) {
         sl("main .weather .map-overlay").classList.remove("interval");
+        sl("main .weather .bottom-overlay .image-copyright").style.display = "none";
         const isPersianCharacter = checkPersianCharacters(city);
         if (!interval) {
             if (result && result.cod === 200 && city) {
                 cacheData.lat = result.coord.lat;
                 cacheData.lon = result.coord.lon;
-                sl("main .weather .bottom-overlay .image-copyright").style.display = "none";
                 if (!(CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase()))) {
                     createMap(result.coord.lat, result.coord.lon);
                 } else {
