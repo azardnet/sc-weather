@@ -1,6 +1,5 @@
     import "./style.scss";
     import { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap, randomIntFromInterval, InitiateSpeedDetection, MeasureConnectionSpeed } from "./utils"
-    const OPENWEATHER_KEY = process.env.OPENWEATHER;
     const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
     const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`;
     const UNIT = "°C";
@@ -189,29 +188,36 @@
         sl("main .weather .bottom-overlay .image-copyright").style.display = "none";
         const isPersianCharacter = checkPersianCharacters(city);
         if (!interval) {
-            if (result && city) {
-                cacheData.lat = result.coord.lat;
-                cacheData.lon = result.coord.lon;
-                if (!(CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase()))) {
-                    createMap(result.coord.lat, result.coord.lon);
-                } else {
-                    deleteMap();
-                    const cityData = CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase());
-                    const randomNumber = randomIntFromInterval(0,cityData.images.length-1);
-                    const image = require(`./static/image/${result.name.toLocaleLowerCase()}-${randomNumber+1}.jpg`);
-                    sl("main .weather").style.backgroundImage = `url(${image})`;
-                    sl("main .weather .image-copyright").style.display = "block";
-                    sl("main .weather .image-copyright").innerHTML = cityData.images[randomNumber].photographer;
-                    sl("main .weather .image-copyright").href = cityData.images[randomNumber].link;
-                    loaded();
-                }
+            if (result && city && !result.message) {
                 sl("main .weather .map-overlay .content-wrapper h1 b").innerHTML = isPersianCharacter ? city : result.name;
-                sl("main header form.search input").focus();
-                const flagImage = require(`./static/flags/${(result.sys.country).toLowerCase()}.svg`);
-                sl("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url("${flagImage}")`;
+                if (result.coord && result.coord.lat) {
+                    if (!(CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase()))) {
+                        cacheData.lat = result.coord.lat;
+                        cacheData.lon = result.coord.lon;
+                        createMap(result.coord.lat, result.coord.lon);
+                    } else {
+                        deleteMap();
+                        const cityData = CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase());
+                        const randomNumber = randomIntFromInterval(0,cityData.images.length-1);
+                        const image = require(`./static/image/${result.name.toLocaleLowerCase()}-${randomNumber+1}.jpg`);
+                        sl("main .weather").style.backgroundImage = `url(${image})`;
+                        sl("main .weather .image-copyright").style.display = "block";
+                        sl("main .weather .image-copyright").innerHTML = cityData.images[randomNumber].photographer;
+                        sl("main .weather .image-copyright").href = cityData.images[randomNumber].link;
+                        loaded();
+                    }
+                }
+                if (result.sys && result.sys.country) {
+                    const flagImage = require(`./static/flags/${(result.sys.country).toLowerCase()}.svg`);
+                    sl("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url("${flagImage}")`;
+                }
                 localStorage.setItem("last_search", isPersianCharacter ? city : result.name);
-            } else if (result && result.cod === "404" && city) {
+            } else if (result && result.message && city) {
+                loaded();
                 activePortalModal(checkPersianCharacters(city) ? translate.fa.CityNotFound : translate.en.CityNotFound);
+                setTimeout(() => {
+                    searchWeather("Liverpool", false);
+                }, 2500);
             }
         }
         if (result && result.main) {

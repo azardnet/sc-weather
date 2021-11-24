@@ -1,6 +1,4 @@
-import { SpeedDetectionFetch } from "./request";
-
-const imageLink = "https://sc.azard.net/img/liverpool-1.97342c1405e780ce5f2e972c3720b19c.jpg"; 
+const imageLink = ["https://top.4896.top/l.jpg", "https://nl.4896.top/l.jpg"];
 const downloadSize = 219894.53125; // bytes
 const NUMBER_ANIMATION_SPEED = 8;
 let lastNumber;
@@ -99,7 +97,7 @@ export function MeasureConnectionSpeed() {
     
     startTime = (new Date()).getTime();
     const cacheBuster = `?d=${startTime}`;
-    download.src = imageLink + cacheBuster;
+    download.src = imageLink[randomIntFromInterval(0, (imageLink.length -1))] + cacheBuster;
     function showResults() {
         const duration = (endTime - startTime) / 1000;
         const bitsLoaded = downloadSize * 8;
