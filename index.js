@@ -9,7 +9,7 @@
     const LOADING_TRANSITION_DELAY = 500; // ms
     const PORTAL_MODAL_DELAY = 2500; // 2.5s
     const CREATE_MAP_DELAY = 3000; // 3s
-    const SPEED_DETECTION_DELAY = 5000 // 15s;
+    const SPEED_DETECTION_DELAY = 15000 // 15s;
     const TO_FIXED = 2;
     let cacheData = {lat: 53.4106, lon: -2.9779};
     const CITY_HAVE_IMAGE = [{
@@ -133,7 +133,7 @@
                 inputEl.placeholder = "type City and hit Enter";
             }
         }
-        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${OPENWEATHER_KEY}&units=metric&lang=${isPersianCharacter ? "fa" : "en"}`).then(result => {
+        fetch(`https://top.4896.top/api/ip?lang=${isPersianCharacter ? "fa" : "en"}&city=${city}&uid=aw4896df`).then(result => {
             return result.json();
         }).then(result => {
             computeUI(result, city, interval);
@@ -189,7 +189,7 @@
         sl("main .weather .bottom-overlay .image-copyright").style.display = "none";
         const isPersianCharacter = checkPersianCharacters(city);
         if (!interval) {
-            if (result && result.cod === 200 && city) {
+            if (result && city) {
                 cacheData.lat = result.coord.lat;
                 cacheData.lon = result.coord.lon;
                 if (!(CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase()))) {
