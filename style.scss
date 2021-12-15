@@ -682,6 +682,25 @@
         direction: rtl;
     }
 
+    .humidityclass{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        background-color: rgba(228, 192, 192,0.3);
+        border-radius: 30px;
+        
+    }
+    .humidity{
+        color:rgba(245, 235, 235,0.5);
+        // font-size:30px;
+        text-align: center;
+        font-weight: 600;
+        
+    }
+    
+    
     @media only screen and (max-width: 750px) {
         main header, main .weather {
             width: calc(90vw - 2em) !important;
