@@ -1,5 +1,6 @@
     import "./style.scss";
     import { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap, randomIntFromInterval, InitiateSpeedDetection, MeasureConnectionSpeed } from "./utils"
+    import { translate } from "./translate"
     const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
     const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`;
     const UNIT = "°C";
@@ -39,22 +40,6 @@
             link: "https://unsplash.com/@amirrezakm",
         }],
     }];
-    const translate = {
-        fa: {
-            FeelsLike: "دمایی که احساس می‌شود",
-            CityNotFound: "شهر مورد نظر یافت نشد.",
-            TypeCity: "اسم شهر را وارد کنید و Enter بزنید",
-            ErrorDownloading: "خطا در دریافت اطلاعات.",
-            ErrorLoadMap: "نقشه در حال حاضر در دسترس نیست."
-        },
-        en: {
-            FeelsLike: "Feels Like",
-            CityNotFound: "City not found.",
-            TypeCity: "type City and hit Enter",
-            ErrorDownloading: "Error downloading.",
-            ErrorLoadMap: "Map is not accessible right now."
-        }
-    }
 
     function activePortalModal(text) {
         document.body.classList.remove("loading");
@@ -226,7 +211,7 @@
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .text").innerHTML = translate[isPersianCharacter ? "fa" : "en"].FeelsLike;
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.feels_like.toFixed(TO_FIXED)) : result.main.feels_like.toFixed(TO_FIXED);
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .unit").innerHTML = UNIT;
-            sl("main .weather .map-overlay .content-wrapper .weather-data .humidity").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.humidity) : result.main.humidity;
+            // sl("main .weather .map-overlay .content-wrapper .weather-data .humidity").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.humidity) : result.main.humidity;
             // sl("main .weather .map-overlay .content-wrapper .weather-data .pressure").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.pressure) : result.main.pressure;
             sl(".map-overlay .content-wrapper .weather-data .current-weather-icon span").innerHTML = result.weather[0].description;    
             sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_max.toFixed(TO_FIXED)) : result.main.temp_max.toFixed(TO_FIXED);
@@ -255,7 +240,9 @@
             sl("main .weather").style.marginTop = "10px";
             sl("main .weather").style.width = "80vw";
             sl("main .weather").style.height = "calc(80vh + 40px)";
-            createMap();
+            if (!(CITY_HAVE_IMAGE.find((item) => item.name === localStorage.getItem("last_search").toLocaleLowerCase()))) {
+                createMap();
+            }
         }
     }
 
