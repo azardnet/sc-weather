@@ -2,6 +2,7 @@
     import { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap, randomIntFromInterval, InitiateSpeedDetection, MeasureConnectionSpeed } from "./utils"
     const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
     const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`;
+    const OPEN_WEATHER_KEY = process.env.OPENWEATHER;
     const UNIT = "°C";
     const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
     const LOADING_DELAY = 200; // ms
@@ -132,7 +133,7 @@
                 inputEl.placeholder = "type City and hit Enter";
             }
         }
-        fetch(`https://top.4896.top/api/ip?lang=${isPersianCharacter ? "fa" : "en"}&city=${city}&uid=aw4896df`).then(result => {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?lang=${isPersianCharacter ? "fa" : "en"}&q=${city}&APPID=${OPEN_WEATHER_KEY}&units=metric`).then(result => {
             return result.json();
         }).then(result => {
             computeUI(result, city, interval);
@@ -226,8 +227,6 @@
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .text").innerHTML = translate[isPersianCharacter ? "fa" : "en"].FeelsLike;
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.feels_like.toFixed(TO_FIXED)) : result.main.feels_like.toFixed(TO_FIXED);
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .unit").innerHTML = UNIT;
-            sl("main .weather .map-overlay .content-wrapper .weather-data .humidity").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.humidity) : result.main.humidity;
-            // sl("main .weather .map-overlay .content-wrapper .weather-data .pressure").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.pressure) : result.main.pressure;
             sl(".map-overlay .content-wrapper .weather-data .current-weather-icon span").innerHTML = result.weather[0].description;    
             sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_max.toFixed(TO_FIXED)) : result.main.temp_max.toFixed(TO_FIXED);
             sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .unit").innerHTML = UNIT;
@@ -328,9 +327,9 @@
             InitiateSpeedDetection();   
         }, 400);
         searchWeather(localStorage.getItem("last_search") ||  "Liverpool", false);
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("/service-worker.js");
-        };
+        // if ("serviceWorker" in navigator) {
+        //     navigator.serviceWorker.register("/service-worker.js");
+        // };
     }
         
     const inputEl = sl("main header form.search input");

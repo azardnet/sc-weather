@@ -1,4 +1,4 @@
-const imageLink = ["https://top.4896.top/l.jpg", "https://nl.4896.top/l.jpg"];
+const imageLink = ["https://i.ibb.co/8zV6Wfp/liverpool-1.jpg", "https://iili.io/bIoluS.jpg"];
 const downloadSize = 219894.53125; // bytes
 const NUMBER_ANIMATION_SPEED = 8;
 let lastNumber;
