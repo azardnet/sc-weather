@@ -81,7 +81,7 @@
     }
     const handleChangeColor = debounce(function() {
         changeColor(colorEL.value);
-        localStorage.setItem("color", colorEL.value);
+        // localStorage.setItem("color", colorEL.value);
     }, 20);
 
     const handleMapOpacityChange = debounce(function() {
