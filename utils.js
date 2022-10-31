@@ -62,9 +62,9 @@ export function randomIntFromInterval(min, max) {
 
 export function startNumberAnimation(selector, start, end, unit) {
     increaseNumber(start, end, sl(selector), unit);
-  }
+}
   
-  function increaseNumber(start, end, el, unit) {
+function increaseNumber(start, end, el, unit) {
     if (start <= end) {
       el.innerHTML = `${start.toFixed(2)} ${unit}`;
       setTimeout(() => {
@@ -80,7 +80,7 @@ export function startNumberAnimation(selector, start, end, unit) {
         el.innerHTML = `${end.toFixed(2)} ${unit}`;
         return false;
     }
-  };
+};
 
 export function MeasureConnectionSpeed() {
     let startTime, endTime;
@@ -107,7 +107,7 @@ export function MeasureConnectionSpeed() {
         sl("main .weather .bottom-overlay span").className = "loaded";
         const result = speedKbps/1024 > 1.24 ? speedMbps : speedKbps;
         setTimeout(() => {
-            startNumberAnimation("main .weather .bottom-overlay span", lastNumber, result, (speedKbps/1024 > 1.24) ? "Mb/s" : "Kb/s");
+            sl("main .weather .bottom-overlay span").innerHTML = `${result} ${(speedKbps/1024 > 1.24) ? "Mb/s" : "Kb/s"}`
             setTimeout(() => {
                 sl("main .weather .bottom-overlay span").classList.remove(lastNumber > result*1 ? "top" : "down");
                 sl("main .weather .bottom-overlay span").classList.add(lastNumber > result*1 ? "down" : "top");
