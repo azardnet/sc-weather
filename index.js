@@ -39,6 +39,12 @@
             photographer: "Amirreza Kimiyaei",
             link: "https://unsplash.com/@amirrezakm",
         }],
+    },{
+        name: "āmol",
+        images: [{
+            photographer: "dash masoud",
+            link: "https://unsplash.com/@dashmasoud"
+        }],
     }];
     const translate = {
         fa: {
