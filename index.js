@@ -69,6 +69,12 @@
             photographer: "mostafa meraji",
             link: "https://unsplash.com/@mostafa_meraji"
         }],
+    }, {
+        name: "yazd",
+        images: [{
+            photographer: "Hasan Almasi",
+            link: "https://unsplash.com/@hasanalmasi"
+        }],
     }];
     const translate = {
         fa: {
