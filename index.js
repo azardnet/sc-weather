@@ -14,6 +14,7 @@
     let cacheData = {lat: 53.4106, lon: -2.9779};
     const CITY_HAVE_IMAGE = [{
         name: "liverpool",
+        id: 2644210,
         images: [{
             photographer: "Neil Martin",
             link: "https://unsplash.com/@anagoge"
@@ -26,12 +27,14 @@
         }],
     }, {
         name: "ahvāz",
+        id: 144448,
         images: [{
             photographer: "Ashkan Forouzani",
             link: "https://unsplash.com/@ashkfor121"
         }],
     },{
         name: "tehran",
+        id: 112931,
         images: [{
             photographer: "Amirreza Kimiyaei",
             link: "https://unsplash.com/@amirrezakm"
@@ -41,18 +44,21 @@
         }],
     },{
         name: "āmol",
+        id: 143534,
         images: [{
             photographer: "dash masoud",
             link: "https://unsplash.com/@dashmasoud"
         }],
     },{
         name: "bābolsar",
+        id: 142358,
         images: [{
             photographer: "Mehdi MeSSrro",
             link: "https://unsplash.com/@messrro"
         }],
     },{
         name: "rasht",
+        id: 118743,
         images: [{
             photographer: "Mostafa Yekrangi",
             link: "https://unsplash.com/@mostafa"
@@ -62,6 +68,7 @@
         }],
     }, {
         name: "isfahan",
+        id: 418863,
         images: [{
             photographer: "Yasin Abbasi",
             link: "https://unsplash.com/@yasinabbasi"
@@ -71,10 +78,18 @@
         }],
     }, {
         name: "yazd",
+        id: 111822,
         images: [{
             photographer: "Hasan Almasi",
             link: "https://unsplash.com/@hasanalmasi"
         }],
+    }, {
+        name: "amsterdam",
+        id: 2759794,
+        images: [{
+            photographer: "Azhar J",
+            link: "https://unsplash.com/@azhrjl"
+        }]
     }];
     const translate = {
         fa: {
@@ -228,15 +243,15 @@
             if (result && city && !result.message) {
                 sl("main .weather .map-overlay .content-wrapper h1 b").innerHTML = isPersianCharacter ? city : result.name;
                 if (result.coord && result.coord.lat) {
-                    if (!(CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase()))) {
+                    if (!(CITY_HAVE_IMAGE.find((item) => item.id === result.id))) {
                         cacheData.lat = result.coord.lat;
                         cacheData.lon = result.coord.lon;
                         createMap(result.coord.lat, result.coord.lon);
                     } else {
                         deleteMap();
-                        const cityData = CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase());
+                        const cityData = CITY_HAVE_IMAGE.find((item) => item.id === result.id);
                         const randomNumber = randomIntFromInterval(0,cityData.images.length-1);
-                        const image = require(`./static/image/${result.name.toLocaleLowerCase()}-${randomNumber+1}.jpg`);
+                        const image = require(`./static/image/${result.id}-${randomNumber+1}.jpg`);
                         sl("main .weather").style.backgroundImage = `url(${image})`;
                         sl("main .weather .image-copyright").style.display = "block";
                         sl("main .weather .image-copyright").innerHTML = cityData.images[randomNumber].photographer;
