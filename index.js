@@ -275,7 +275,7 @@
                 loaded();
                 activePortalModal(checkPersianCharacters(city) ? translate.fa.CityNotFound : translate.en.CityNotFound);
                 setTimeout(() => {
-                    searchWeather("Liverpool", false);
+                    searchWeather(getStorage("last_search"), false);
                 }, 2500);
             }
         }
