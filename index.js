@@ -100,14 +100,14 @@
     }];
     const translate = {
         fa: {
-            FeelsLike: "دمایی که احساس می‌شود",
+            FeelsLike: "دمایی که احساس می‌شود : ",
             CityNotFound: "شهر مورد نظر یافت نشد.",
             TypeCity: "اسم شهر را وارد کنید و Enter بزنید",
             ErrorDownloading: "خطا در دریافت اطلاعات.",
             ErrorLoadMap: "نقشه در حال حاضر در دسترس نیست."
         },
         en: {
-            FeelsLike: "Feels Like",
+            FeelsLike: "Feels Like : ",
             CityNotFound: "City not found.",
             TypeCity: "type City and hit Enter",
             ErrorDownloading: "Error downloading.",
@@ -229,7 +229,7 @@
                 ymaps.ready(function () {
                     new ymaps.Map("map", {
                             center: (lat && lon) ? [lat, lon] : [cacheData.lat, cacheData.lon],
-                            zoom: 10.5,
+                            zoom: 13,
                             controls: []
                     });
                         loaded();
@@ -290,6 +290,7 @@
             sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .unit").innerHTML = UNIT;
             sl("main .weather .map-overlay .content-wrapper .weather-data .temp_min .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_min.toFixed(TO_FIXED)) : result.main.temp_min.toFixed(TO_FIXED);
             sl("main .weather .map-overlay .content-wrapper .weather-data .temp_min .unit").innerHTML = UNIT;
+            sl("main .weather .map-overlay .content-wrapper .weather-data .humidity .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.humidity) : result.main.humidity;
             setTimeout(() => {
                 sl("main .weather .map-overlay").classList.add("interval");
             }, 250);
