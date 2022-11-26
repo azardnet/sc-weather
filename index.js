@@ -97,6 +97,13 @@
             photographer: "Mohammad Mohammadpour",
             link: "https://unsplash.com/@m_mohammadpour"
         }]
+    }, {
+        name: "Karaj",
+        id: 128747,
+        images: [{
+            photographer: "MHossein Hosseini",
+            link: "https://unsplash.com/@hosseiin"
+        }]
     }];
     const translate = {
         fa: {
@@ -243,6 +250,7 @@
     }
 
     function computeUI(result, city, interval) {
+
         sl("main .weather .map-overlay").classList.remove("interval");
         sl("main .weather .bottom-overlay .image-copyright").style.display = "none";
         const isPersianCharacter = checkPersianCharacters(city);
@@ -271,6 +279,7 @@
                     sl("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url("${flagImage}")`;
                 }
                 localStorage.setItem("last_search", isPersianCharacter ? city : result.name);
+                localStorage.setItem("last_search_id", result.id);
             } else if (result && result.message && city) {
                 loaded();
                 activePortalModal(checkPersianCharacters(city) ? translate.fa.CityNotFound : translate.en.CityNotFound);
@@ -313,7 +322,9 @@
             sl("main .weather").style.marginTop = "10px";
             sl("main .weather").style.width = "80vw";
             sl("main .weather").style.height = "calc(80vh + 40px)";
-            createMap();
+            if (!(CITY_HAVE_IMAGE.find((item) => item.id === localStorage.getItem("last_search_id")))) {
+                createMap();
+            }
         }
     }
 
