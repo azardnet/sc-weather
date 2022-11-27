@@ -250,7 +250,6 @@
     }
 
     function computeUI(result, city, interval) {
-
         sl("main .weather .map-overlay").classList.remove("interval");
         sl("main .weather .bottom-overlay .image-copyright").style.display = "none";
         const isPersianCharacter = checkPersianCharacters(city);
@@ -322,7 +321,7 @@
             sl("main .weather").style.marginTop = "10px";
             sl("main .weather").style.width = "80vw";
             sl("main .weather").style.height = "calc(80vh + 40px)";
-            if (!(CITY_HAVE_IMAGE.find((item) => item.id === localStorage.getItem("last_search_id")))) {
+            if (!(CITY_HAVE_IMAGE.find((item) => item.id === localStorage.getItem("last_search_id") * 1))) {
                 createMap();
             }
         }
