@@ -682,6 +682,34 @@
             font-family: Vazir;
         }
     }
+    .portal-settings {
+        position: fixed;
+        width: 225px;
+        height: 70px;
+        right: 0;
+        left: 0;
+        margin: auto;
+        bottom: 0;
+        top: 0;
+        font-family: Vazir;
+        background-color: rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        visibility: hidden;
+        opacity: 0;
+        padding: 20px;
+        transition: visibility, opacity 750ms;
+        h6 {
+            margin: 0 10px 0px 0px;
+        }
+        div {
+            display: flex;
+            align-items: center;
+            &:first-of-type {
+                margin-bottom: 20px;
+            }
+        }
+    }
+    
     .rtl .portal-model {
         direction: rtl;
     }    
@@ -697,6 +725,10 @@
     }
 
     @media only screen and (max-width: 450px) {
+        main header button {
+            width: 38px;
+            height: 38px;
+        }
         main header, main .weather {
             width: calc(95vw - 1em) !important;
             font-size: 10px;

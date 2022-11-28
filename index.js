@@ -139,6 +139,7 @@
         document.body.style.backgroundColor = color;
         sl(".map-overlay .bottom").style.backgroundColor = color;
         sl(".map-overlay .cover").style.backgroundColor = color;
+        colorEL.value = color;
     }
 
     function changeMapOpacity(value) {
@@ -146,11 +147,12 @@
     }
     const handleChangeColor = debounce(function() {
         changeColor(colorEL.value);
-        // localStorage.setItem("color", colorEL.value);
+        localStorage.setItem("color", colorEL.value);
     }, 20);
 
     const handleMapOpacityChange = debounce(function() {
-        changeMapOpacity(mapOpacityRangeEl.value)
+        changeMapOpacity(mapOpacityRangeEl.value);
+        localStorage.setItem("opacity", mapOpacityRangeEl.value);
     }, 20);
 
     function onInputKeydown(event) {
@@ -188,8 +190,9 @@
         const isPersianCharacter = checkPersianCharacters(city);
         if (!interval) {
             const color = localStorage.getItem("color") || "#072322";
-            sl("main form.color input").value = color;
+            const opacity = localStorage.getItem("opacity") || "70";
             changeColor(color);
+            changeMapOpacity(opacity);
             if (isPersianCharacter) {
                 document.body.classList.add("rtl");
                 inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید."
@@ -313,6 +316,20 @@
         sl("main .weather").style.height = "calc(100vh - 110px)";
         document.documentElement.requestFullscreen();
     }
+    
+    function onSettingButtonClick() {
+        sl(".portal-settings").style.visibility = "visible";
+        sl(".portal-settings").style.opacity = 1;
+        sl("main").style.filter = 'blur(20px)';
+    }
+
+    function onWindowClick(e) {
+        if (!sl(".portal-settings").contains(e.target) && !sl(".setting-button").contains(e.target)) {
+            sl("main").style.filter = 'blur(0px)';
+            sl(".portal-settings").style.visibility = "hidden";
+            sl(".portal-settings").style.opacity = 0;
+        }
+    }
 
     function onFullScreenChange() {
         if (!document.fullscreenElement) {
@@ -406,6 +423,8 @@
     const mapOpacityRangeEl = document.getElementById("mapOpacity");
     sl(".portal-model .close").addEventListener("click", onPortalModalClose)    
     sl("main header button.full-screen").addEventListener("click", onFullScreenClick);
+    sl("main header button.setting-button").addEventListener("click", onSettingButtonClick);
+    window.addEventListener("click", onWindowClick);
     inputEl.addEventListener("keydown", onInputKeydown);
     colorEL.addEventListener("input", handleChangeColor, false);
     mapOpacityRangeEl.addEventListener("input", handleMapOpacityChange, false);
