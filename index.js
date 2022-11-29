@@ -357,28 +357,10 @@
         const isPersianCharacter = checkPersianCharacters(city);
 
         const date = new Date();
-        const day = date.getDay();
         let hour = date.getHours();
         let min = date.getMinutes();
         let sec = date.getSeconds();
-        let month = date.getMonth();
         let curr_date = date.getDate();
-        const year = date.getFullYear();
-        const month_name = [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December"
-        ];
-        const showDay = document.querySelectorAll(".day__wrapper span");
         let midday = "AM";
         midday = hour >= 12 ? "PM" : "AM";
         hour = hour == 0 ? 12 : hour > 12 ? hour - 12 : hour;
@@ -389,10 +371,6 @@
         sl(".digital-clock .time-wrapper .hour").innerHTML = `${isPersianCharacter ? NumbersToPersian(hour) : hour }:${isPersianCharacter ? NumbersToPersian(min) : min}`;
         sl(".digital-clock .time-wrapper .second").innerHTML = `:${isPersianCharacter ? NumbersToPersian(sec) : sec}`;
         sl(".digital-clock .time-wrapper .minutes").innerHTML = `${midday}`;
-        // document.querySelector(
-        //   "#full__date"
-        // ).innerHTML = `${month_name[month]} ${curr_date} ${year}`;
-        // showDay[day].style.opacity = "1";
       }
       function updateTime(k) {
         if (k < 10) {
