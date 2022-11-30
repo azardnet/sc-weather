@@ -743,4 +743,7 @@
             width: calc(95vw - 1em) !important;
             font-size: 10px;
         }
+        main .weather .map-overlay .content-wrapper h1 {
+            width: 85%;
+        }
     }
