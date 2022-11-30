@@ -685,7 +685,7 @@
     .portal-settings {
         position: fixed;
         width: 225px;
-        height: 70px;
+        height: 100px;
         right: 0;
         left: 0;
         margin: auto;
@@ -707,6 +707,16 @@
             &:first-of-type {
                 margin-bottom: 20px;
             }
+        }
+        button {
+            width: 100%;
+            margin: 10px 0;
+            appearance: none;
+            cursor: pointer;
+            padding: 5px;
+            background-color: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.75);
+            color: #fff;
         }
     }
     

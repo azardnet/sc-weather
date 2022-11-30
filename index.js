@@ -190,7 +190,7 @@
         const isPersianCharacter = checkPersianCharacters(city);
         if (!interval) {
             const color = localStorage.getItem("color") || "#072322";
-            const opacity = localStorage.getItem("opacity") || "70";
+            const opacity = localStorage.getItem("opacity") || "90";
             changeColor(color);
             changeMapOpacity(opacity);
             if (isPersianCharacter) {
@@ -323,6 +323,17 @@
         sl("main").style.filter = 'blur(20px)';
     }
 
+    function onSettingResetButtonClick() {
+        changeColor("#072322");
+        changeMapOpacity("90");
+        sl("main").style.filter = 'blur(0px)';
+        sl(".portal-settings").style.visibility = "hidden";
+        sl(".portal-settings").style.opacity = 0;
+        localStorage.setItem("color", "#072322");
+        localStorage.setItem("opacity", "90");
+        sl("#mapOpacity").value = 90;
+    }
+
     function onWindowClick(e) {
         if (!sl(".portal-settings").contains(e.target) && !sl(".setting-button").contains(e.target)) {
             sl("main").style.filter = 'blur(0px)';
@@ -402,6 +413,7 @@
     sl(".portal-model .close").addEventListener("click", onPortalModalClose)    
     sl("main header button.full-screen").addEventListener("click", onFullScreenClick);
     sl("main header button.setting-button").addEventListener("click", onSettingButtonClick);
+    sl(".portal-settings button").addEventListener("click", onSettingResetButtonClick);
     window.addEventListener("click", onWindowClick);
     inputEl.addEventListener("keydown", onInputKeydown);
     colorEL.addEventListener("input", handleChangeColor, false);
