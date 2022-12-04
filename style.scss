@@ -58,6 +58,7 @@
         background-position: center center;
         background-size: cover;
         background-repeat: no-repeat;
+        overflow: hidden;
         .bottom-overlay {
             width: calc(100% - 2em);
             display: flex;
@@ -136,6 +137,15 @@
     main .weather #map {
      width: 100%;
      height: 100%;
+    }
+    main .weather #video {
+        display: none;
+        position: absolute;
+        width: 2000px;
+        height: 2000px;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50% ,-50% ,0);
     }
     .map-overlay {
         position: absolute;

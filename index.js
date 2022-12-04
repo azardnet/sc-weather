@@ -112,6 +112,14 @@
             link: "https://unsplash.com/@cristianocaligaris"
         }]
     }];
+    const CITY_HAVE_VIDEO = [{
+        name: "liverpool",
+        id: 2644210,
+        videos: [{
+            channel: "Expedia",
+            link: "https://www.youtube.com/watch?v=ojrHLXj8GJA"
+        }],
+    }];
     const translate = {
         fa: {
             FeelsLike: "دمایی که احساس می‌شود : ",
