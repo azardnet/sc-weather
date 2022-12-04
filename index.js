@@ -154,21 +154,25 @@
         document.body.style.backgroundColor = color;
         sl(".map-overlay .bottom").style.backgroundColor = color;
         sl(".map-overlay .cover").style.backgroundColor = color;
-        colorEL.value = color;
+        sl("#favcolor").value = color;
     }
 
     function changeMapOpacity(value) {
         sl(".map-overlay .cover").style.opacity = value/100;
     }
     const handleChangeColor = debounce(function() {
-        changeColor(colorEL.value);
-        localStorage.setItem("color", colorEL.value);
+        changeColor(sl("#favcolor").value);
+        localStorage.setItem("color", sl("#favcolor").value);
     }, 20);
 
     const handleMapOpacityChange = debounce(function() {
         changeMapOpacity(mapOpacityRangeEl.value);
         localStorage.setItem("opacity", mapOpacityRangeEl.value);
     }, 20);
+
+    const handlefullScreenImageChange = function(event) {
+        localStorage.setItem("fsi", event.target.checked);
+    };
 
     function onInputKeydown(event) {
         if (event.code !== "Backspace" && event.key !== "Control" && event.key !== "Alt" && event.key !== "Shift" &&
@@ -421,18 +425,19 @@
         //     navigator.serviceWorker.register("/service-worker.js");
         // };
     }
-        
+
     const inputEl = sl("main header form.search input");
     const colorEL = document.getElementById("favcolor");
     const mapOpacityRangeEl = document.getElementById("mapOpacity");
-    sl(".portal-model .close").addEventListener("click", onPortalModalClose)    
-    sl("main header button.full-screen").addEventListener("click", onFullScreenClick);
-    sl("main header button.setting-button").addEventListener("click", onSettingButtonClick);
-    sl(".portal-settings button").addEventListener("click", onSettingResetButtonClick);
     window.addEventListener("click", onWindowClick);
     inputEl.addEventListener("keydown", onInputKeydown);
     colorEL.addEventListener("input", handleChangeColor, false);
     mapOpacityRangeEl.addEventListener("input", handleMapOpacityChange, false);
+    sl(".portal-model .close").addEventListener("click", onPortalModalClose)    
+    sl("main header button.full-screen").addEventListener("click", onFullScreenClick);
+    sl("main header button.setting-button").addEventListener("click", onSettingButtonClick);
+    sl(".portal-settings button").addEventListener("click", onSettingResetButtonClick);
+    sl("#fullScreenImage").addEventListener("input", handlefullScreenImageChange, false);
     document.addEventListener("fullscreenchange", onFullScreenChange);
     window.addEventListener("DOMContentLoaded", onContentLoaded);
     setInterval(currentTime, 1000);

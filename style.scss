@@ -695,7 +695,7 @@
     .portal-settings {
         position: fixed;
         width: 225px;
-        height: 100px;
+        height: 145px;
         right: 0;
         left: 0;
         margin: auto;
@@ -714,7 +714,7 @@
         div {
             display: flex;
             align-items: center;
-            &:first-of-type {
+            &:not(:last-of-type) {
                 margin-bottom: 20px;
             }
         }
