@@ -328,11 +328,16 @@
     }
 
     function onFullScreenClick() {
-        document.querySelector("header").style.visibility = "hidden";
-        document.querySelector("header").style.opacity = 0;
-        sl("main .weather").style.marginTop = "-30px";
-        sl("main .weather").style.width = "calc(100vw - 160px)";
-        sl("main .weather").style.height = "calc(100vh - 110px)";
+        sl("header").style.display = 'none';
+        if (localStorage.getItem('fsi') === 'true') {
+            sl("main .weather").style.marginTop = "0px";
+            sl("main .weather").style.width = "100vw";
+            sl("main .weather").style.height = "100vh";            
+        } else {
+            sl("main .weather").style.marginTop = "-30px";
+            sl("main .weather").style.width = "calc(100vw - 160px)";
+            sl("main .weather").style.height = "calc(100vh - 110px)";
+        }
         document.documentElement.requestFullscreen();
     }
     
@@ -340,6 +345,7 @@
         sl(".portal-settings").style.visibility = "visible";
         sl(".portal-settings").style.opacity = 1;
         sl("main").style.filter = 'blur(20px)';
+        sl("#fullScreenImage").checked = localStorage.getItem('fsi') === 'true';
     }
 
     function onSettingResetButtonClick() {
@@ -363,8 +369,7 @@
 
     function onFullScreenChange() {
         if (!document.fullscreenElement) {
-            document.querySelector("header").style.visibility = "visible";
-            document.querySelector("header").style.opacity = 1;
+            sl("header").style.display = 'none';
             sl("main .weather").style.marginTop = "10px";
             sl("main .weather").style.width = "80vw";
             sl("main .weather").style.height = "calc(80vh + 40px)";
