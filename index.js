@@ -330,11 +330,11 @@
     function onFullScreenClick() {
         sl("header").style.display = 'none';
         if (localStorage.getItem('fsi') === 'true') {
+            sl(".map-overlay .bottom").style.display = 'none';
             sl("main .weather").style.marginTop = "0px";
             sl("main .weather").style.width = "100vw";
             sl("main .weather").style.height = "100vh";            
         } else {
-            sl("main .weather").style.marginTop = "-30px";
             sl("main .weather").style.width = "calc(100vw - 160px)";
             sl("main .weather").style.height = "calc(100vh - 110px)";
         }
@@ -369,7 +369,8 @@
 
     function onFullScreenChange() {
         if (!document.fullscreenElement) {
-            sl("header").style.display = 'none';
+            sl("header").style.display = 'flex';
+            sl(".map-overlay .bottom").style.display = 'flex';
             sl("main .weather").style.marginTop = "10px";
             sl("main .weather").style.width = "80vw";
             sl("main .weather").style.height = "calc(80vh + 40px)";
