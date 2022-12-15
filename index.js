@@ -111,6 +111,13 @@
             photographer: "cristiano caligaris",
             link: "https://unsplash.com/@cristianocaligaris"
         }]
+    }, {
+        name: "London",
+        id: 2643743,
+        images: [{
+            photographer: "Benjamin Davies",
+            link: "https://unsplash.com/@bendavisual"
+        }]
     }];
     const CITY_HAVE_VIDEO = [{
         name: "liverpool",
