@@ -279,6 +279,7 @@
     }
 
     function computeUI(result, city, interval) {
+        console.log('sdasd', new Date());
         sl("main .weather .map-overlay").classList.remove("interval");
         sl("main .weather .bottom-overlay .image-copyright").style.display = "none";
         const isPersianCharacter = checkPersianCharacters(city);
@@ -353,6 +354,7 @@
         sl(".portal-settings").style.opacity = 1;
         sl("main").style.filter = 'blur(20px)';
         sl("#fullScreenImage").checked = localStorage.getItem('fsi') === 'true';
+        sl("#mapOpacity").value = localStorage.getItem('opacity') * 1;
     }
 
     function onSettingResetButtonClick() {
