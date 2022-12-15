@@ -98,6 +98,13 @@
             link: "https://unsplash.com/@m_mohammadpour"
         }]
     }, {
+        name: "sari",
+        id: 116996,
+        images: [{
+            photographer: "",
+            link: ""
+        }]
+    }, {
         name: "Karaj",
         id: 128747,
         images: [{
@@ -279,7 +286,6 @@
     }
 
     function computeUI(result, city, interval) {
-        console.log('sdasd', new Date());
         sl("main .weather .map-overlay").classList.remove("interval");
         sl("main .weather .bottom-overlay .image-copyright").style.display = "none";
         const isPersianCharacter = checkPersianCharacters(city);
