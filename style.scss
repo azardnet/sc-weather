@@ -229,6 +229,35 @@
         position: relative;
     }
 
+    main .weather .map-overlay .content-wrapper .weather-data .info {
+        background-image: url('./static/icons/import-info.svg');
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        top: -25px;
+        background-size: cover;
+        cursor: pointer;
+    }
+
+
+    main .weather .map-overlay .content-wrapper .weather-data .info:hover .last-update {
+        visibility: visible;
+        opacity: 1;
+    }
+    main .weather .map-overlay .content-wrapper .weather-data .info .last-update {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.2);
+        font-size: 12px;
+        white-space: pre;
+        top: -8px;
+        left: 34px;
+        padding: 2px 10px;
+        transition-property: visibility, opacity;
+        transition-duration: 200ms;
+        visibility: hidden;
+        opacity: 0;
+    }
+
     main .weather .map-overlay .content-wrapper .weather-data .unit {
         font-size: 55%;
         position: relative;
