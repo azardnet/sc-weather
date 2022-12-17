@@ -130,6 +130,17 @@ export function getStorage(key) {
     return JSON.parse(localStorage.setItem(key));
 }
 
-
-
+export function timeSince(date, lang) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    let interval = seconds / 31536000;
+    interval = seconds / 3600;
+    if (interval > 1) {
+      return Math.floor(interval) + `${lang === 'en' ? " hours ago" : " ساعت پیش"}`;
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+      return Math.floor(interval) + `${lang === 'en' ? " minutes ago" : " دقیقه پیش"}`;
+    }
+    return Math.floor(seconds) + `${lang === 'en' ? " seconds ago" : " ثانیه پیش"}`;
+}
 export { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap }
