@@ -244,6 +244,17 @@
         visibility: visible;
         opacity: 1;
     }
+
+    .rtl main .weather .map-overlay .content-wrapper .weather-data .info .last-update {
+        left: auto;
+        right: 40px;
+    }
+
+    .rtl main .weather .map-overlay .content-wrapper .weather-data .info {
+        top: -22px;
+        left: -30px;
+    }
+
     main .weather .map-overlay .content-wrapper .weather-data .info .last-update {
         position: absolute;
         background-color: rgba(0, 0, 0, 0.2);
