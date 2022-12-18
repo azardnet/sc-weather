@@ -3,11 +3,11 @@ const downloadSize = 219894.53125; // bytes
 const NUMBER_ANIMATION_SPEED = 8;
 let lastNumber;
 
-function sl(selector) {
+export function sl(selector) {
     return document.querySelector(selector);
 }
 
-function NumbersToPersian(text) {
+export function NumbersToPersian(text) {
     const farsiDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
     if (text === 0) {
         return "۰"
@@ -17,7 +17,7 @@ function NumbersToPersian(text) {
     }
 };
 
-function debounce(func, wait, immediate) {
+export function debounce(func, wait, immediate) {
     let timeout;
         return function() {
             const context = this, args = arguments;
@@ -30,20 +30,20 @@ function debounce(func, wait, immediate) {
         };
 };
 
-function checkPersianCharacters(string) {
+export function checkPersianCharacters(string) {
     const PersianCharactersRange = /^[\u0600-\u06FF\s]+$/;
     if (PersianCharactersRange.test(string)) return true;
     return false;
 };
 
-function createJsFile(url) {
+export function createJsFile(url) {
     const script = document.createElement("script");
     script.src = url;
     script.type = "text/javascript";
     document.body.appendChild(script);
 }
 
-function checkExistJsFile(filename) {
+export function checkExistJsFile(filename) {
     let result = false;
     const allScriptFile = document.querySelectorAll('script');
     for (let i = 0; i < allScriptFile.length; i++) {
@@ -52,7 +52,7 @@ function checkExistJsFile(filename) {
     return result;
 }
 
-function deleteMap() {
+export function deleteMap() {
     sl("main .weather #map").innerHTML = "";
 }
 
@@ -64,7 +64,7 @@ export function startNumberAnimation(selector, start, end, unit) {
     increaseNumber(start, end, sl(selector), unit);
 }
   
-function increaseNumber(start, end, el, unit) {
+export function increaseNumber(start, end, el, unit) {
     if (start <= end) {
       el.innerHTML = `${start.toFixed(2)} ${unit}`;
       setTimeout(() => {
@@ -129,18 +129,3 @@ export function setStorage(key, data) {
 export function getStorage(key) {
     return JSON.parse(localStorage.setItem(key));
 }
-
-export function timeSince(date, lang) {
-    const seconds = Math.floor((new Date() - date) / 1000);
-    let interval = seconds / 31536000;
-    interval = seconds / 3600;
-    if (interval > 1) {
-      return Math.floor(interval) + `${lang === 'en' ? " hours ago" : " ساعت پیش"}`;
-    }
-    interval = seconds / 60;
-    if (interval > 1) {
-      return Math.floor(interval) + `${lang === 'en' ? " minutes ago" : " دقیقه پیش"}`;
-    }
-    return Math.floor(seconds) + `${lang === 'en' ? " seconds ago" : " ثانیه پیش"}`;
-}
-export { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap }
