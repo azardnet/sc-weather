@@ -1,5 +1,5 @@
     import "./style.scss";
-    import { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap, randomIntFromInterval, InitiateSpeedDetection, MeasureConnectionSpeed } from "./utils"
+    import { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap, randomIntFromInterval, InitiateSpeedDetection, MeasureConnectionSpeed, timeAgo } from "./utils"
     const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
     const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`;
     const OPEN_WEATHER_KEY = process.env.OPENWEATHER;
@@ -12,6 +12,7 @@
     const SPEED_DETECTION_DELAY = 15000 // 15s;
     const TO_FIXED = 2;
     let cacheData = {lat: 53.4106, lon: -2.9779};
+    let lastUpdate = new Date();
     const CITY_HAVE_IMAGE = [{
         name: "liverpool",
         id: 2644210,
@@ -188,6 +189,10 @@
         localStorage.setItem("fsi", event.target.checked);
     };
 
+    const handleMouseMoveOnInfo = (e) => {
+        sl('main .weather .map-overlay .content-wrapper .weather-data .info .last-update').innerHTML = timeAgo(lastUpdate);
+    }
+
     function onInputKeydown(event) {
         if (event.code !== "Backspace" && event.key !== "Control" && event.key !== "Alt" && event.key !== "Shift" &&
         event.key !== "CapsLock" && event.key !== "Tab" && event.code !== "Space" && event.key !== "Enter") {
@@ -288,6 +293,7 @@
     function computeUI(result, city, interval) {
         sl("main .weather .map-overlay").classList.remove("interval");
         sl("main .weather .bottom-overlay .image-copyright").style.display = "none";
+        lastUpdate = new Date();
         const isPersianCharacter = checkPersianCharacters(city);
         if (!interval) {
             if (result && city && !result.message) {
@@ -459,6 +465,7 @@
     sl("main header button.setting-button").addEventListener("click", onSettingButtonClick);
     sl(".portal-settings button").addEventListener("click", onSettingResetButtonClick);
     sl("#fullScreenImage").addEventListener("input", handlefullScreenImageChange, false);
+    sl("main .weather .map-overlay .content-wrapper .weather-data .info").addEventListener("mousemove", handleMouseMoveOnInfo, false);
     document.addEventListener("fullscreenchange", onFullScreenChange);
     window.addEventListener("DOMContentLoaded", onContentLoaded);
     setInterval(currentTime, 1000);
