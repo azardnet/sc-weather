@@ -755,18 +755,20 @@
             display: flex;
             align-items: center;
             &:not(:last-of-type) {
-                margin-bottom: 20px;
+                margin-bottom: 16px;
             }
         }
-        button {
-            width: 100%;
-            margin: 10px 0;
-            appearance: none;
-            cursor: pointer;
-            padding: 5px;
-            background-color: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.75);
-            color: #fff;
+        .action-wrapper {
+            justify-content: space-between;
+            button {
+                width: calc(50% - 10px);
+                appearance: none;
+                cursor: pointer;
+                padding: 5px;
+                background-color: transparent;
+                border: 2px solid rgba(255, 255, 255, 0.75);
+                color: #fff;
+            }
         }
     }
     

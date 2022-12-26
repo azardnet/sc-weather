@@ -377,7 +377,15 @@
         sl(".portal-settings").style.opacity = 0;
         localStorage.setItem("color", "#072322");
         localStorage.setItem("opacity", "90");
+        localStorage.setItem('fsi', 'false');
+        sl("#fullScreenImage").checked = false;
         sl("#mapOpacity").value = 90;
+    }
+
+    function onSettingSubmitButtonClick() {
+        sl("main").style.filter = 'blur(0px)';
+        sl(".portal-settings").style.visibility = "hidden";
+        sl(".portal-settings").style.opacity = 0;
     }
 
     function onWindowClick(e) {
@@ -463,7 +471,8 @@
     sl(".portal-model .close").addEventListener("click", onPortalModalClose)    
     sl("main header button.full-screen").addEventListener("click", onFullScreenClick);
     sl("main header button.setting-button").addEventListener("click", onSettingButtonClick);
-    sl(".portal-settings button").addEventListener("click", onSettingResetButtonClick);
+    sl(".portal-settings .reset").addEventListener("click", onSettingResetButtonClick);
+    sl(".portal-settings .submit").addEventListener("click", onSettingSubmitButtonClick);
     sl("#fullScreenImage").addEventListener("input", handlefullScreenImageChange, false);
     sl("main .weather .map-overlay .content-wrapper .weather-data .info").addEventListener("mousemove", handleMouseMoveOnInfo, false);
     document.addEventListener("fullscreenchange", onFullScreenChange);
