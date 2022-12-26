@@ -190,7 +190,7 @@
     };
 
     const handleMouseMoveOnInfo = (e) => {
-        sl('main .weather .map-overlay .content-wrapper .weather-data .info .last-update').innerHTML = timeAgo(lastUpdate);
+        sl('main .weather .map-overlay .content-wrapper .weather-data .info .last-update').innerHTML = timeAgo(lastUpdate, checkPersianCharacters(localStorage.getItem('last_search')) ? 'fa' : 'en');
     }
 
     function onInputKeydown(event) {
