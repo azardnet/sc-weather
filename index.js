@@ -141,14 +141,16 @@
             CityNotFound: "شهر مورد نظر یافت نشد.",
             TypeCity: "اسم شهر را وارد کنید و Enter بزنید",
             ErrorDownloading: "خطا در دریافت اطلاعات.",
-            ErrorLoadMap: "نقشه در حال حاضر در دسترس نیست."
+            ErrorLoadMap: "نقشه در حال حاضر در دسترس نیست.",
+            lastUpdate: "آخرین بروزرسانی: "
         },
         en: {
             FeelsLike: "Feels Like : ",
             CityNotFound: "City not found.",
             TypeCity: "type City and hit Enter",
             ErrorDownloading: "Error downloading.",
-            ErrorLoadMap: "Map is not accessible right now."
+            ErrorLoadMap: "Map is not accessible right now.",
+            lastUpdate: "last update:"
         }
     }
 
@@ -190,7 +192,9 @@
     };
 
     const handleMouseMoveOnInfo = (e) => {
-        sl('main .weather .map-overlay .content-wrapper .weather-data .info .last-update').innerHTML = timeAgo(lastUpdate, checkPersianCharacters(localStorage.getItem('last_search')) ? 'fa' : 'en');
+        const isPersianCharacter = checkPersianCharacters(localStorage.getItem('last_search'));
+        sl('main .weather .map-overlay .content-wrapper .weather-data .info .last-update')
+        .innerHTML = `${translate[`${isPersianCharacter ? 'fa' : 'en'}`].lastUpdate} ${timeAgo(lastUpdate, isPersianCharacter ? 'fa' : 'en')}`;
     }
 
     function onInputKeydown(event) {
