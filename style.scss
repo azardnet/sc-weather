@@ -205,15 +205,17 @@
     main .weather .map-overlay .content-wrapper h1 {
         position: relative;
         margin: 0;
-    }
-    main .weather .map-overlay .content-wrapper h1 b {
-       font-family: Ephesis, Vazir;
-       font-size: 3.5em;
-       letter-spacing: 10px;
-       color: #ffffff;
-       opacity: 0.80;
-       text-transform: capitalize;
-       text-shadow: 3px 5px 0px rgba(255, 255, 255, 0.1);
+        b {
+            font-family: Ephesis, Vazir;
+            font-size: 3.5em;
+            letter-spacing: 10px;
+            color: #ffffff;
+            opacity: 0.80;
+            text-transform: capitalize;
+            display: flex;
+            white-space: pre;
+            text-shadow: 3px 5px 0px rgba(255, 255, 255, 0.1);
+        }
     }
     main .weather .map-overlay .content-wrapper .weather-data {
         font-family: Vazir;
@@ -795,8 +797,5 @@
         main header, main .weather {
             width: calc(95vw - 1em) !important;
             font-size: 10px;
-        }
-        main .weather .map-overlay .content-wrapper h1 {
-            width: 85%;
         }
     }
