@@ -50,6 +50,8 @@ module.exports = {
   new WorkboxPlugin.GenerateSW({
     clientsClaim: true,
     skipWaiting: true,
+    exclude: [/\.map$/, /\.DS_Store$/, /\.html$/],
+    navigateFallback: 'https://azardnet.github.io/sc-weather/index.html',
   }),
   ],
   optimization: {
