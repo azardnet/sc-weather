@@ -1,7 +1,7 @@
 {
     "name": "sc-weather",
     "short_name": "sc-weather",
-    "start_url": "https://azardnet.github.io/sc-weather",
+    "start_url": "/",
     "theme_color": "#072322",
     "background_color": "#072322",
     "display": "standalone",
