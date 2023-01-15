@@ -444,7 +444,7 @@
         }, 400);
         searchWeather(localStorage.getItem("last_search") ||  "Liverpool", false);
         if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('service-worker.js', { scope: '/' }).then(registration => {
+                navigator.serviceWorker.register('service-worker.js', { scope: '/sc-weather/' }).then(registration => {
                     console.log('SW registered: ', registration);
                 }).catch(registrationError => {
                     console.log('SW registration failed: ', registrationError);
