@@ -322,11 +322,6 @@
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .text").innerHTML = translate[isPersianCharacter ? "fa" : "en"].FeelsLike;
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.feels_like.toFixed(TO_FIXED)) : result.main.feels_like.toFixed(TO_FIXED);
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .unit").innerHTML = UNIT;
-<<<<<<< HEAD
-            // sl("main .weather .map-overlay .content-wrapper .weather-data .humidity").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.humidity) : result.main.humidity;
-            // sl("main .weather .map-overlay .content-wrapper .weather-data .pressure").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.pressure) : result.main.pressure;
-=======
->>>>>>> 922634f0c89394be24b4daee65f647d6fac5a684
             sl(".map-overlay .content-wrapper .weather-data .current-weather-icon span").innerHTML = result.weather[0].description;    
             sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_max.toFixed(TO_FIXED)) : result.main.temp_max.toFixed(TO_FIXED);
             sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .unit").innerHTML = UNIT;
@@ -395,11 +390,7 @@
             sl("main .weather").style.marginTop = "10px";
             sl("main .weather").style.width = "80vw";
             sl("main .weather").style.height = "calc(80vh + 40px)";
-<<<<<<< HEAD
-            if (!(CITY_HAVE_IMAGE.find((item) => item.name === localStorage.getItem("last_search").toLocaleLowerCase()))) {
-=======
             if (!(CITY_HAVE_IMAGE.find((item) => item.id === localStorage.getItem("last_search_id") * 1))) {
->>>>>>> 922634f0c89394be24b4daee65f647d6fac5a684
                 createMap();
             }
         }
