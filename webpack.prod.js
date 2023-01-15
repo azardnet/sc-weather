@@ -9,6 +9,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BrotliPlugin = require('brotli-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 const glob = require("glob");
 
 
@@ -45,7 +46,11 @@ module.exports = {
       patterns: [
           { from: 'static/meta', to: 'pub' }
       ]
-  })
+  }),
+  new WorkboxPlugin.GenerateSW({
+    clientsClaim: true,
+    skipWaiting: true,
+  }),
   ],
   optimization: {
     minimize: true,
