@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://top.4896.top" crossorigin="">
-    <link rel="apple-touch-icon" sizes="180x180" href="./static/apple-touch-icon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="icon" type="image/png" sizes="32x32" href="./static/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./static/favicon-16x16.png">
+    <link rel="shortcut icon" href="./static/favicon.ico">
     <link rel="manifest" href="./static/site.webmanifest">
-    <link rel="mask-icon" href="./static/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="mask-icon" href="./static/import-safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="apple-touch-icon" href="./static/apple-touch-icon.png">
     <meta name="msapplication-TileColor" content="#072322">
     <meta name="theme-color" content="#072322">
     <title>SC-Weather</title>
@@ -26,7 +24,7 @@
         width: 100%;
         height: 100%;
         z-index: 1;
-        background-color: rgba(0, 0, 0, 0.9);
+        background-color: rgba(0, 0, 0, 1);
         display: flex;
         transition-duration: 250ms;
         justify-content: center;
@@ -102,23 +100,24 @@
                 <input type="text" placeholder="type City and hit Enter" />
             </form>
             <div class="button-wrapper">
-                <!-- <button class="setting-button">
+                <button class="setting-button">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;" viewBox="0 0 333 333" x="0px" y="0px" fill-rule="evenodd" clip-rule="evenodd">
                         <g>
                             <path class="fil0" fill-rule="nonzero" d="M88 201c38,-37 23,-38 70,9 7,7 -11,20 -26,35 17,43 -16,78 -60,62 -14,-5 9,-22 18,-32l-6 -27 -26 -5c-9,10 -27,33 -32,18 -15,-47 22,-76 62,-60zm0 -69c-42,17 -77,-17 -61,-60 5,-14 22,9 31,18l27 -7 5 -25c-9,-10 -32,-27 -18,-32 47,-15 76,22 60,62l113 113c43,-16 78,17 62,60 -5,14 -22,-8 -32,-18l-25 5 -7 27c10,10 32,27 18,32 -43,16 -77,-19 -60,-62l-113 -113zm-25 -9c19,2 25,-10 32,-4 168,168 111,101 115,152 2,19 18,28 36,26 -22,-22 -20,-11 -8,-56 2,-7 21,-8 37,-12 7,-1 13,8 22,17 4,-32 -25,-44 -50,-31 -3,1 -6,1 -8,-1 -168,-168 -111,-100 -116,-151 -2,-20 -17,-29 -36,-27 25,25 18,11 10,54 -2,8 -22,9 -39,14 -6,2 -13,-8 -22,-17 -2,19 8,34 27,36zm151 -28l-24 24 24 24c47,-46 17,-17 57,-20 19,-2 28,-17 26,-36 -23,23 -10,20 -56,8 -7,-1 -14,-40 -10,-44l15 -15c-30,-4 -44,23 -31,51 1,3 1,6 -1,8zm-38 19l25 -26c-15,-40 13,-77 60,-62 15,5 -8,22 -18,32l6 25 26 7c10,-9 27,-32 32,-18 16,43 -19,77 -62,60 -38,37 -23,38 -69,-8 -3,-3 -3,-7 0,-10zm-57 76c-46,46 -17,17 -56,20 -19,2 -29,18 -27,36 25,-24 11,-18 54,-10 8,2 9,22 14,39 2,6 -8,13 -17,22 33,4 44,-27 31,-50 -4,-8 12,-19 26,-33l-25 -24z"/>
                         </g>
                     </svg>
-                </button> -->
+                </button>
                 <button class="full-screen">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" x="0px" y="0px"><g data-name="Group"><polygon data-name="Path" points="18.8 16 34.5 16 34.5 12 12 12 12 34.5 16 34.5 16 18.8 41.6 44.4 44.4 41.6 18.8 16"/><polygon data-name="Path" points="88 12 65.5 12 65.5 16 81.2 16 55.6 41.6 58.4 44.4 84 18.8 84 34.5 88 34.5 88 12"/><polygon data-name="Path" points="88 65.5 84 65.5 84 81.2 58.4 55.6 55.6 58.4 81.2 84 65.5 84 65.5 88 88 88 88 65.5"/><polygon data-name="Path" points="41.6 55.6 16 81.2 16 65.5 12 65.5 12 88 34.5 88 34.5 84 18.8 84 44.4 58.4 41.6 55.6"/></g></svg>
                 </button>
             </div>
-            <form style="display: none;" class="color">
-                <input type="color" id="favcolor" >
-                <input id="mapOpacity" type="range" min="0" max="100">
-            </form>
         </header>
         <section class="weather">
+            <div id="video">
+                <!-- <video width="2000" height="2000" autoplay muted>
+                    <source src="./static/videos/liverpool.mp4" type="video/mp4">
+                  </video> -->
+            </div>
             <div id="map"></div>
             <div class="bottom-overlay">
                 <span class="internet-speed error"></span>
@@ -131,23 +130,12 @@
                     <h1><span></span><b></b></h1>
                     <div class="weather-data">
                             <div class="temp-feels-wrapper">
-                                <span class="temperature"><span class="value"></span><span class="unit"></span></span>
+                                <span class="temperature"><span class="value"></span><span class="unit"></span><span class="info">
+                                    <span class="last-update"></span>
+                                </span></span>
                                     <span class="feels_like"><span class="text"></span><span class="value-wrapper"><span class="value"></span><span class="unit"></span><span></span>
                             </div>
                             <div class="current-weather-icon">
-                                        <!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" xml:space="preserve"><g>
-                                            <path d="M81.6,30.3c0.2-1,0.3-2,0.3-3c0-8-6.5-14.5-14.5-14.5c-1,0-1.9,0.1-2.8,0.3   c-2.4-4.7-7.3-7.9-12.9-7.9c-5.6,0-10.5,3.2-12.9,7.9c-0.8-0.1-1.6-0.2-2.5-0.2c-8,0-14.5,6.5-14.5,14.5c0,1,0.1,1.9,0.3,2.9   c-0.4,0-0.8-0.1-1.2-0.1c-8,0-14.5,6.5-14.5,14.5c0,8,6.5,14.5,14.5,14.5c1.5,0,2.9-0.2,4.3-0.6c2.6,3.9,7,6.4,12,6.4   c4.3,0,8.1-1.9,10.7-4.8c2.6,2.9,6.5,4.8,10.7,4.8c5.6,0,10.4-3.2,12.8-7.8c2.2,1.3,4.7,2,7.3,2c8,0,14.5-6.5,14.5-14.5   C93.4,37.5,88.3,31.6,81.6,30.3z"/>
-                                            <circle cx="44.7" cy="64" r="2.5"/>
-                                            <circle cx="51.1" cy="64" r="2.5"/>
-                                            <circle cx="63.5" cy="64" r="2.5"/>
-                                            <circle cx="20" cy="64" r="2.5"/>
-                                            <circle cx="32.7" cy="64" r="2.5"/>
-                                            <circle cx="76.9" cy="64" r="2.5"/>
-                                            <circle cx="39.1" cy="64" r="2.5"/>
-                                            <circle cx="61.5" cy="64" r="2.5"/>
-                                            <circle cx="75.2" cy="60" r="2.5"/>
-                                        </g>
-                                        </svg> -->
                                     <span></span>
                             </div>
                             <div class="weather-details-wrapper">
@@ -159,12 +147,18 @@
                                         <div><span class="value"></span><span class="unit"></span></div>
                                     </span>
                                 </div>
+                                <span class="humidity">
+                                    <div><span class="value"></span><span class="unit">%</span></div>
+                                </span>
                             </div>
+<<<<<<< HEAD
                             <!-- <div class="humidityclass">
                                   <span class="humidity"></span>
                             </div> -->
                       
                         <!-- <span class="pressure"></span> -->
+=======
+>>>>>>> 922634f0c89394be24b4daee65f647d6fac5a684
                     </div>
                     <div class="digital-clock">
                         <div class="wrapper">
@@ -175,17 +169,6 @@
                                 </div>
                                 <span class="minutes" id="med"></span>
                             </div>
-                            <!-- <div class="day-wrapper">
-                              <span>SUN</span>
-                              <span>MON</span>
-                              <span>TUE</span>
-                              <span>WED</span>
-                              <span>THU</span>
-                              <span>FRI</span>
-                              <span>SAT</span>
-                            </div>
-                            <span id="full__date">
-                            </span> -->
                           </div>
                     </div>
                 </div>
@@ -205,6 +188,24 @@
     <div class="portal-model">
         <span class="close"></span>
         <span class="text"></span>
+    </div>
+    <div class="portal-settings">
+        <div>
+            <h6>Color:</h6>
+            <input type="color" id="favcolor" >
+        </div>
+        <div>
+            <h6>Main opacity:</h6>
+            <input id="mapOpacity" type="range" min="0" max="100">
+        </div>
+        <div>
+            <h6>Full screen image:</h6>
+            <input id="fullScreenImage" type="checkbox">
+        </div>
+        <div class="action-wrapper">
+            <button class="reset">Reset</button>
+            <button class="submit">Submit</button>
+        </div>
     </div>
 </body>
 </html>

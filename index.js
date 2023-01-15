@@ -3,6 +3,7 @@
     import { translate } from "./translate"
     const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
     const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`;
+    const OPEN_WEATHER_KEY = process.env.OPENWEATHER;
     const UNIT = "°C";
     const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
     const LOADING_DELAY = 200; // ms
@@ -12,8 +13,10 @@
     const SPEED_DETECTION_DELAY = 15000 // 15s;
     const TO_FIXED = 2;
     let cacheData = {lat: 53.4106, lon: -2.9779};
+    let lastUpdate = new Date();
     const CITY_HAVE_IMAGE = [{
         name: "liverpool",
+        id: 2644210,
         images: [{
             photographer: "Neil Martin",
             link: "https://unsplash.com/@anagoge"
@@ -26,12 +29,14 @@
         }],
     }, {
         name: "ahvāz",
+        id: 144448,
         images: [{
             photographer: "Ashkan Forouzani",
             link: "https://unsplash.com/@ashkfor121"
         }],
     },{
         name: "tehran",
+        id: 112931,
         images: [{
             photographer: "Amirreza Kimiyaei",
             link: "https://unsplash.com/@amirrezakm"
@@ -39,7 +44,119 @@
             photographer: "Amirreza Kimiyaei",
             link: "https://unsplash.com/@amirrezakm",
         }],
+    },{
+        name: "āmol",
+        id: 143534,
+        images: [{
+            photographer: "dash masoud",
+            link: "https://unsplash.com/@dashmasoud"
+        }],
+    },{
+        name: "bābolsar",
+        id: 142358,
+        images: [{
+            photographer: "Mehdi MeSSrro",
+            link: "https://unsplash.com/@messrro"
+        }],
+    },{
+        name: "rasht",
+        id: 118743,
+        images: [{
+            photographer: "Mostafa Yekrangi",
+            link: "https://unsplash.com/@mostafa"
+        }, {
+            photographer: "Ali Kokab",
+            link: "https://unsplash.com/@_alikokab_"
+        }],
+    }, {
+        name: "isfahan",
+        id: 418863,
+        images: [{
+            photographer: "Yasin Abbasi",
+            link: "https://unsplash.com/@yasinabbasi"
+        }, {
+            photographer: "mostafa meraji",
+            link: "https://unsplash.com/@mostafa_meraji"
+        }],
+    }, {
+        name: "yazd",
+        id: 111822,
+        images: [{
+            photographer: "Hasan Almasi",
+            link: "https://unsplash.com/@hasanalmasi"
+        }],
+    }, {
+        name: "amsterdam",
+        id: 2759794,
+        images: [{
+            photographer: "Azhar J",
+            link: "https://unsplash.com/@azhrjl"
+        }]
+    }, {
+        name: "tabriz",
+        id: 113646,
+        images: [{
+            photographer: "Mohammad Mohammadpour",
+            link: "https://unsplash.com/@m_mohammadpour"
+        }]
+    }, {
+        name: "sari",
+        id: 116996,
+        images: [{
+            photographer: "",
+            link: ""
+        }]
+    }, {
+        name: "Karaj",
+        id: 128747,
+        images: [{
+            photographer: "MHossein Hosseini",
+            link: "https://unsplash.com/@hosseiin"
+        }]
+    }, {
+        name: "Torin",
+        id: 3165524,
+        images: [{
+            photographer: "cristiano caligaris",
+            link: "https://unsplash.com/@cristianocaligaris"
+        }]
+    }, {
+        name: "London",
+        id: 2643743,
+        images: [{
+            photographer: "Benjamin Davies",
+            link: "https://unsplash.com/@bendavisual"
+        }]
     }];
+    const CITY_HAVE_VIDEO = [{
+        name: "liverpool",
+        id: 2644210,
+        videos: [{
+            channel: "Expedia",
+            link: "https://www.youtube.com/watch?v=ojrHLXj8GJA"
+        }],
+    }];
+<<<<<<< HEAD
+=======
+    const translate = {
+        fa: {
+            FeelsLike: "دمایی که احساس می‌شود : ",
+            CityNotFound: "شهر مورد نظر یافت نشد.",
+            TypeCity: "اسم شهر را وارد کنید و Enter بزنید",
+            ErrorDownloading: "خطا در دریافت اطلاعات.",
+            ErrorLoadMap: "نقشه در حال حاضر در دسترس نیست.",
+            lastUpdate: "آخرین بروزرسانی: "
+        },
+        en: {
+            FeelsLike: "Feels Like : ",
+            CityNotFound: "City not found.",
+            TypeCity: "type City and hit Enter",
+            ErrorDownloading: "Error downloading.",
+            ErrorLoadMap: "Map is not accessible right now.",
+            lastUpdate: "last update:"
+        }
+    }
+>>>>>>> 922634f0c89394be24b4daee65f647d6fac5a684
 
     function activePortalModal(text) {
         document.body.classList.remove("loading");
@@ -58,19 +175,31 @@
         document.body.style.backgroundColor = color;
         sl(".map-overlay .bottom").style.backgroundColor = color;
         sl(".map-overlay .cover").style.backgroundColor = color;
+        sl("#favcolor").value = color;
     }
 
     function changeMapOpacity(value) {
         sl(".map-overlay .cover").style.opacity = value/100;
     }
     const handleChangeColor = debounce(function() {
-        changeColor(colorEL.value);
-        localStorage.setItem("color", colorEL.value);
+        changeColor(sl("#favcolor").value);
+        localStorage.setItem("color", sl("#favcolor").value);
     }, 20);
 
     const handleMapOpacityChange = debounce(function() {
-        changeMapOpacity(mapOpacityRangeEl.value)
+        changeMapOpacity(mapOpacityRangeEl.value);
+        localStorage.setItem("opacity", mapOpacityRangeEl.value);
     }, 20);
+
+    const handlefullScreenImageChange = function(event) {
+        localStorage.setItem("fsi", event.target.checked);
+    };
+
+    const handleMouseMoveOnInfo = (e) => {
+        const isPersianCharacter = checkPersianCharacters(localStorage.getItem('last_search'));
+        sl('main .weather .map-overlay .content-wrapper .weather-data .info .last-update')
+        .innerHTML = `${translate[`${isPersianCharacter ? 'fa' : 'en'}`].lastUpdate} ${timeAgo(lastUpdate, isPersianCharacter ? 'fa' : 'en')}`;
+    }
 
     function onInputKeydown(event) {
         if (event.code !== "Backspace" && event.key !== "Control" && event.key !== "Alt" && event.key !== "Shift" &&
@@ -107,8 +236,9 @@
         const isPersianCharacter = checkPersianCharacters(city);
         if (!interval) {
             const color = localStorage.getItem("color") || "#072322";
-            sl("main form.color input").value = color;
+            const opacity = localStorage.getItem("opacity") || "90";
             changeColor(color);
+            changeMapOpacity(opacity);
             if (isPersianCharacter) {
                 document.body.classList.add("rtl");
                 inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید."
@@ -117,7 +247,7 @@
                 inputEl.placeholder = "type City and hit Enter";
             }
         }
-        fetch(`https://top.4896.top/api/ip?lang=${isPersianCharacter ? "fa" : "en"}&city=${city}&uid=aw4896df`).then(result => {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?lang=${isPersianCharacter ? "fa" : "en"}&q=${city}&APPID=${OPEN_WEATHER_KEY}&units=metric`).then(result => {
             return result.json();
         }).then(result => {
             computeUI(result, city, interval);
@@ -155,7 +285,7 @@
                 ymaps.ready(function () {
                     new ymaps.Map("map", {
                             center: (lat && lon) ? [lat, lon] : [cacheData.lat, cacheData.lon],
-                            zoom: 10.5,
+                            zoom: 13,
                             controls: []
                     });
                         loaded();
@@ -171,20 +301,21 @@
     function computeUI(result, city, interval) {
         sl("main .weather .map-overlay").classList.remove("interval");
         sl("main .weather .bottom-overlay .image-copyright").style.display = "none";
+        lastUpdate = new Date();
         const isPersianCharacter = checkPersianCharacters(city);
         if (!interval) {
             if (result && city && !result.message) {
                 sl("main .weather .map-overlay .content-wrapper h1 b").innerHTML = isPersianCharacter ? city : result.name;
                 if (result.coord && result.coord.lat) {
-                    if (!(CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase()))) {
+                    if (!(CITY_HAVE_IMAGE.find((item) => item.id === result.id))) {
                         cacheData.lat = result.coord.lat;
                         cacheData.lon = result.coord.lon;
                         createMap(result.coord.lat, result.coord.lon);
                     } else {
                         deleteMap();
-                        const cityData = CITY_HAVE_IMAGE.find((item) => item.name === result.name.toLocaleLowerCase());
+                        const cityData = CITY_HAVE_IMAGE.find((item) => item.id === result.id);
                         const randomNumber = randomIntFromInterval(0,cityData.images.length-1);
-                        const image = require(`./static/image/${result.name.toLocaleLowerCase()}-${randomNumber+1}.jpg`);
+                        const image = require(`./static/image/${result.id}-${randomNumber+1}.jpg`);
                         sl("main .weather").style.backgroundImage = `url(${image})`;
                         sl("main .weather .image-copyright").style.display = "block";
                         sl("main .weather .image-copyright").innerHTML = cityData.images[randomNumber].photographer;
@@ -197,11 +328,12 @@
                     sl("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url("${flagImage}")`;
                 }
                 localStorage.setItem("last_search", isPersianCharacter ? city : result.name);
+                localStorage.setItem("last_search_id", result.id);
             } else if (result && result.message && city) {
                 loaded();
                 activePortalModal(checkPersianCharacters(city) ? translate.fa.CityNotFound : translate.en.CityNotFound);
                 setTimeout(() => {
-                    searchWeather("Liverpool", false);
+                    searchWeather(getStorage("last_search"), false);
                 }, 2500);
             }
         }
@@ -211,13 +343,17 @@
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .text").innerHTML = translate[isPersianCharacter ? "fa" : "en"].FeelsLike;
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.feels_like.toFixed(TO_FIXED)) : result.main.feels_like.toFixed(TO_FIXED);
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .unit").innerHTML = UNIT;
+<<<<<<< HEAD
             // sl("main .weather .map-overlay .content-wrapper .weather-data .humidity").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.humidity) : result.main.humidity;
             // sl("main .weather .map-overlay .content-wrapper .weather-data .pressure").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.pressure) : result.main.pressure;
+=======
+>>>>>>> 922634f0c89394be24b4daee65f647d6fac5a684
             sl(".map-overlay .content-wrapper .weather-data .current-weather-icon span").innerHTML = result.weather[0].description;    
             sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_max.toFixed(TO_FIXED)) : result.main.temp_max.toFixed(TO_FIXED);
             sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .unit").innerHTML = UNIT;
             sl("main .weather .map-overlay .content-wrapper .weather-data .temp_min .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_min.toFixed(TO_FIXED)) : result.main.temp_min.toFixed(TO_FIXED);
             sl("main .weather .map-overlay .content-wrapper .weather-data .temp_min .unit").innerHTML = UNIT;
+            sl("main .weather .map-overlay .content-wrapper .weather-data .humidity .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.humidity) : result.main.humidity;
             setTimeout(() => {
                 sl("main .weather .map-overlay").classList.add("interval");
             }, 250);
@@ -225,22 +361,66 @@
     }
 
     function onFullScreenClick() {
-        document.querySelector("header").style.visibility = "hidden";
-        document.querySelector("header").style.opacity = 0;
-        sl("main .weather").style.marginTop = "-30px";
-        sl("main .weather").style.width = "calc(100vw - 160px)";
-        sl("main .weather").style.height = "calc(100vh - 110px)";
+        sl("header").style.display = 'none';
+        if (localStorage.getItem('fsi') === 'true') {
+            sl(".map-overlay .bottom").style.display = 'none';
+            sl("main .weather").style.marginTop = "0px";
+            sl("main .weather").style.width = "100vw";
+            sl("main .weather").style.height = "100vh";            
+        } else {
+            sl("main .weather").style.width = "calc(100vw - 160px)";
+            sl("main .weather").style.height = "calc(100vh - 110px)";
+        }
         document.documentElement.requestFullscreen();
+    }
+    
+    function onSettingButtonClick() {
+        sl(".portal-settings").style.visibility = "visible";
+        sl(".portal-settings").style.opacity = 1;
+        sl("main").style.filter = 'blur(20px)';
+        sl("#fullScreenImage").checked = localStorage.getItem('fsi') === 'true';
+        sl("#mapOpacity").value = localStorage.getItem('opacity') * 1;
+    }
+
+    function onSettingResetButtonClick() {
+        changeColor("#072322");
+        changeMapOpacity("90");
+        sl("main").style.filter = 'blur(0px)';
+        sl(".portal-settings").style.visibility = "hidden";
+        sl(".portal-settings").style.opacity = 0;
+        localStorage.setItem("color", "#072322");
+        localStorage.setItem("opacity", "90");
+        localStorage.setItem('fsi', 'false');
+        sl("#fullScreenImage").checked = false;
+        sl("#mapOpacity").value = 90;
+    }
+
+    function onSettingSubmitButtonClick() {
+        sl("main").style.filter = 'blur(0px)';
+        sl(".portal-settings").style.visibility = "hidden";
+        sl(".portal-settings").style.opacity = 0;
+    }
+
+    function onWindowClick(e) {
+        if (!sl(".portal-settings").contains(e.target) && !sl(".setting-button").contains(e.target)) {
+            sl("main").style.filter = 'blur(0px)';
+            sl(".portal-settings").style.visibility = "hidden";
+            sl(".portal-settings").style.opacity = 0;
+        }
     }
 
     function onFullScreenChange() {
         if (!document.fullscreenElement) {
-            document.querySelector("header").style.visibility = "visible";
-            document.querySelector("header").style.opacity = 1;
+            sl("header").style.display = 'flex';
+            sl(".map-overlay .bottom").style.display = 'flex';
             sl("main .weather").style.marginTop = "10px";
             sl("main .weather").style.width = "80vw";
             sl("main .weather").style.height = "calc(80vh + 40px)";
+<<<<<<< HEAD
             if (!(CITY_HAVE_IMAGE.find((item) => item.name === localStorage.getItem("last_search").toLocaleLowerCase()))) {
+=======
+            if (!(CITY_HAVE_IMAGE.find((item) => item.id === localStorage.getItem("last_search_id") * 1))) {
+>>>>>>> 922634f0c89394be24b4daee65f647d6fac5a684
                 createMap();
             }
         }
@@ -259,28 +439,10 @@
         const isPersianCharacter = checkPersianCharacters(city);
 
         const date = new Date();
-        const day = date.getDay();
         let hour = date.getHours();
         let min = date.getMinutes();
         let sec = date.getSeconds();
-        let month = date.getMonth();
         let curr_date = date.getDate();
-        const year = date.getFullYear();
-        const month_name = [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December"
-        ];
-        const showDay = document.querySelectorAll(".day__wrapper span");
         let midday = "AM";
         midday = hour >= 12 ? "PM" : "AM";
         hour = hour == 0 ? 12 : hour > 12 ? hour - 12 : hour;
@@ -291,10 +453,6 @@
         sl(".digital-clock .time-wrapper .hour").innerHTML = `${isPersianCharacter ? NumbersToPersian(hour) : hour }:${isPersianCharacter ? NumbersToPersian(min) : min}`;
         sl(".digital-clock .time-wrapper .second").innerHTML = `:${isPersianCharacter ? NumbersToPersian(sec) : sec}`;
         sl(".digital-clock .time-wrapper .minutes").innerHTML = `${midday}`;
-        // document.querySelector(
-        //   "#full__date"
-        // ).innerHTML = `${month_name[month]} ${curr_date} ${year}`;
-        // showDay[day].style.opacity = "1";
       }
       function updateTime(k) {
         if (k < 10) {
@@ -315,19 +473,25 @@
             InitiateSpeedDetection();   
         }, 400);
         searchWeather(localStorage.getItem("last_search") ||  "Liverpool", false);
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("/service-worker.js");
-        };
+        // if ("serviceWorker" in navigator) {
+        //     navigator.serviceWorker.register("/service-worker.js");
+        // };
     }
-        
+
     const inputEl = sl("main header form.search input");
     const colorEL = document.getElementById("favcolor");
     const mapOpacityRangeEl = document.getElementById("mapOpacity");
-    sl(".portal-model .close").addEventListener("click", onPortalModalClose)    
-    sl("main header button.full-screen").addEventListener("click", onFullScreenClick);
+    window.addEventListener("click", onWindowClick);
     inputEl.addEventListener("keydown", onInputKeydown);
     colorEL.addEventListener("input", handleChangeColor, false);
     mapOpacityRangeEl.addEventListener("input", handleMapOpacityChange, false);
+    sl(".portal-model .close").addEventListener("click", onPortalModalClose)    
+    sl("main header button.full-screen").addEventListener("click", onFullScreenClick);
+    sl("main header button.setting-button").addEventListener("click", onSettingButtonClick);
+    sl(".portal-settings .reset").addEventListener("click", onSettingResetButtonClick);
+    sl(".portal-settings .submit").addEventListener("click", onSettingSubmitButtonClick);
+    sl("#fullScreenImage").addEventListener("input", handlefullScreenImageChange, false);
+    sl("main .weather .map-overlay .content-wrapper .weather-data .info").addEventListener("mousemove", handleMouseMoveOnInfo, false);
     document.addEventListener("fullscreenchange", onFullScreenChange);
     window.addEventListener("DOMContentLoaded", onContentLoaded);
     setInterval(currentTime, 1000);

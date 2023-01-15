@@ -1,13 +1,13 @@
-const imageLink = ["https://top.4896.top/l.jpg", "https://top.4896.top/l.jpg"];
+const imageLink = ["https://i.ibb.co/8zV6Wfp/liverpool-1.jpg", "https://iili.io/bIoluS.jpg"];
 const downloadSize = 219894.53125; // bytes
 const NUMBER_ANIMATION_SPEED = 8;
 let lastNumber;
 
-function sl(selector) {
+export function sl(selector) {
     return document.querySelector(selector);
 }
 
-function NumbersToPersian(text) {
+export function NumbersToPersian(text) {
     const farsiDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
     if (text === 0) {
         return "۰"
@@ -17,7 +17,7 @@ function NumbersToPersian(text) {
     }
 };
 
-function debounce(func, wait, immediate) {
+export function debounce(func, wait, immediate) {
     let timeout;
         return function() {
             const context = this, args = arguments;
@@ -30,20 +30,20 @@ function debounce(func, wait, immediate) {
         };
 };
 
-function checkPersianCharacters(string) {
+export function checkPersianCharacters(string) {
     const PersianCharactersRange = /^[\u0600-\u06FF\s]+$/;
     if (PersianCharactersRange.test(string)) return true;
     return false;
 };
 
-function createJsFile(url) {
+export function createJsFile(url) {
     const script = document.createElement("script");
     script.src = url;
     script.type = "text/javascript";
     document.body.appendChild(script);
 }
 
-function checkExistJsFile(filename) {
+export function checkExistJsFile(filename) {
     let result = false;
     const allScriptFile = document.querySelectorAll('script');
     for (let i = 0; i < allScriptFile.length; i++) {
@@ -52,7 +52,7 @@ function checkExistJsFile(filename) {
     return result;
 }
 
-function deleteMap() {
+export function deleteMap() {
     sl("main .weather #map").innerHTML = "";
 }
 
@@ -62,9 +62,9 @@ export function randomIntFromInterval(min, max) {
 
 export function startNumberAnimation(selector, start, end, unit) {
     increaseNumber(start, end, sl(selector), unit);
-  }
+}
   
-  function increaseNumber(start, end, el, unit) {
+export function increaseNumber(start, end, el, unit) {
     if (start <= end) {
       el.innerHTML = `${start.toFixed(2)} ${unit}`;
       setTimeout(() => {
@@ -80,7 +80,7 @@ export function startNumberAnimation(selector, start, end, unit) {
         el.innerHTML = `${end.toFixed(2)} ${unit}`;
         return false;
     }
-  };
+};
 
 export function MeasureConnectionSpeed() {
     let startTime, endTime;
@@ -107,7 +107,7 @@ export function MeasureConnectionSpeed() {
         sl("main .weather .bottom-overlay span").className = "loaded";
         const result = speedKbps/1024 > 1.24 ? speedMbps : speedKbps;
         setTimeout(() => {
-            startNumberAnimation("main .weather .bottom-overlay span", lastNumber, result, (speedKbps/1024 > 1.24) ? "Mb/s" : "Kb/s");
+            sl("main .weather .bottom-overlay span").innerHTML = `${result} ${(speedKbps/1024 > 1.24) ? "Mb/s" : "Kb/s"}`
             setTimeout(() => {
                 sl("main .weather .bottom-overlay span").classList.remove(lastNumber > result*1 ? "top" : "down");
                 sl("main .weather .bottom-overlay span").classList.add(lastNumber > result*1 ? "down" : "top");
@@ -130,6 +130,41 @@ export function getStorage(key) {
     return JSON.parse(localStorage.setItem(key));
 }
 
+const MONTH_NAMES = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+];
 
-
-export { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap }
+function getFormattedDate(date) {
+    const day = date.getDate();
+    const month = MONTH_NAMES[date.getMonth()];
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    let minutes = date.getMinutes();
+  
+    if (minutes < 10) {
+      minutes = `0${ minutes }`;
+    }
+    return `${ day }. ${ month } ${ year }. at ${ hours }:${ minutes }`;
+}
+export function timeAgo(dateParam, lang) {
+    if (!dateParam) {
+      return null;
+    }
+  
+    const date = typeof dateParam === 'object' ? dateParam : new Date(dateParam);
+    const today = new Date();
+    const seconds = Math.round((today - date) / 1000);
+    const minutes = Math.round(seconds / 60);
+  
+    if (seconds < 5) {
+      return `${lang === 'fa' ? 'الان' : 'now'}`;
+    } else if (seconds < 60) {
+      return `${lang === 'fa' ? `${NumbersToPersian(seconds)} ثانیه پیش` : `${seconds} seconds ago`}`;
+    } else if (seconds < 90) {
+      return `${lang === 'fa' ? 'حدودا یک دقیقه پیش' : 'about a minute ago'}`;
+    } else if (minutes < 60) {
+      return `${lang === 'fa' ? `${NumbersToPersian(minutes)} دقیقه پیش` : `${minutes} minutes ago`}`;
+    }
+    return getFormattedDate(date);
+}

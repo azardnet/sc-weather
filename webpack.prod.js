@@ -8,7 +8,9 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BrotliPlugin = require('brotli-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const glob = require("glob");
+
 
 module.exports = {
   entry: {
@@ -39,6 +41,11 @@ module.exports = {
     }),
     new BrotliPlugin(),
     new Dotenv(),
+    new CopyWebpackPlugin({
+      patterns: [
+          { from: 'static/meta', to: 'pub' }
+      ]
+  })
   ],
   optimization: {
     minimize: true,

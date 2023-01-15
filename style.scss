@@ -58,6 +58,7 @@
         background-position: center center;
         background-size: cover;
         background-repeat: no-repeat;
+        overflow: hidden;
         .bottom-overlay {
             width: calc(100% - 2em);
             display: flex;
@@ -137,6 +138,15 @@
      width: 100%;
      height: 100%;
     }
+    main .weather #video {
+        display: none;
+        position: absolute;
+        width: 2000px;
+        height: 2000px;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50% ,-50% ,0);
+    }
     .map-overlay {
         position: absolute;
         width: 100%;
@@ -195,15 +205,17 @@
     main .weather .map-overlay .content-wrapper h1 {
         position: relative;
         margin: 0;
-    }
-    main .weather .map-overlay .content-wrapper h1 b {
-       font-family: Ephesis, Vazir;
-       font-size: 3.5em;
-       letter-spacing: 10px;
-       color: #ffffff;
-       opacity: 0.80;
-       text-transform: capitalize;
-       text-shadow: 3px 5px 0px rgba(255, 255, 255, 0.1);
+        b {
+            font-family: Ephesis, Vazir;
+            font-size: 3.5em;
+            letter-spacing: 10px;
+            color: #ffffff;
+            opacity: 0.80;
+            text-transform: capitalize;
+            display: flex;
+            white-space: pre;
+            text-shadow: 3px 5px 0px rgba(255, 255, 255, 0.1);
+        }
     }
     main .weather .map-overlay .content-wrapper .weather-data {
         font-family: Vazir;
@@ -217,6 +229,47 @@
     }
     main .weather .map-overlay .content-wrapper .weather-data span {
         position: relative;
+    }
+
+    main .weather .map-overlay .content-wrapper .weather-data .info {
+        background-image: url('./static/icons/import-info.svg');
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        top: -25px;
+        background-size: cover;
+        cursor: pointer;
+    }
+
+
+    main .weather .map-overlay .content-wrapper .weather-data .info:hover .last-update {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .rtl main .weather .map-overlay .content-wrapper .weather-data .info .last-update {
+        left: auto;
+        right: 40px;
+        direction: rtl;
+    }
+
+    .rtl main .weather .map-overlay .content-wrapper .weather-data .info {
+        top: -22px;
+        left: -30px;
+    }
+
+    main .weather .map-overlay .content-wrapper .weather-data .info .last-update {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.2);
+        font-size: 12px;
+        white-space: pre;
+        top: -8px;
+        left: 34px;
+        padding: 2px 10px;
+        transition-property: visibility, opacity;
+        transition-duration: 200ms;
+        visibility: hidden;
+        opacity: 0;
     }
 
     main .weather .map-overlay .content-wrapper .weather-data .unit {
@@ -256,6 +309,7 @@
         flex-direction: column;
         min-width: 68px;
         align-items: center;
+        position: relative;
     }
 
     .map-overlay .content-wrapper .weather-data .current-weather-icon {
@@ -269,7 +323,7 @@
     }
 
     .rtl .map-overlay .content-wrapper .weather-data .current-weather-icon {
-        margin-left: 5em;
+        margin-left: 4em;
     }
 
     .map-overlay .content-wrapper .weather-data .current-weather-icon svg {
@@ -383,16 +437,6 @@
     main .weather .map-overlay .content-wrapper .weather-data .feels_like {
         margin-top: 0px;
     }
-    /* main .weather .map-overlay .content-wrapper .weather-data .temperature:after,
-    main .weather .map-overlay .content-wrapper .weather-data .feels_like:after, 
-    main .weather .map-overlay .content-wrapper .weather-data .temp_max:after,
-    main .weather .map-overlay .content-wrapper .weather-data .temp_min:after {
-        content: "°C";
-        font-size: 50%;
-        position: relative;
-        top: -5px;
-        left: 2px
-    } */
     main .weather .map-overlay .content-wrapper .weather-data .temperature:after {
         top: -20px;
         font-size: 40%;
@@ -430,8 +474,36 @@
         }
     }
 
+    main .weather .map-overlay .content-wrapper .weather-data .humidity {
+        height: 20px;
+        position: absolute;
+        bottom: -35px;
+        width: 60%;
+        background-color: rgba(0, 0, 0, 0.25);
+        padding: 3px 0px 3px 15px;
+        text-align: center;
+        line-height: 22px;
+        .unit {
+            top: 0;
+        }
+        &:before {
+            content: "";
+            left: 1px;
+            top: 2px;
+            position: absolute;
+            width: 18px;
+            height: 100%;
+            opacity: 0.75;
+            background-image: url('./static/icons/import-humidity.svg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 125%;
+        }
+    }
+
     .rtl main .weather .map-overlay .content-wrapper .weather-data .temp_min,
-    .rtl main .weather .map-overlay .content-wrapper .weather-data .temp_max {
+    .rtl main .weather .map-overlay .content-wrapper .weather-data .temp_max,
+    .rtl main .weather .map-overlay .content-wrapper .weather-data .humidity {
         direction: ltr;
     }
 
@@ -453,21 +525,6 @@
     .rtl main header {
         direction: rtl;
     }
-    /* main .weather .map-overlay .content-wrapper h1 span {
-        width: 150%;
-        max-width: 350px;
-        height: 340%;
-        max-height: 315px;
-        position: absolute;
-        margin: auto;
-        background-repeat: no-repeat;
-        background-size: 100%;
-        background-position: center;
-        opacity: 0.1;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-    } */
     main .weather .map-overlay .content-wrapper h1 span {
         width: 30px;
         height: 30px;
@@ -580,7 +637,7 @@
 
     .digital-clock {
         display: flex;
-        margin-top: 3em;
+        margin-top: 4em;
         .time-wrapper {
             color: #ffffff;
             font-size: 5em;
@@ -678,37 +735,65 @@
             font-family: Vazir;
         }
     }
-    .rtl .portal-model {
-        direction: rtl;
-    }
-
-    .humidityclass{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 50px;
-        height: 50px;
-        background-color: rgba(228, 192, 192,0.3);
-        border-radius: 30px;
-        
-    }
-    .humidity{
-        color:rgba(245, 235, 235,0.5);
-        // font-size:30px;
-        text-align: center;
-        font-weight: 600;
-        
+    .portal-settings {
+        position: fixed;
+        width: 225px;
+        height: 145px;
+        right: 0;
+        left: 0;
+        margin: auto;
+        bottom: 0;
+        top: 0;
+        background-color: rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        visibility: hidden;
+        opacity: 0;
+        padding: 20px;
+        transition: visibility, opacity 750ms;
+        h6 {
+            font-family:  "Vazir", Sans-Serif ,serif;
+            margin: 0 10px 0px 0px;
+        }
+        div {
+            display: flex;
+            align-items: center;
+            &:not(:last-of-type) {
+                margin-bottom: 16px;
+            }
+        }
+        .action-wrapper {
+            justify-content: space-between;
+            button {
+                width: calc(50% - 10px);
+                appearance: none;
+                cursor: pointer;
+                padding: 5px;
+                background-color: transparent;
+                border: 2px solid rgba(255, 255, 255, 0.75);
+                color: #fff;
+            }
+        }
     }
     
+    .rtl .portal-model {
+        direction: rtl;
+    }    
     
     @media only screen and (max-width: 750px) {
         main header, main .weather {
             width: calc(90vw - 2em) !important;
             font-size: 12px;
         }
+        .digital-clock {
+            margin-top: 5.5em;
+        }
     }
 
     @media only screen and (max-width: 450px) {
+        main header button {
+            width: 38px;
+            height: 38px;
+        }
         main header, main .weather {
             width: calc(95vw - 1em) !important;
             font-size: 10px;
