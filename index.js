@@ -1,5 +1,6 @@
     import "./style.scss";
     import { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap, randomIntFromInterval, InitiateSpeedDetection, MeasureConnectionSpeed, timeAgo } from "./utils"
+    import { translate } from "./translate"
     const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
     const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`;
     const OPEN_WEATHER_KEY = process.env.OPENWEATHER;
@@ -142,24 +143,6 @@
             link: "https://www.youtube.com/watch?v=ojrHLXj8GJA"
         }],
     }];
-    const translate = {
-        fa: {
-            FeelsLike: "دمایی که احساس می‌شود : ",
-            CityNotFound: "شهر مورد نظر یافت نشد.",
-            TypeCity: "اسم شهر را وارد کنید و Enter بزنید",
-            ErrorDownloading: "خطا در دریافت اطلاعات.",
-            ErrorLoadMap: "نقشه در حال حاضر در دسترس نیست.",
-            lastUpdate: "آخرین بروزرسانی: "
-        },
-        en: {
-            FeelsLike: "Feels Like : ",
-            CityNotFound: "City not found.",
-            TypeCity: "type City and hit Enter",
-            ErrorDownloading: "Error downloading.",
-            ErrorLoadMap: "Map is not accessible right now.",
-            lastUpdate: "last update:"
-        }
-    }
 
     function activePortalModal(text) {
         document.body.classList.remove("loading");
@@ -467,9 +450,13 @@
             InitiateSpeedDetection();   
         }, 400);
         searchWeather(localStorage.getItem("last_search") ||  "Liverpool", false);
-        // if ("serviceWorker" in navigator) {
-        //     navigator.serviceWorker.register("/service-worker.js");
-        // };
+        if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('service-worker.js', { scope: '/sc-weather/' }).then(registration => {
+                    console.log('SW registered: ', registration);
+                }).catch(registrationError => {
+                    console.log('SW registration failed: ', registrationError);
+                });
+          }
     }
 
     const inputEl = sl("main header form.search input");
