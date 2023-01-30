@@ -126,6 +126,13 @@
             photographer: "Benjamin Davies",
             link: "https://unsplash.com/@bendavisual"
         }]
+    },{
+        name: "Dubai",
+        id: 292223,
+        images: [{
+            photographer: "ZQ Lee",
+            link: "https://unsplash.com/@zqlee"
+        }]
     }];
     const CITY_HAVE_VIDEO = [{
         name: "liverpool",
