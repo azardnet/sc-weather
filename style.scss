@@ -334,7 +334,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
     }
     .weather-data .current-weather-icon svg path {
         stroke: #ffffff;
@@ -436,6 +436,7 @@
     }
     main .weather .map-overlay .content-wrapper .weather-data .feels_like {
         margin-top: 0px;
+        margin-bottom: 10px;
     }
     main .weather .map-overlay .content-wrapper .weather-data .temperature:after {
         top: -20px;

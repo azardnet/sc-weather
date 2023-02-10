@@ -329,6 +329,8 @@
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .text").innerHTML = translate[isPersianCharacter ? "fa" : "en"].FeelsLike;
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.feels_like.toFixed(TO_FIXED)) : result.main.feels_like.toFixed(TO_FIXED);
             sl("main .weather .map-overlay .content-wrapper .weather-data .feels_like .unit").innerHTML = UNIT;
+            sl("main .weather .map-overlay .content-wrapper .weather-data .wind-speed .text").innerHTML = translate[isPersianCharacter ? "fa" : "en"].WindSpeed;
+            sl("main .weather .map-overlay .content-wrapper .weather-data .wind-speed .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.wind.speed.toFixed(TO_FIXED)) : result.wind.speed.toFixed(TO_FIXED);
             sl(".map-overlay .content-wrapper .weather-data .current-weather-icon span").innerHTML = result.weather[0].description;    
             sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .value").innerHTML = isPersianCharacter ? NumbersToPersian(result.main.temp_max.toFixed(TO_FIXED)) : result.main.temp_max.toFixed(TO_FIXED);
             sl("main .weather .map-overlay .content-wrapper .weather-data .temp_max .unit").innerHTML = UNIT;

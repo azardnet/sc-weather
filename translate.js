@@ -5,7 +5,8 @@ const translate = {
         TypeCity: "اسم شهر را وارد کنید و Enter بزنید",
         ErrorDownloading: "خطا در دریافت اطلاعات.",
         ErrorLoadMap: "نقشه در حال حاضر در دسترس نیست.",
-        lastUpdate: "آخرین بروزرسانی: "
+        lastUpdate: "آخرین بروزرسانی: ",
+        WindSpeed: "سرعت باد : "
     },
     en: {
         FeelsLike: "Feels Like : ",
@@ -13,7 +14,8 @@ const translate = {
         TypeCity: "type City and hit Enter",
         ErrorDownloading: "Error downloading.",
         ErrorLoadMap: "Map is not accessible right now.",
-        lastUpdate: "last update:"
+        lastUpdate: "last update:",
+        WindSpeed: "Wind Speed : "
     }
 }
 
