@@ -43,13 +43,6 @@
     main .weather .map-overlay.interval {
         background-color: rgba(0, 0, 0, 0.25);
     }
-
-    main header {
-        margin-top: 1.9em;
-        display: flex;
-        width: 80vw;
-        justify-content: space-between;
-    }
     main .weather {
         margin-top: 10px;
         width: 80vw;
@@ -537,21 +530,31 @@
         background-position: center;
         opacity: 0.45;
     }
-    main header form.search {
-        width: 50%;
-    }
-    main header form.search input {
-        background-color: rgba(255, 255, 255, 0.25);
-        border: 0;
-        font-family: Vazir;
-        color: #fff;
-        font-size: 1em;
-        letter-spacing: 1px;
-        appearance: none;
-        padding: 10px;
-        width: 100%;
-        height: 100%;
-        box-sizing: border-box;
+    main header {
+        margin-top: 1.9em;
+        display: flex;
+        width: 80vw;
+        position: relative;
+        justify-content: space-between;
+        form.search {
+            width: 50%;
+            input {
+                background-color: rgba(255, 255, 255, 0.25);
+                border: 0;
+                font-family: Vazir;
+                color: #fff;
+                font-size: 1em;
+                letter-spacing: 1px;
+                appearance: none;
+                padding: 10px;
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
+            }
+        }
+        .city-list-wrapper {
+            position: absolute;
+        }
     }
     .rtl main header form.search input { 
         letter-spacing: 0;
