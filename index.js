@@ -466,6 +466,12 @@
     const mapOpacityRangeEl = document.getElementById("mapOpacity");
     window.addEventListener("click", onWindowClick);
     inputEl.addEventListener("keydown", onInputKeydown);
+    inputEl.addEventListener("focus", () => {
+        sl('main header .city-list-wrapper').classList.add('active');
+    });
+    inputEl.addEventListener("blur", () => {
+        sl('main header .city-list-wrapper').classList.remove('active');
+    });
     colorEL.addEventListener("input", handleChangeColor, false);
     mapOpacityRangeEl.addEventListener("input", handleMapOpacityChange, false);
     sl(".portal-model .close").addEventListener("click", onPortalModalClose)    
