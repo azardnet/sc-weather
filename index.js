@@ -462,6 +462,7 @@
           const cityListItems = document.querySelectorAll('.city-list-wrapper li');
           for (let i = 0; i < cityListItems.length; i++) {
               cityListItems[i].addEventListener('click', (event) => {
+                  loading();
                   searchWeather(event.target.innerHTML ||  "Liverpool", false);
               });
           }
