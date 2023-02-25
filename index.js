@@ -459,6 +459,12 @@
                     console.log('SW registration failed: ', registrationError);
                 });
           }
+          const cityListItems = document.querySelectorAll('.city-list-wrapper li');
+          for (let i = 0; i < cityListItems.length; i++) {
+              cityListItems[i].addEventListener('click', (event) => {
+                  searchWeather(event.target.innerHTML ||  "Liverpool", false);
+              });
+          }
     }
 
     const inputEl = sl("main header form.search input");
@@ -470,7 +476,9 @@
         sl('main header .city-list-wrapper').classList.add('active');
     });
     inputEl.addEventListener("blur", () => {
-        sl('main header .city-list-wrapper').classList.remove('active');
+        setTimeout(() => {
+            sl('main header .city-list-wrapper').classList.remove('active');
+        }, 100);
     });
     colorEL.addEventListener("input", handleChangeColor, false);
     mapOpacityRangeEl.addEventListener("input", handleMapOpacityChange, false);
