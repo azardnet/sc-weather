@@ -202,6 +202,8 @@
         }
         if (event.key === "Enter") {
             event.preventDefault();
+            sl('main header .city-list-wrapper').classList.remove('active');
+            inputEl.blur();
             if (!document.body.classList.contains("blur")) {
                 if (inputEl.value.length < 22 && inputEl.value.length > 1) {
                     loading();
@@ -219,7 +221,14 @@
     }
     
     function searchWeather(city, interval) {
-        const isPersianCharacter = checkPersianCharacters(city);
+        let cityNameParam = "";
+        try {
+            const cityList = JSON.parse(city);
+            cityNameParam = cityList[cityList.length - 1];
+        } catch (error) {
+            cityNameParam = city;
+        }
+        const isPersianCharacter = checkPersianCharacters(cityNameParam);
         if (!interval) {
             const color = localStorage.getItem("color") || "#072322";
             const opacity = localStorage.getItem("opacity") || "90";
@@ -233,10 +242,10 @@
                 inputEl.placeholder = "type City and hit Enter";
             }
         }
-        fetch(`https://api.openweathermap.org/data/2.5/weather?lang=${isPersianCharacter ? "fa" : "en"}&q=${city}&APPID=${OPEN_WEATHER_KEY}&units=metric`).then(result => {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?lang=${isPersianCharacter ? "fa" : "en"}&q=${cityNameParam}&APPID=${OPEN_WEATHER_KEY}&units=metric`).then(result => {
             return result.json();
         }).then(result => {
-            computeUI(result, city, interval);
+            computeUI(result, cityNameParam, interval);
         });
     }
 
@@ -313,8 +322,26 @@
                     const flagImage = require(`./static/flags/${(result.sys.country).toLowerCase()}.svg`);
                     sl("main .weather .map-overlay .content-wrapper h1 span").style.backgroundImage = `url("${flagImage}")`;
                 }
-                localStorage.setItem("last_search", isPersianCharacter ? city : result.name);
                 localStorage.setItem("last_search_id", result.id);
+                const cityName = isPersianCharacter ? city : result.name;
+                const lastSearch = localStorage.getItem('last_search');
+                let lastSearchList = [];
+                try {
+                    lastSearchList = JSON.parse(lastSearch) || [];
+                } catch (error) {
+                    lastSearchList = [lastSearch] || [];
+                }
+                if (cityName && Array.isArray(lastSearchList) && !lastSearchList.includes(cityName)) {
+                    if (lastSearchList.length > 5) {
+                        lastSearchList.shift();
+                    }
+                    lastSearchList.push(cityName);
+                } else if (lastSearchList.length === 0) {
+                    lastSearchList = [cityName];
+                } else if (lastSearchList.includes(cityName)) {
+                    
+                }
+                localStorage.setItem("last_search", JSON.stringify(lastSearchList));
             } else if (result && result.message && city) {
                 loaded();
                 activePortalModal(checkPersianCharacters(city) ? translate.fa.CityNotFound : translate.en.CityNotFound);
@@ -451,6 +478,14 @@
         setTimeout(() => {
             InitiateSpeedDetection();   
         }, 400);
+        const lastSearch = localStorage.getItem('last_search');
+        let lastSearchList = [];
+        try {
+            lastSearchList = JSON.parse(lastSearch);
+        } catch (error) {
+            lastSearchList = [lastSearch]
+        }
+        console.log("qweqwe", lastSearchList);
         searchWeather(localStorage.getItem("last_search") ||  "Liverpool", false);
         if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('service-worker.js', { scope: '/sc-weather/' }).then(registration => {
