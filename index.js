@@ -1,5 +1,5 @@
     import "./style.scss";
-    import { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap, randomIntFromInterval, InitiateSpeedDetection, MeasureConnectionSpeed, timeAgo } from "./utils"
+    import { sl, NumbersToPersian, debounce, checkPersianCharacters, createJsFile, checkExistJsFile, deleteMap, randomIntFromInterval, InitiateSpeedDetection, MeasureConnectionSpeed, timeAgo, arrayMove } from "./utils"
     import { translate } from "./translate"
     const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
     const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`;
@@ -339,7 +339,8 @@
                 } else if (lastSearchList.length === 0) {
                     lastSearchList = [cityName];
                 } else if (lastSearchList.includes(cityName)) {
-                    
+                    const currentItemIndex = lastSearchList.indexOf(cityName);
+                    arrayMove(lastSearchList, currentItemIndex, lastSearchList.length -1);
                 }
                 localStorage.setItem("last_search", JSON.stringify(lastSearchList));
             } else if (result && result.message && city) {
