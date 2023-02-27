@@ -554,6 +554,8 @@
             }
             .city-list-wrapper {
                 position: absolute;
+                display: flex;
+                flex-direction: column-reverse;
                 z-index: 2;
                 padding: 0.25em;
                 background-color: rgba(177, 177, 177, 0.2);
@@ -572,7 +574,7 @@
                     cursor: pointer;
                     color: #fff;
                     padding: 0 1em;
-                    &:not(:last-of-type) {
+                    &:not(:first-of-type) {
                         border-bottom: 1px solid #fff;
                     }
                 }
