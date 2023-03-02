@@ -605,6 +605,32 @@ main header {
         transform: translate3d(0px, 0px, 0);
       }
     }
+    .location-icon {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      top: 0;
+      left: 10px;
+      bottom: 0;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px #fff;
+      cursor: pointer;
+      svg {
+        margin-top: 4px;
+        width: 70%;
+        height: 70%;
+        path {
+          fill: #072322;
+          stroke: #072322;
+          stroke-width: 12px;
+        }
+      }
+    }
   }
 }
 .rtl main header form.search input {
@@ -629,10 +655,11 @@ main header button {
   appearance: none;
   background-color: rgba(255, 255, 255, 0.3);
   cursor: pointer;
-}
-main header button svg path,
-main header button svg polygon {
-  fill: rgba(255, 255, 255, 0.7);
+  svg path,
+  svg polygon {
+    fill: rgba(255, 255, 255, 0.7);
+  }
+
 }
 
 .portal-loading .logo svg.circle path {

@@ -231,6 +231,8 @@ function changeColor(color) {
   sl(".map-overlay .bottom").style.backgroundColor = color;
   sl(".map-overlay .cover").style.backgroundColor = color;
   sl("#favcolor").value = color;
+  sl("main header form.search .location-icon svg path").style.fill = color;
+  sl("main header form.search .location-icon svg path").style.stroke = color;
 }
 
 function changeMapOpacity(value) {
