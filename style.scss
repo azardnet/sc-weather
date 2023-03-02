@@ -632,6 +632,12 @@ main header {
       }
     }
   }
+  &.left {
+    .location-icon {
+      left: auto !important;
+      right: 10px;
+    }
+  }
 }
 .rtl main header form.search input {
   letter-spacing: 0;
