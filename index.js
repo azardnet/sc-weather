@@ -198,7 +198,16 @@ const CITY_HAVE_IMAGE = [
         link: "https://unsplash.com/@zqlee",
       },
     ],
-  },
+  },{
+    name: "Yerevan",
+    id: 616052,
+    images: [
+      {
+        photographer: "Venyamin Koretskiy",
+        link: "https://unsplash.com/@bennjeck",
+      },
+    ],
+  }
 ];
 const CITY_HAVE_VIDEO = [
   {
