@@ -613,7 +613,7 @@ main header {
       width: 30px;
       height: 30px;
       top: 0;
-      left: 6px;
+      right: 6px;
       bottom: 0;
       margin: auto;
       background: rgba(255, 255, 255, 0.6);
@@ -641,6 +641,10 @@ main header {
 }
 .rtl main header form.search input {
   letter-spacing: 0;
+}
+.rtl .location-icon {
+  right: auto !important;
+  left:  6px;
 }
 main header.right {
   direction: rtl;

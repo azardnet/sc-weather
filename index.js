@@ -725,6 +725,9 @@ sl("#fullScreenImage").addEventListener(
 sl(
   "main .weather .map-overlay .content-wrapper .weather-data .info"
 ).addEventListener("mousemove", handleMouseMoveOnInfo, false);
+sl("main header form.search .location-icon").addEventListener("click", () => {
+  alert("Not yet :(");
+})
 document.addEventListener("fullscreenchange", onFullScreenChange);
 window.addEventListener("DOMContentLoaded", onContentLoaded);
 setInterval(currentTime, 1000);
