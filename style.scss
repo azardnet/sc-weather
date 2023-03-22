@@ -540,6 +540,10 @@ main .weather .map-overlay .content-wrapper .weather-data .temp_min {
 .rtl main header {
   direction: rtl;
 }
+.rtl .location-icon {
+  right: auto !important;
+  left:  6px;
+}
 main .weather .map-overlay .content-wrapper h1 span {
   width: 30px;
   height: 30px;
@@ -635,16 +639,12 @@ main header {
   &.left {
     .location-icon {
       left: auto !important;
-      right: 6px;
+      right: 6px !important;
     }
   }
 }
 .rtl main header form.search input {
   letter-spacing: 0;
-}
-.rtl .location-icon {
-  right: auto !important;
-  left:  6px;
 }
 main header.right {
   direction: rtl;

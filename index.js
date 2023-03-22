@@ -665,12 +665,10 @@ function onContentLoaded() {
   setTimeout(() => {
     InitiateSpeedDetection();
   }, 400);
-  const lastSearch = localStorage.getItem("last_search");
-  let lastSearchList = [];
-  try {
-    lastSearchList = JSON.parse(lastSearch);
-  } catch (error) {
-    lastSearchList = [lastSearch];
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log('test geo location', position);
+    });
   }
   searchWeather(localStorage.getItem("last_search") || "Liverpool", false);
   if ("serviceWorker" in navigator) {
