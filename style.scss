@@ -599,6 +599,7 @@ main header {
         cursor: pointer;
         color: #fff;
         padding: 0 1em;
+        font-size: 16px;
         &:not(:first-of-type) {
           border-bottom: 1px solid #fff;
         }
@@ -610,6 +611,8 @@ main header {
       }
     }
     .location-icon {
+      opacity: 0;
+      visibility: hidden;
       position: absolute;
       display: flex;
       align-items: center;
