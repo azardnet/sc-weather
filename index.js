@@ -207,6 +207,15 @@ const CITY_HAVE_IMAGE = [
         link: "https://unsplash.com/@bennjeck",
       },
     ],
+  }, {
+    name: "Tbilisi",
+    id: 611717,
+    images: [
+      {
+        photographer: "Kent Tupas",
+        link: "https://unsplash.com/@zplits",
+      },
+    ],
   }
 ];
 const CITY_HAVE_VIDEO = [
