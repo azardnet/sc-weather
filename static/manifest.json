@@ -31,5 +31,18 @@
             "type": "image/png",
             "purpose": "maskable any"
         }
-    ]
+    ],
+    "display_override": [
+        "browser",
+        "standalone",
+        "fullscreen",
+        "window-controls-overlay",
+        "minimal-ui"
+      ],
+      "categories": [
+        "weather"
+      ],
+      "edge_side_panel": {
+        "preferred_width": 400
+      }
 }
