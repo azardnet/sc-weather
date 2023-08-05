@@ -216,7 +216,16 @@ const CITY_HAVE_IMAGE = [
         link: "https://unsplash.com/@zplits",
       },
     ],
-  }
+  }, {
+    name: "Batumi",
+    id: 615532,
+    images: [
+      {
+        photographer: "Andrei Miranchuk",
+        link: "https://unsplash.com/@manuel_pirate",
+      },
+    ],
+     }
 ];
 const CITY_HAVE_VIDEO = [
   {
