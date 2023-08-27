@@ -198,7 +198,8 @@ const CITY_HAVE_IMAGE = [
         link: "https://unsplash.com/@zqlee",
       },
     ],
-  },{
+  },
+  {
     name: "Yerevan",
     id: 616052,
     images: [
@@ -207,7 +208,8 @@ const CITY_HAVE_IMAGE = [
         link: "https://unsplash.com/@bennjeck",
       },
     ],
-  }, {
+  },
+  {
     name: "Tbilisi",
     id: 611717,
     images: [
@@ -216,7 +218,8 @@ const CITY_HAVE_IMAGE = [
         link: "https://unsplash.com/@zplits",
       },
     ],
-  }, {
+  },
+  {
     name: "Batumi",
     id: 615532,
     images: [
@@ -225,7 +228,7 @@ const CITY_HAVE_IMAGE = [
         link: "https://unsplash.com/@manuel_pirate",
       },
     ],
-     }
+  },
 ];
 const CITY_HAVE_VIDEO = [
   {
@@ -417,6 +420,13 @@ function createMap(lat, lon) {
 }
 
 function computeUI(result, city, interval) {
+  if (CITY_HAVE_VIDEO.find((item) => item.id === result.id)) {
+    sl("#video").style.display = "block";
+    deleteMap();
+    sl("main .weather .bottom-overlay .image-copyright").style.display = "none";
+  } else {
+    sl("#video").style.display = "none";
+  }
   sl("main .weather .map-overlay").classList.remove("interval");
   sl("main .weather .bottom-overlay .image-copyright").style.display = "none";
   lastUpdate = new Date();
@@ -487,12 +497,12 @@ function computeUI(result, city, interval) {
       }
       sl(".city-list-wrapper").innerHTML = lastSearchHtmlItems;
       localStorage.setItem("last_search", JSON.stringify(lastSearchList));
-      const cityListItems = document.querySelectorAll('.city-list-wrapper li');
+      const cityListItems = document.querySelectorAll(".city-list-wrapper li");
       for (let i = 0; i < cityListItems.length; i++) {
-          cityListItems[i].addEventListener('click', (event) => {
-              loading();
-              searchWeather(event.target.innerHTML ||  "Liverpool", false);
-          });
+        cityListItems[i].addEventListener("click", (event) => {
+          loading();
+          searchWeather(event.target.innerHTML || "Liverpool", false);
+        });
       }
     } else if (result && result.message && city) {
       loaded();
@@ -685,7 +695,7 @@ function onContentLoaded() {
   }, 400);
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log('test geo location', position);
+      console.log("test geo location", position);
     });
   }
   searchWeather(localStorage.getItem("last_search") || "Liverpool", false);
@@ -743,7 +753,7 @@ sl(
 ).addEventListener("mousemove", handleMouseMoveOnInfo, false);
 sl("main header form.search .location-icon").addEventListener("click", () => {
   alert("Not yet :(");
-})
+});
 document.addEventListener("fullscreenchange", onFullScreenChange);
 window.addEventListener("DOMContentLoaded", onContentLoaded);
 setInterval(currentTime, 1000);
