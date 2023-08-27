@@ -1,4 +1,4 @@
-const Dotenv = require('dotenv-webpack');
+const Dotenv = require("dotenv-webpack");
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -6,21 +6,21 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   entry: {
-    main: "./index.js"
+    main: "./index.js",
   },
   output: {
     path: path.join(__dirname, "./build"),
-    filename: "[name].bundle.js"
+    filename: "[name].bundle.js",
   },
   mode: "development",
   plugins: [
     new HtmlWebpackPlugin({
       template: "./index.html",
-      filename: "index.html"
+      filename: "index.html",
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
-    new Dotenv()
+    new Dotenv(),
   ],
   devServer: {
     compress: true,
@@ -32,16 +32,12 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: "babel-loader",
+        },
       },
       {
         test: /\.(s*)css$/,
-        use: [
-          "style-loader",
-          "css-loader",
-          "sass-loader"
-        ]
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /((?<!import.*)\.svg|\.(png|jpg))$/,
@@ -50,9 +46,9 @@ module.exports = {
           options: {
             name: "[name].[hash].[ext]",
             outputPath: "img",
-            esModule: false
-          }
-        }
+            esModule: false,
+          },
+        },
       },
       {
         test: /\.html$/,
@@ -63,7 +59,15 @@ module.exports = {
           },
         },
       },
-    ]
-    },
-  
+      {
+        test: /\.mp4$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            esModule: false,
+          },
+        },
+      },
+    ],
+  },
 };

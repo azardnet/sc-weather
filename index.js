@@ -422,8 +422,12 @@ function createMap(lat, lon) {
 function computeUI(result, city, interval) {
   if (CITY_HAVE_VIDEO.find((item) => item.id === result.id)) {
     sl("#video").style.display = "block";
+    const source = document.createElement("source");
+    const videoSrc = require(`./static/videos/${result.id}.mp4`);
+    source.setAttribute("src", videoSrc);
+    source.setAttribute("type", "video/mp4");
+    sl("#video video").appendChild(source);
     deleteMap();
-    sl("main .weather .bottom-overlay .image-copyright").style.display = "none";
   } else {
     sl("#video").style.display = "none";
   }
@@ -452,12 +456,14 @@ function computeUI(result, city, interval) {
           const image = require(`./static/image/${result.id}-${
             randomNumber + 1
           }.jpg`);
-          sl("main .weather").style.backgroundImage = `url(${image})`;
-          sl("main .weather .image-copyright").style.display = "block";
-          sl("main .weather .image-copyright").innerHTML =
-            cityData.images[randomNumber].photographer;
-          sl("main .weather .image-copyright").href =
-            cityData.images[randomNumber].link;
+          if (!CITY_HAVE_VIDEO.find((item) => item.id === result.id)) {
+            sl("main .weather").style.backgroundImage = `url(${image})`;
+            sl("main .weather .image-copyright").style.display = "block";
+            sl("main .weather .image-copyright").innerHTML =
+              cityData.images[randomNumber].photographer;
+            sl("main .weather .image-copyright").href =
+              cityData.images[randomNumber].link;
+          }
           loaded();
         }
       }
