@@ -15,63 +15,58 @@ const glob = require("glob");
 
 module.exports = {
   entry: {
-    main: './index.js'
-  },    
+    main: "./index.js",
+  },
   output: {
-    path: path.join(__dirname, './build'),
-    filename: '[name].[chunkhash:8].bundle.js',
-    chunkFilename: '[name].[chunkhash:8].chunk.js',
+    path: path.join(__dirname, "./build"),
+    filename: "[name].[chunkhash:8].bundle.js",
+    chunkFilename: "[name].[chunkhash:8].chunk.js",
   },
   mode: "production",
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
-      filename: 'index.html',
-      scriptLoading: 'defer',
+      template: "./index.html",
+      filename: "index.html",
+      scriptLoading: "defer",
     }),
     new CleanWebpackPlugin(),
     new PurgecssPlugin({
-      paths: glob.sync(path.resolve(__dirname, '../src/**/*'), { nodir: true })
+      paths: glob.sync(path.resolve(__dirname, "../src/**/*"), { nodir: true }),
     }),
     new MiniCssExtractPlugin({
       filename: "[name].[chunkhash:8].bundle.css",
       chunkFilename: "[name].[chunkhash:8].chunk.css",
     }),
     new CompressionPlugin({
-      algorithm: 'gzip',
+      algorithm: "gzip",
     }),
     new BrotliPlugin(),
     new Dotenv(),
     new CopyWebpackPlugin({
-      patterns: [
-          { from: 'static/meta', to: 'pub' }
-      ]
-  }),
-  new WorkboxPlugin.GenerateSW({
-    clientsClaim: true,
-    skipWaiting: true,
-    exclude: [/\.map$/, /\.DS_Store$/, /\.html$/],
-    navigateFallback: 'https://azardnet.github.io/sc-weather/index.html',
-  }),
+      patterns: [{ from: "static/meta", to: "pub" }],
+    }),
+    new WorkboxPlugin.GenerateSW({
+      clientsClaim: true,
+      skipWaiting: true,
+      exclude: [/\.map$/, /\.DS_Store$/, /\.html$/],
+      navigateFallback: "https://azardnet.github.io/sc-weather/index.html",
+    }),
   ],
   optimization: {
     minimize: true,
-    minimizer: [
-      new TerserJSPlugin(),
-      new OptimizeCSSAssetsPlugin(),
-    ],
+    minimizer: [new TerserJSPlugin(), new OptimizeCSSAssetsPlugin()],
     splitChunks: {
       cacheGroups: {
         commons: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'azard_vendors',
-          chunks: 'all',
+          name: "azard_vendors",
+          chunks: "all",
         },
       },
-      chunks: 'all',
+      chunks: "all",
     },
     runtimeChunk: {
-      name: 'run'
+      name: "run",
     },
   },
   module: {
@@ -80,16 +75,12 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
+          loader: "babel-loader",
+        },
       },
       {
         test: /\.(s*)css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-        ]
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /((?<!import.*)\.svg|\.(png|jpg))$/,
@@ -98,20 +89,28 @@ module.exports = {
           options: {
             name: "[name].[hash].[ext]",
             outputPath: "img",
-            esModule: false
-          }
-        }
+            esModule: false,
+          },
+        },
       },
       {
         test: /\.html$/,
         use: {
-          loader: 'html-loader',
+          loader: "html-loader",
           options: {
             minimize: true,
           },
         },
       },
-    ]
-    },
-  
+      {
+        test: /\.mp4$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            esModule: false,
+          },
+        },
+      },
+    ],
+  },
 };
