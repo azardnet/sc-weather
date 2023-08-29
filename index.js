@@ -463,6 +463,8 @@ function computeUI(result, city, interval) {
               cityData.images[randomNumber].photographer;
             sl("main .weather .image-copyright").href =
               cityData.images[randomNumber].link;
+          } else {
+            sl("main .weather .image-copyright").style.display = "none";
           }
           loaded();
         }
