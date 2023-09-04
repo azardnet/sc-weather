@@ -465,6 +465,7 @@ function computeUI(result, city, interval) {
               cityData.images[randomNumber].link;
           } else {
             sl("main .weather .image-copyright").style.display = "none";
+            sl(".map-overlay .bottom").style.display = "none";
           }
           loaded();
         }
