@@ -702,11 +702,14 @@ function onContentLoaded() {
   setTimeout(() => {
     InitiateSpeedDetection();
   }, 400);
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      console.log("test geo location", position);
-    });
-  }
+  // if (navigator.geolocation) {
+  //   navigator.geolocation.getCurrentPosition((position) => {
+  //     console.log("test geo location", position);
+  //   });
+  // }
+  // sl("#video video").addEventListener("loadeddata", (e) => {
+  //   console.log("readyState", sl("#video video").readyState);
+  // });
   searchWeather(localStorage.getItem("last_search") || "Liverpool", false);
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker
