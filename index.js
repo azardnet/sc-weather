@@ -278,7 +278,7 @@ const handleMapOpacityChange = debounce(function () {
   localStorage.setItem("opacity", mapOpacityRangeEl.value);
 }, 20);
 
-const handlefullScreenImageChange = function (event) {
+const handleFullScreenImageChange = function (event) {
   localStorage.setItem("fsi", event.target.checked);
 };
 
@@ -757,15 +757,15 @@ sl(".portal-settings .submit").addEventListener(
 );
 sl("#fullScreenImage").addEventListener(
   "input",
-  handlefullScreenImageChange,
+  handleFullScreenImageChange,
   false
 );
 sl(
   "main .weather .map-overlay .content-wrapper .weather-data .info"
 ).addEventListener("mousemove", handleMouseMoveOnInfo, false);
-sl("main header form.search .location-icon").addEventListener("click", () => {
-  alert("Not yet :(");
-});
+// sl("main header form.search .location-icon").addEventListener("click", () => {
+//   alert("Not yet :(");
+// });
 document.addEventListener("fullscreenchange", onFullScreenChange);
 window.addEventListener("DOMContentLoaded", onContentLoaded);
 setInterval(currentTime, 1000);
