@@ -13,6 +13,7 @@ import {
   timeAgo,
   arrayMove,
   getStorage,
+  isLight,
 } from "./utils";
 import { translate } from "./translate";
 const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
@@ -263,6 +264,11 @@ function changeColor(color) {
   sl("#favcolor").value = color;
   sl("main header form.search .location-icon svg path").style.fill = color;
   sl("main header form.search .location-icon svg path").style.stroke = color;
+  sl("main .weather .map-overlay .content-wrapper h1 b").style.color = isLight(
+    color
+  )
+    ? "#000000"
+    : "#ffffff";
 }
 
 function changeMapOpacity(value) {
