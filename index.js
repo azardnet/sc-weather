@@ -269,6 +269,16 @@ function changeColor(color) {
   )
     ? "#000000"
     : "#ffffff";
+  sl(".digital-clock .time-wrapper").style.color = isLight(color)
+    ? "#000000"
+    : "#ffffff";
+  sl(".weather-data .temp-feels-wrapper").style.color = isLight(color)
+    ? "#000000"
+    : "#ffffff";
+
+  sl(
+    ".map-overlay .content-wrapper .weather-data .current-weather-icon"
+  ).style.color = isLight(color) ? "#000000" : "#ffffff";
 }
 
 function changeMapOpacity(value) {
