@@ -279,6 +279,9 @@ function changeColor(color) {
   sl(
     ".map-overlay .content-wrapper .weather-data .current-weather-icon"
   ).style.color = isLight(color) ? "#000000" : "#ffffff";
+  sl("main header button svg path").style.fill = isLight(color)
+    ? "#000000"
+    : "rgba(255, 255, 255, 0.7)";
 }
 
 function changeMapOpacity(value) {
