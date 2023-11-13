@@ -282,6 +282,12 @@ function changeColor(color) {
   sl("main header button svg path").style.fill = isLight(color)
     ? "#000000"
     : "rgba(255, 255, 255, 0.7)";
+  sl(
+    "main .weather .map-overlay .content-wrapper .weather-data .info"
+  ).style.filter = isLight(color) ? "brightness(0)" : "brightness(1)";
+  document.querySelectorAll("main header button svg polygon").forEach((el) => {
+    el.style.fill = isLight(color) ? "#000000" : "rgba(255, 255, 255, 0.7)";
+  });
 }
 
 function changeMapOpacity(value) {
