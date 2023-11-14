@@ -542,7 +542,7 @@ main .weather .map-overlay .content-wrapper .weather-data .temp_min {
 }
 .rtl .location-icon {
   right: auto !important;
-  left:  6px;
+  left: 6px;
 }
 main .weather .map-overlay .content-wrapper h1 span {
   width: 30px;
@@ -672,7 +672,6 @@ main header button {
   svg polygon {
     fill: rgba(255, 255, 255, 0.7);
   }
-
 }
 
 .portal-loading .logo svg.circle path {
@@ -901,5 +900,25 @@ main header button {
   main .weather {
     width: calc(95vw - 1em) !important;
     font-size: 10px;
+  }
+}
+
+.light {
+  main .weather .map-overlay .content-wrapper h1 b,
+  .digital-clock .time-wrapper,
+  .weather-data .temp-feels-wrapper,
+  .map-overlay .content-wrapper .weather-data .current-weather-icon,
+  main .weather .map-overlay .content-wrapper .weather-data span {
+    color: #000;
+  }
+  main header button svg path,
+  main header button svg polygon {
+    fill: #000;
+  }
+  main .weather .map-overlay .content-wrapper .weather-data .info,
+  main .weather .map-overlay .content-wrapper .weather-data .temp_min:before,
+  main .weather .map-overlay .content-wrapper .weather-data .temp_max:before,
+  main .weather .map-overlay .content-wrapper .weather-data .humidity:before {
+    filter: brightness(0);
   }
 }

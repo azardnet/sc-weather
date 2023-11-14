@@ -264,30 +264,8 @@ function changeColor(color) {
   sl("#favcolor").value = color;
   sl("main header form.search .location-icon svg path").style.fill = color;
   sl("main header form.search .location-icon svg path").style.stroke = color;
-  sl("main .weather .map-overlay .content-wrapper h1 b").style.color = isLight(
-    color
-  )
-    ? "#000000"
-    : "#ffffff";
-  sl(".digital-clock .time-wrapper").style.color = isLight(color)
-    ? "#000000"
-    : "#ffffff";
-  sl(".weather-data .temp-feels-wrapper").style.color = isLight(color)
-    ? "#000000"
-    : "#ffffff";
-
-  sl(
-    ".map-overlay .content-wrapper .weather-data .current-weather-icon"
-  ).style.color = isLight(color) ? "#000000" : "#ffffff";
-  sl("main header button svg path").style.fill = isLight(color)
-    ? "#000000"
-    : "rgba(255, 255, 255, 0.7)";
-  sl(
-    "main .weather .map-overlay .content-wrapper .weather-data .info"
-  ).style.filter = isLight(color) ? "brightness(0)" : "brightness(1)";
-  document.querySelectorAll("main header button svg polygon").forEach((el) => {
-    el.style.fill = isLight(color) ? "#000000" : "rgba(255, 255, 255, 0.7)";
-  });
+  document.documentElement.classList.remove(isLight(color) ? "dark" : "light");
+  document.documentElement.classList.add(isLight(color) ? "light" : "dark");
 }
 
 function changeMapOpacity(value) {
