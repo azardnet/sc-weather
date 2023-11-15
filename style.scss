@@ -170,7 +170,7 @@ main .weather #video {
   content: "";
   position: absolute;
   width: calc(100% + 2px);
-  height: 100%;
+  height: calc(100% + 2px);
   background-color: #072322;
   opacity: 0.9;
   right: 0;
@@ -908,7 +908,8 @@ main header button {
   .digital-clock .time-wrapper,
   .weather-data .temp-feels-wrapper,
   .map-overlay .content-wrapper .weather-data .current-weather-icon,
-  main .weather .map-overlay .content-wrapper .weather-data span {
+  main .weather .map-overlay .content-wrapper .weather-data span,
+  main .weather .bottom-overlay .image-copyright {
     color: #000;
   }
   main header button svg path,
@@ -920,5 +921,8 @@ main header button {
   main .weather .map-overlay .content-wrapper .weather-data .temp_max:before,
   main .weather .map-overlay .content-wrapper .weather-data .humidity:before {
     filter: brightness(0);
+  }
+  main header form.search input {
+    background-color: rgba(0, 0, 0, 0.15);
   }
 }

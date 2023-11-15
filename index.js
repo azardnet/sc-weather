@@ -285,7 +285,7 @@ const handleFullScreenImageChange = function (event) {
   localStorage.setItem("fsi", event.target.checked);
 };
 
-const handleMouseMoveOnInfo = (e) => {
+const handleMouseMoveOnInfo = () => {
   const isPersianCharacter = checkPersianCharacters(
     localStorage.getItem("last_search")
   );
