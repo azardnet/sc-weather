@@ -919,7 +919,8 @@ main header button {
   main .weather .map-overlay .content-wrapper .weather-data .info,
   main .weather .map-overlay .content-wrapper .weather-data .temp_min:before,
   main .weather .map-overlay .content-wrapper .weather-data .temp_max:before,
-  main .weather .map-overlay .content-wrapper .weather-data .humidity:before {
+  main .weather .map-overlay .content-wrapper .weather-data .humidity:before,
+  main .weather .bottom-overlay span:before {
     filter: brightness(0);
   }
   main header form.search input {
