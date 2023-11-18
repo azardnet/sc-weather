@@ -926,4 +926,8 @@ main header button {
   main header form.search input {
     background-color: rgba(0, 0, 0, 0.15);
   }
+  .digital-clock .time-wrapper,
+  main .weather .map-overlay .content-wrapper h1 b {
+    text-shadow: 3px 5px 0px rgba(0, 0, 0, 0.2);
+  }
 }
