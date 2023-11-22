@@ -513,6 +513,8 @@ function computeUI(result, city, interval) {
       for (let i = 0; i < cityListItems.length; i++) {
         cityListItems[i].addEventListener("click", (event) => {
           loading();
+          sl("main header form.search input").value =
+            event.target.innerHTML || "Liverpool";
           searchWeather(event.target.innerHTML || "Liverpool", false);
         });
       }
