@@ -930,4 +930,8 @@ main header button {
   main .weather .map-overlay .content-wrapper h1 b {
     text-shadow: 3px 5px 0px rgba(0, 0, 0, 0.2);
   }
+  .portal-settings .action-wrapper button {
+    color: #000;
+    border: 2px solid rgba(0, 0, 0, 0.75);
+  }
 }
