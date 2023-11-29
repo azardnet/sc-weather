@@ -234,6 +234,16 @@ const CITY_HAVE_IMAGE = [
       },
     ],
   },
+  {
+    name: "Seattle",
+    id: 5809844,
+    images: [
+      {
+        photographer: "Thom Milkovic",
+        link: "https://unsplash.com/@thommilkovic",
+      },
+    ],
+  },
 ];
 const CITY_HAVE_VIDEO = [
   {
