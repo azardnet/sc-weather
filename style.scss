@@ -21,6 +21,7 @@ body,
 html {
   padding: 0;
   margin: 0;
+  overflow: hidden;
 }
 body {
   background-color: #072322;
@@ -729,8 +730,10 @@ main header button {
 }
 
 .digital-clock {
-  display: flex;
-  margin-top: 4em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0px);
   .time-wrapper {
     color: #ffffff;
     font-size: 5em;
@@ -881,9 +884,6 @@ main header button {
   main .weather {
     width: calc(90vw - 2em) !important;
     font-size: 12px;
-  }
-  .digital-clock {
-    margin-top: 5.5em;
   }
 }
 
