@@ -244,6 +244,16 @@ const CITY_HAVE_IMAGE = [
       },
     ],
   },
+  {
+    name: "Abu Dhabi",
+    id: 292968,
+    images: [
+      {
+        photographer: "Kevin JD",
+        link: "https://unsplash.com/@kevinjd123",
+      },
+    ],
+  },
 ];
 const CITY_HAVE_VIDEO = [
   {
