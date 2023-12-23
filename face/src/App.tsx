@@ -1,10 +1,14 @@
-import "./App.css";
+import styled from "styled-components";
+
+const AppWrapper = styled.section`
+  padding: 40px;
+`;
 
 function App() {
   return (
-    <>
-      <div></div>
-    </>
+    <AppWrapper>
+      <div>SC-weather</div>
+    </AppWrapper>
   );
 }
 
