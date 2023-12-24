@@ -8,11 +8,23 @@ const AppWrapper = styled.section`
 const OPEN_WEATHER_KEY = import.meta.env.VITE_OPENWEATHER;
 
 function App() {
-  console.log(console.log(OPEN_WEATHER_KEY));
+  // console.log(console.log(OPEN_WEATHER_KEY));
+
+  const onSubmit = (input: string) => {
+    (async function () {
+      const response = await fetch(
+        `
+https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_WEATHER_KEY}&units=metric`
+      );
+
+      const body = await response.json();
+      console.log("rrr", body);
+    })();
+  };
   return (
     <AppWrapper>
       <div>SC-weather</div>
-      <Search />
+      <Search onSubmit={onSubmit} />
     </AppWrapper>
   );
 }
