@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Search from "./components/Search";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const AppWrapper = styled.section`
   padding: 40px;
@@ -11,7 +11,7 @@ const OPEN_WEATHER_KEY = import.meta.env.VITE_OPENWEATHER;
 function App() {
   const [data, setData] = useState({ loading: false, response: {} });
 
-  const onSubmit = (input: string) => {
+  const Fetch = (input: string) => {
     setData({ loading: true, response: {} });
     (async function () {
       const response = await fetch(
@@ -23,6 +23,15 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
       setData({ loading: false, response: json });
     })();
   };
+
+  useEffect(() => {
+    Fetch("Tehran");
+  }, []);
+
+  const onSubmit = (input: string) => {
+    Fetch(input);
+  };
+
   return (
     <AppWrapper>
       <div>SC-weather</div>
