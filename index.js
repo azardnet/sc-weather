@@ -588,7 +588,9 @@ function computeUI(result, city, interval) {
     sl(
       "main .weather .map-overlay .content-wrapper .weather-data .wind-speed .value"
     ).innerHTML = isPersianCharacter
-      ? ` km/h ${NumbersToPersian(result.wind.speed.toFixed(TO_FIXED))}`
+      ? `${NumbersToPersian(
+          result.wind.speed.toFixed(TO_FIXED)
+        )} <span>کیلومتر بر ساعت</span>`
       : `${result.wind.speed.toFixed(TO_FIXED)} km/h`;
     sl(
       ".map-overlay .content-wrapper .weather-data .current-weather-icon span"
@@ -699,7 +701,14 @@ setInterval(() => {
 
 function currentTime() {
   const city = localStorage.getItem("last_search") || "Liverpool";
-  const isPersianCharacter = checkPersianCharacters(city);
+  let cityNameParam = "";
+  try {
+    const cityList = JSON.parse(city);
+    cityNameParam = cityList[cityList.length - 1];
+  } catch (error) {
+    cityNameParam = city;
+  }
+  const isPersianCharacter = checkPersianCharacters(cityNameParam);
 
   const date = new Date();
   let hour = date.getHours();
