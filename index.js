@@ -78,6 +78,10 @@ const CITY_HAVE_IMAGE = [
         photographer: "Khashayar Kouchpeydeh",
         link: "https://unsplash.com/@kouchpeydeh",
       },
+      {
+        photographer: "fatemeh momtaz",
+        link: "https://unsplash.com/@fatemehhmomtazz",
+      },
     ],
   },
   {
