@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Search from "./components/Search";
 import { useEffect, useState } from "react";
+import WeatherData from "./components/WeatherData";
 
 const AppWrapper = styled.section`
   padding: 40px;
@@ -36,6 +37,7 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
     <AppWrapper>
       <div>SC-weather</div>
       <Search onSubmit={onSubmit} />
+      <WeatherData />
       {data.loading ? (
         "Loading"
       ) : (
