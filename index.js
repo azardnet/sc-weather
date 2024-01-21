@@ -266,6 +266,16 @@ const CITY_HAVE_IMAGE = [
       },
     ],
   },
+  {
+    name: "Cairo",
+    id: 360630,
+    images: [
+      {
+        photographer: "Spencer Davis",
+        link: "https://unsplash.com/@spencerdavis",
+      },
+    ],
+  },
 ];
 const CITY_HAVE_VIDEO = [
   {
