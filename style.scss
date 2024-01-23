@@ -499,6 +499,9 @@ main .weather .map-overlay .content-wrapper .weather-data .humidity {
   padding: 5px 15px 5px 15px;
   text-align: center;
   line-height: 22px;
+  @media only screen and (max-width: 750px) {
+    padding: 5px 11px 5px 11px;
+  }
   > div {
     display: flex;
   }
