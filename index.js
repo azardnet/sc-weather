@@ -276,6 +276,16 @@ const CITY_HAVE_IMAGE = [
       },
     ],
   },
+  {
+    name: "Riyadh",
+    id: 108410,
+    images: [
+      {
+        photographer: "ekrem osmanoglu",
+        link: "https://unsplash.com/@konevi",
+      },
+    ],
+  },
 ];
 const CITY_HAVE_VIDEO = [
   {
