@@ -612,10 +612,10 @@ function computeUI(result, city, interval) {
     sl(
       "main .weather .map-overlay .content-wrapper .weather-data .wind-speed .value"
     ).innerHTML = isPersianCharacter
-      ? `${NumbersToPersian(
-          result.wind.speed.toFixed(TO_FIXED)
-        )} <span>کیلومتر بر ساعت</span>`
-      : `${result.wind.speed.toFixed(TO_FIXED)} km/h`;
+      ? `${NumbersToPersian(result.wind.speed.toFixed(TO_FIXED))} <span>${
+          translate.fa.WindSpeedUnit
+        }</span>`
+      : `${result.wind.speed.toFixed(TO_FIXED)} ${translate.en.WindSpeedUnit}`;
     sl(
       ".map-overlay .content-wrapper .weather-data .current-weather-icon span"
     ).innerHTML = result.weather[0].description;

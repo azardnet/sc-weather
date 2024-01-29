@@ -7,6 +7,7 @@ const translate = {
     ErrorLoadMap: "نقشه در حال حاضر در دسترس نیست.",
     lastUpdate: "آخرین بروزرسانی: ",
     WindSpeed: "سرعت باد: ",
+    WindSpeedUnit: "کیلومتر بر ساعت",
   },
   en: {
     FeelsLike: "Feels Like : ",
@@ -16,6 +17,7 @@ const translate = {
     ErrorLoadMap: "Map is not accessible right now.",
     lastUpdate: "last update:",
     WindSpeed: "Wind Speed: ",
+    WindSpeedUnit: "km/h",
   },
 };
 
