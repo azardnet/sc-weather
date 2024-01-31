@@ -286,6 +286,16 @@ const CITY_HAVE_IMAGE = [
       },
     ],
   },
+  {
+    name: "Saint Petersburg",
+    id: 498817,
+    images: [
+      {
+        photographer: "Hu Chen",
+        link: "https://unsplash.com/@huchenme",
+      },
+    ],
+  },
 ];
 const CITY_HAVE_VIDEO = [
   {
