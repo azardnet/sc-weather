@@ -296,6 +296,16 @@ const CITY_HAVE_IMAGE = [
       },
     ],
   },
+  {
+    name: "New York",
+    id: 5128581,
+    images: [
+      {
+        photographer: "Thomas Habr",
+        link: "https://unsplash.com/@thomashabr",
+      },
+    ],
+  },
 ];
 const CITY_HAVE_VIDEO = [
   {
