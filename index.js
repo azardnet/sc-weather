@@ -306,6 +306,16 @@ const CITY_HAVE_IMAGE = [
       },
     ],
   },
+  {
+    name: "Washington D.C.",
+    id: 4140963,
+    images: [
+      {
+        photographer: "Duane Lempke",
+        link: "",
+      },
+    ],
+  },
 ];
 const CITY_HAVE_VIDEO = [
   {
