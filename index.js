@@ -316,6 +316,16 @@ const CITY_HAVE_IMAGE = [
       },
     ],
   },
+  {
+    name: "Strasbourg",
+    id: 2973783,
+    images: [
+      {
+        photographer: "Patrick Robert Doyle",
+        link: "https://unsplash.com/@teapowered",
+      },
+    ],
+  },
 ];
 const CITY_HAVE_VIDEO = [
   {
