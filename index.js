@@ -326,6 +326,16 @@ const CITY_HAVE_IMAGE = [
       },
     ],
   },
+  {
+    name: "Santa Monica",
+    id: 5393212,
+    images: [
+      {
+        photographer: "Matthew LeJune",
+        link: "https://unsplash.com/@matthewlejune",
+      },
+    ],
+  },
 ];
 const CITY_HAVE_VIDEO = [
   {
