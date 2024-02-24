@@ -218,7 +218,7 @@ main .weather .map-overlay .content-wrapper .weather-data {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 40px;
 }
 main .weather .map-overlay .content-wrapper .weather-data span {
   position: relative;
@@ -326,6 +326,7 @@ main
   min-width: 68px;
   align-items: center;
   position: relative;
+  margin-top: -70px;
 }
 
 .map-overlay .content-wrapper .weather-data .current-weather-icon {
@@ -335,6 +336,10 @@ main
   align-items: center;
   span {
     text-transform: capitalize;
+  }
+  .svg-icon {
+    width: 70px;
+    height: 70px;
   }
 }
 

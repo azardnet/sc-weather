@@ -581,9 +581,13 @@ function computeUI(result, city, interval) {
       }
       if (result.sys && result.sys.country) {
         const flagImage = require(`./static/flags/${result.sys.country.toLowerCase()}.svg`);
+        const weatherIcon = require(`./static/icons/openweathermap/${result.weather[0].icon}.svg`);
         sl(
           "main .weather .map-overlay .content-wrapper h1 span"
         ).style.backgroundImage = `url("${flagImage}")`;
+        sl(
+          "main .weather .map-overlay .content-wrapper .weather-data .current-weather-icon div.svg-icon"
+        ).style.backgroundImage = `url("${weatherIcon}")`;
       }
       localStorage.setItem("last_search_id", result.id);
       const cityName = isPersianCharacter ? city : result.name;
