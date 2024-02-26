@@ -218,7 +218,7 @@ main .weather .map-overlay .content-wrapper .weather-data {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 50px;
 }
 main .weather .map-overlay .content-wrapper .weather-data span {
   position: relative;
@@ -334,12 +334,13 @@ main
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: -30px;
   span {
     text-transform: capitalize;
   }
   .svg-icon {
-    width: 70px;
-    height: 70px;
+    width: 82px;
+    height: 82px;
   }
 }
 
@@ -800,9 +801,9 @@ main header button {
 
 .digital-clock {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
-  transform: translate3d(-50%, -50%, 0px);
+  transform: translate3d(-40%, -50%, 0px);
   .time-wrapper {
     color: #ffffff;
     font-size: 5em;
