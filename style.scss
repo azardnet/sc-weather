@@ -361,6 +361,21 @@ main
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  position: relative;
+  @media only screen and (max-width: 750px) {
+    &:before {
+      display: none;
+    }
+  }
+  &:before {
+    content: "";
+    background-color: rgba(255, 255, 255, 0.02);
+    position: absolute;
+    width: calc(100% + 120px);
+    height: calc(100% + 50px);
+    top: -35px;
+    left: -88px;
+  }
 }
 .weather-data .current-weather-icon svg path {
   stroke: #ffffff;
