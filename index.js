@@ -336,6 +336,16 @@ const CITY_HAVE_IMAGE = [
       },
     ],
   },
+  {
+    name: "Tokyo",
+    id: 1850144,
+    images: [
+      {
+        photographer: "Jezael Melgoza",
+        link: "https://unsplash.com/@jezar",
+      },
+    ],
+  },
 ];
 const CITY_HAVE_VIDEO = [
   {
