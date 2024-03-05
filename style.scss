@@ -613,6 +613,15 @@ main .weather .map-overlay .content-wrapper .weather-data .humidity {
   }
 }
 
+.light main .weather .map-overlay .content-wrapper .weather-data .humidity .humidity-icon {
+  svg path:first-of-type {
+    stroke: #000 !important;
+  }
+  .overlay-drop .water {
+    background-color: #000;
+  }
+}
+
 .rtl main .weather .map-overlay .content-wrapper .weather-data .temp_min,
 .rtl main .weather .map-overlay .content-wrapper .weather-data .temp_max,
 .rtl main .weather .map-overlay .content-wrapper .weather-data .humidity {
