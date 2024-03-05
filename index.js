@@ -345,6 +345,15 @@ const CITY_HAVE_IMAGE = [
         link: "https://unsplash.com/@jezar",
       },
     ],
+  },{
+    name: "Paris",
+    id: [2988507],
+    images: [
+      {
+        photographer: "Chris Karidis",
+        link: "https://unsplash.com/@chriskaridis",
+      },
+    ],
   },
 ];
 const CITY_HAVE_VIDEO = [
