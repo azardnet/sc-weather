@@ -338,7 +338,7 @@ const CITY_HAVE_IMAGE = [
   },
   {
     name: "Tokyo",
-    id: 1850144,
+    id: [1850144, 1850147],
     images: [
       {
         photographer: "Jezael Melgoza",
@@ -559,20 +559,31 @@ function computeUI(result, city, interval) {
       sl("main .weather .map-overlay .content-wrapper h1 b").innerHTML =
         isPersianCharacter ? city : result.name;
       if (result.coord && result.coord.lat) {
-        if (!CITY_HAVE_IMAGE.find((item) => item.id === result.id)) {
+        if (!CITY_HAVE_IMAGE.find((item) => {
+          if (typeof item.id === "number") {
+            return item.id === result.id
+          } else {
+            return item.id.includes(result.id)
+          }
+        })) {
           cacheData.lat = result.coord.lat;
           cacheData.lon = result.coord.lon;
           createMap(result.coord.lat, result.coord.lon);
         } else {
           deleteMap();
-          const cityData = CITY_HAVE_IMAGE.find(
-            (item) => item.id === result.id
-          );
+          const cityData = CITY_HAVE_IMAGE.find((item) => {
+            if (typeof item.id === "number") {
+              return item.id === result.id
+            } else {
+              return item.id.includes(result.id)
+            }
+          });
+          console.log('qq', cityData)
           const randomNumber = randomIntFromInterval(
             0,
-            cityData.images.length - 1
-          );
-          const image = require(`./static/image/${result.id}-${
+            cityData?.images?.length - 1
+          ) || 0;
+          const image = require(`./static/image/${cityData.id[0] || cityData.id}-${
             randomNumber + 1
           }.jpg`);
           if (!CITY_HAVE_VIDEO.find((item) => item.id === result.id)) {
