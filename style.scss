@@ -377,6 +377,13 @@ main
     left: -88px;
   }
 }
+
+.rtl .weather-data .temp-feels-wrapper {
+  &:before {
+    left: -28px;
+  }
+}
+
 .weather-data .current-weather-icon svg path {
   stroke: #ffffff;
   stroke-width: 3px;
