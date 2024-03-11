@@ -1044,4 +1044,13 @@ main header button {
     color: #000;
     border: 2px solid rgba(0, 0, 0, 0.75);
   }
+  .weather-data .temp-feels-wrapper:before {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+  form.search .city-list-wrapper li {
+    color: #000;
+    &:not(:first-of-type) {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.75);
+    }
+  }
 }
