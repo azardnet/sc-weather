@@ -17,15 +17,18 @@
   font-weight: normal;
   font-style: normal;
 }
+
 body,
 html {
   padding: 0;
   margin: 0;
   overflow: hidden;
 }
+
 body {
   background-color: #072322;
 }
+
 main {
   display: flex;
   width: 100vw;
@@ -37,6 +40,7 @@ main {
   transform: translate3d(-50%, -50%, 0px);
   transition: all 200ms;
 }
+
 .blur main {
   opacity: 0.25;
   filter: blur(5px);
@@ -45,6 +49,7 @@ main {
 main .weather .map-overlay.interval {
   background-color: rgba(0, 0, 0, 0.25);
 }
+
 main .weather {
   margin-top: 10px;
   width: 80vw;
@@ -54,6 +59,7 @@ main .weather {
   background-size: cover;
   background-repeat: no-repeat;
   overflow: hidden;
+
   .bottom-overlay {
     width: calc(100% - 2em);
     display: flex;
@@ -67,11 +73,13 @@ main .weather {
     font-size: 0.75em;
     color: #ffffff;
     z-index: 2;
+
     .image-copyright {
       font-family: "Ephesis";
       letter-spacing: 4px;
       color: #fff;
     }
+
     span {
       font-family: Vazir;
       position: relative;
@@ -83,6 +91,7 @@ main .weather {
       transition-property: color;
       transition-duration: 250ms;
       color: #fff;
+
       &:before {
         content: "";
         width: 40px;
@@ -96,14 +105,17 @@ main .weather {
         transform-origin: center center;
         transition-property: opacity;
       }
+
       @keyframes loading-rotate {
         0% {
           transform: rotate(0deg) translate3d(0px, 0px, 0px);
         }
+
         100% {
           transform: rotate(360deg) translate3d(0px, 0px, 0px);
         }
       }
+
       &.loading:before {
         background-image: url("./static/icons/import-loading.svg");
         animation-name: loading-rotate;
@@ -111,26 +123,32 @@ main .weather {
         animation-iteration-count: infinite;
         animation-timing-function: ease-in;
       }
+
       &.loaded:before {
         background-image: url("./static/icons/import-wifi.svg");
       }
+
       &.error:before {
         background-image: url("./static/icons/import-error.svg");
         background-size: 50%;
       }
+
       &.top {
         color: rgba(0, 255, 0, 0.35);
       }
+
       &.down {
         color: rgba(255, 0, 0, 0.35);
       }
     }
   }
 }
+
 main .weather #map {
   width: 100%;
   height: 100%;
 }
+
 main .weather #video {
   display: none;
   position: absolute;
@@ -140,6 +158,7 @@ main .weather #video {
   top: 50%;
   transform: translate3d(-50%, -50%, 0);
 }
+
 .map-overlay {
   position: absolute;
   width: 100%;
@@ -155,6 +174,7 @@ main .weather #video {
   transition-property: background-color;
   transition-duration: 250ms;
 }
+
 .map-overlay .bottom {
   content: "";
   position: absolute;
@@ -181,6 +201,7 @@ main .weather #video {
   margin: auto;
   z-index: -1;
 }
+
 main .weather .map-overlay .content-wrapper {
   margin-top: 30px;
   display: flex;
@@ -189,15 +210,19 @@ main .weather .map-overlay .content-wrapper {
   align-items: center;
   width: 90%;
 }
+
 .rtl .weather .map-overlay .content-wrapper {
   direction: rtl;
 }
+
 .rtl .weather .map-overlay .content-wrapper .weather-data .temperature {
   direction: ltr;
 }
+
 main .weather .map-overlay .content-wrapper h1 {
   position: relative;
   margin: 0;
+
   b {
     font-family: Ephesis, Vazir;
     font-size: 3.5em;
@@ -210,6 +235,7 @@ main .weather .map-overlay .content-wrapper h1 {
     text-shadow: 3px 5px 0px rgba(255, 255, 255, 0.1);
   }
 }
+
 main .weather .map-overlay .content-wrapper .weather-data {
   font-family: Vazir;
   color: #ffffff;
@@ -220,6 +246,7 @@ main .weather .map-overlay .content-wrapper .weather-data {
   align-items: center;
   margin-top: 50px;
 }
+
 main .weather .map-overlay .content-wrapper .weather-data span {
   position: relative;
 }
@@ -234,25 +261,12 @@ main .weather .map-overlay .content-wrapper .weather-data .info {
   cursor: pointer;
 }
 
-main
-  .weather
-  .map-overlay
-  .content-wrapper
-  .weather-data
-  .info:hover
-  .last-update {
+main .weather .map-overlay .content-wrapper .weather-data .info:hover .last-update {
   visibility: visible;
   opacity: 1;
 }
 
-.rtl
-  main
-  .weather
-  .map-overlay
-  .content-wrapper
-  .weather-data
-  .info
-  .last-update {
+.rtl main .weather .map-overlay .content-wrapper .weather-data .info .last-update {
   left: auto;
   right: 40px;
   direction: rtl;
@@ -288,22 +302,14 @@ main .weather .map-overlay .content-wrapper .weather-data .temperature .unit {
   font-size: 40%;
 }
 
-main .weather .map-overlay .content-wrapper .weather-data .feels_like {
-}
+main .weather .map-overlay .content-wrapper .weather-data .feels_like {}
 
 main .weather .map-overlay .content-wrapper .weather-data span .value-wrapper {
   display: inline-block;
   margin: 0 3px;
 }
 
-.rtl
-  main
-  .weather
-  .map-overlay
-  .content-wrapper
-  .weather-data
-  span
-  .value-wrapper {
+.rtl main .weather .map-overlay .content-wrapper .weather-data span .value-wrapper {
   direction: ltr;
 }
 
@@ -311,16 +317,13 @@ main .weather .map-overlay .content-wrapper .weather-data span .value-wrapper {
   display: inline-block;
   direction: ltr;
 }
+
 main .weather .map-overlay .content-wrapper .weather-data .temperature {
   font-size: 2.375em;
   line-height: 36px;
 }
-main
-  .weather
-  .map-overlay
-  .content-wrapper
-  .weather-data
-  .weather-details-wrapper {
+
+main .weather .map-overlay .content-wrapper .weather-data .weather-details-wrapper {
   display: flex;
   flex-direction: column;
   min-width: 68px;
@@ -335,12 +338,15 @@ main
   justify-content: center;
   align-items: center;
   margin-top: -30px;
+
   span {
     text-transform: capitalize;
   }
+
   .svg-icon {
     width: 82px;
     height: 82px;
+
     @media only screen and (max-width: 750px) {
       width: 52px;
       height: 52px;
@@ -356,17 +362,20 @@ main
   width: 60px;
   height: 60px;
 }
+
 .weather-data .temp-feels-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   position: relative;
+
   @media only screen and (max-width: 750px) {
     &:before {
       display: none;
     }
   }
+
   &:before {
     content: "";
     background-color: rgba(255, 255, 255, 0.02);
@@ -464,10 +473,12 @@ main
   animation-duration: calc(var(--duration) / 1.4);
   animation-delay: calc(var(--duration) / 6);
 }
+
 @keyframes dot {
   0% {
     transform: translate3d(0px, 0px, 0px);
   }
+
   100% {
     transform: translate3d(0px, 50px, 0px);
   }
@@ -477,18 +488,22 @@ main
   0% {
     transform: translate3d(0px, 0px, 0px);
   }
+
   100% {
     transform: translate3d(-10px, 50px, 0px);
   }
 }
+
 main .weather .map-overlay .content-wrapper .weather-data .feels_like {
   margin-top: 0px;
   margin-bottom: 10px;
 }
+
 main .weather .map-overlay .content-wrapper .weather-data .temperature:after {
   top: -20px;
   font-size: 40%;
 }
+
 main .weather .map-overlay .content-wrapper .weather-data .min-max-wrapper {
   display: flex;
   flex-direction: column;
@@ -497,6 +512,7 @@ main .weather .map-overlay .content-wrapper .weather-data .min-max-wrapper {
   justify-content: center;
   width: 5em;
 }
+
 main .weather .map-overlay .content-wrapper .weather-data .temp_min,
 main .weather .map-overlay .content-wrapper .weather-data .temp_max {
   display: flex;
@@ -506,6 +522,7 @@ main .weather .map-overlay .content-wrapper .weather-data .temp_max {
   padding-left: 30px;
   width: 100%;
   height: 30px;
+
   &:before {
     position: absolute;
     left: 0;
@@ -531,16 +548,20 @@ main .weather .map-overlay .content-wrapper .weather-data .humidity {
   padding: 5px 15px 5px 15px;
   text-align: center;
   line-height: 22px;
-  > div {
+
+  >div {
     display: flex;
   }
+
   .unit {
     top: 0;
   }
+
   .humidity-icon {
     width: 26px;
     height: 26px;
     margin-right: 10px;
+
     svg {
       height: 26px;
       width: 26px;
@@ -549,10 +570,12 @@ main .weather .map-overlay .content-wrapper .weather-data .humidity {
       top: 52%;
       left: 16%;
       transform: translate(-50%, -50%);
+
       #rect4487 {
         fill: transparent;
       }
     }
+
     .overlay-drop {
       height: 16px;
       width: 16px;
@@ -562,6 +585,7 @@ main .weather .map-overlay .content-wrapper .weather-data .humidity {
       border-radius: 50%;
       transform: translate3d(-11px, 5px, 0px);
     }
+
     .water {
       background: white;
       position: relative;
@@ -575,36 +599,45 @@ main .weather .map-overlay .content-wrapper .weather-data .humidity {
       transition: all 1s ease;
       animation: wave 5s linear infinite, movetop 10s linear forwards;
     }
+
     @keyframes movetop {
       0% {
         top: 60%;
       }
+
       100% {
         top: 10px;
       }
     }
+
     @keyframes wave {
       0% {
         transform: rotate(0deg);
       }
+
       100% {
         transform: rotate(360deg);
       }
     }
   }
+
   @media only screen and (max-width: 750px) {
     padding: 5px 11px 5px 11px;
   }
+
   @media only screen and (max-width: 450px) {
     padding: 5px 6px 5px 6px;
+
     .humidity-icon {
       width: 22px !important;
       height: 22px !important;
+
       svg {
         width: 22px !important;
         height: 22px !important;
       }
     }
+
     .overlay-drop {
       height: 14px !important;
       width: 14px !important;
@@ -617,6 +650,7 @@ main .weather .map-overlay .content-wrapper .weather-data .humidity {
   svg path:first-of-type {
     stroke: #000 !important;
   }
+
   .overlay-drop .water {
     background-color: #000;
   }
@@ -630,6 +664,7 @@ main .weather .map-overlay .content-wrapper .weather-data .humidity {
 
 main .weather .map-overlay .content-wrapper .weather-data .temp_min {
   margin-top: 1em;
+
   &:before {
     transform: rotate(180deg);
   }
@@ -639,17 +674,21 @@ main .weather .map-overlay .content-wrapper .weather-data .temp_min {
   letter-spacing: 2px;
   font-size: 4.5em;
 }
+
 .rtl main .weather .map-overlay .content-wrapper h1 span {
   right: unset;
   left: -25px;
 }
+
 .rtl main header {
   direction: rtl;
 }
+
 .rtl .location-icon {
   right: auto !important;
   left: 6px;
 }
+
 main .weather .map-overlay .content-wrapper h1 span {
   width: 30px;
   height: 30px;
@@ -661,15 +700,18 @@ main .weather .map-overlay .content-wrapper h1 span {
   background-position: center;
   opacity: 0.45;
 }
+
 main header {
   margin-top: 1.9em;
   display: flex;
   width: 80vw;
   position: relative;
   justify-content: space-between;
+
   form.search {
     width: 50%;
     position: relative;
+
     input {
       background-color: rgba(255, 255, 255, 0.25);
       border: 0;
@@ -683,6 +725,7 @@ main header {
       height: 100%;
       box-sizing: border-box;
     }
+
     .city-list-wrapper {
       position: absolute;
       display: flex;
@@ -701,21 +744,25 @@ main header {
       opacity: 0;
       visibility: hidden;
       list-style: none;
+
       li {
         cursor: pointer;
         color: #fff;
         padding: 0 1em;
         font-size: 16px;
+
         &:not(:first-of-type) {
           border-bottom: 1px solid #fff;
         }
       }
+
       &.active {
         visibility: visible;
         opacity: 1;
         transform: translate3d(0px, 0px, 0);
       }
     }
+
     .location-icon {
       opacity: 0;
       visibility: hidden;
@@ -733,10 +780,12 @@ main header {
       border-radius: 50%;
       box-shadow: 0 0 0 1px #fff;
       cursor: pointer;
+
       svg {
         margin-top: 4px;
         width: 70%;
         height: 70%;
+
         path {
           fill: #072322;
           stroke: #072322;
@@ -745,6 +794,7 @@ main header {
       }
     }
   }
+
   &.left {
     .location-icon {
       left: auto !important;
@@ -752,21 +802,27 @@ main header {
     }
   }
 }
+
 .rtl main header form.search input {
   letter-spacing: 0;
 }
+
 main header.right {
   direction: rtl;
 }
+
 main header.left {
   direction: ltr;
 }
+
 main header form.search input:focus {
   outline: 0;
 }
+
 main header form.search input::placeholder {
   color: #bbbbbb;
 }
+
 main header button {
   width: 46px;
   height: 46px;
@@ -774,6 +830,7 @@ main header button {
   appearance: none;
   background-color: rgba(255, 255, 255, 0.3);
   cursor: pointer;
+
   svg path,
   svg polygon {
     fill: rgba(255, 255, 255, 0.7);
@@ -788,11 +845,13 @@ main header button {
   stroke-dashoffset: 0px !important;
   animation: unset;
 }
+
 .loading .portal-loading .circle path {
   animation-name: circle;
   animation-duration: 2000ms;
   animation-iteration-count: 1;
 }
+
 .loaded .portal-loading {
   opacity: 0;
   visibility: hidden;
@@ -802,33 +861,43 @@ main header button {
   0% {
     stroke-dashoffset: 620px;
   }
+
   5% {
     stroke-dashoffset: 610px;
   }
+
   15% {
     stroke-dashoffset: 570px;
   }
+
   20% {
     stroke-dashoffset: 560px;
   }
+
   30% {
     stroke-dashoffset: 500px;
   }
+
   40% {
     stroke-dashoffset: 370px;
   }
+
   45% {
     stroke-dashoffset: 370px;
   }
+
   60% {
     stroke-dashoffset: 190px;
   }
+
   70% {
     stroke-dashoffset: 70px;
   }
+
   75% {
     stroke-dashoffset: 40px;
   }
+
   100% {
     stroke-dashoffset: 40px;
   }
@@ -839,6 +908,7 @@ main header button {
   top: 55%;
   left: 50%;
   transform: translate3d(-40%, 5vh, 0px);
+
   .time-wrapper {
     color: #ffffff;
     font-size: 5em;
@@ -846,13 +916,16 @@ main header button {
     width: 4.25em;
     text-shadow: 3px 5px 0px rgba(255, 255, 255, 0.2);
     display: flex;
-    > div {
+
+    >div {
       display: flex;
     }
+
     .hour,
     .second {
       font-family: Ephesis, Vazir;
     }
+
     .minutes {
       font-size: 0.125em;
       font-family: Vazir;
@@ -863,11 +936,13 @@ main header button {
     }
   }
 }
+
 .rtl main .weather .map-overlay .content-wrapper .time-wrapper {
   direction: ltr;
   font-size: 5.5em;
   width: 3.75em;
 }
+
 .portal-model {
   position: fixed;
   display: flex;
@@ -885,10 +960,12 @@ main header button {
   visibility: hidden;
   transition: all 200ms;
   box-shadow: 0 0 0 1px #fff;
+
   &.active {
     transform: translate3d(-50%, -50%, 0px);
     opacity: 1;
     visibility: visible;
+
     &:before {
       content: "";
       position: absolute;
@@ -901,15 +978,18 @@ main header button {
       animation-iteration-count: 1;
       animation-timing-function: ease-in-out;
     }
+
     @keyframes portalModal {
       0% {
         transform: translate3d(0, 0, 0) scaleX(0);
       }
+
       100% {
         transform: translate3d(0, 0, 0) scaleX(1);
       }
     }
   }
+
   .close {
     position: absolute;
     width: 20px;
@@ -917,6 +997,7 @@ main header button {
     right: 20px;
     top: 15px;
     cursor: pointer;
+
     &:before,
     &:after {
       content: "";
@@ -926,17 +1007,21 @@ main header button {
       background-color: #ffffff;
       top: 10px;
     }
+
     &:before {
       transform: rotate(45deg);
     }
+
     &:after {
       transform: rotate(135deg);
     }
   }
+
   .text {
     font-family: Vazir;
   }
 }
+
 .portal-settings {
   position: fixed;
   width: 225px;
@@ -952,19 +1037,31 @@ main header button {
   opacity: 0;
   padding: 20px;
   transition: visibility, opacity 750ms;
+
   h6 {
     font-family: "Vazir", Sans-Serif, serif;
     margin: 0 10px 0px 0px;
   }
+
+  input[type="color"] {
+    border: 0;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 0px 6px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
+  }
+
   div {
     display: flex;
     align-items: center;
+
     &:not(:last-of-type) {
       margin-bottom: 16px;
     }
   }
+
   .action-wrapper {
     justify-content: space-between;
+
     button {
       width: calc(50% - 10px);
       appearance: none;
@@ -989,6 +1086,7 @@ main header button {
   .city-list-wrapper {
     width: calc(100% - 6px) !important;
   }
+
   main header,
   main .weather {
     width: calc(90vw - 2em) !important;
@@ -1001,10 +1099,12 @@ main header button {
     width: calc(100% - 5px) !important;
     top: 28px !important;
   }
+
   main header button {
     width: 38px;
     height: 38px;
   }
+
   main header,
   main .weather {
     width: calc(95vw - 1em) !important;
@@ -1013,6 +1113,7 @@ main header button {
 }
 
 .light {
+
   main .weather .map-overlay .content-wrapper h1 b,
   .digital-clock .time-wrapper,
   .weather-data .temp-feels-wrapper,
@@ -1021,10 +1122,12 @@ main header button {
   main .weather .bottom-overlay .image-copyright {
     color: #000;
   }
+
   main header button svg path,
   main header button svg polygon {
     fill: #000;
   }
+
   main .weather .map-overlay .content-wrapper .weather-data .info,
   main .weather .map-overlay .content-wrapper .weather-data .temp_min:before,
   main .weather .map-overlay .content-wrapper .weather-data .temp_max:before,
@@ -1032,23 +1135,29 @@ main header button {
   main .weather .bottom-overlay span:before {
     filter: brightness(0);
   }
+
   main header form.search input {
     background-color: rgba(0, 0, 0, 0.15);
     color: #000;
   }
+
   .digital-clock .time-wrapper,
   main .weather .map-overlay .content-wrapper h1 b {
     text-shadow: 3px 5px 0px rgba(0, 0, 0, 0.2);
   }
+
   .portal-settings .action-wrapper button {
     color: #000;
     border: 2px solid rgba(0, 0, 0, 0.75);
   }
+
   .weather-data .temp-feels-wrapper:before {
     background-color: rgba(0, 0, 0, 0.03);
   }
+
   form.search .city-list-wrapper li {
     color: #000;
+
     &:not(:first-of-type) {
       border-bottom: 1px solid rgba(0, 0, 0, 0.75);
     }
