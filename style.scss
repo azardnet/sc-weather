@@ -1025,7 +1025,7 @@ main header button {
 .portal-settings {
   position: fixed;
   width: 225px;
-  height: 145px;
+  height: 156px;
   right: 0;
   left: 0;
   margin: auto;
@@ -1076,6 +1076,7 @@ main header button {
       padding: 5px;
       background-color: transparent;
       border: 2px solid rgba(255, 255, 255, 0.75);
+      font-family: Sans-Serif, serif, 'Vazir';
       color: #fff;
     }
   }
@@ -1107,7 +1108,7 @@ main header button {
   .portal-settings>div:nth-child(3) h6 {
     font-size: 0px;
     &:before {
-      content: "عکس تمام صفحه";
+      content: "عکس تمام صفحه: ";
       font-size: 13px;
     }
   }

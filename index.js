@@ -349,7 +349,7 @@ const CITY_HAVE_IMAGE = [
         link: "https://unsplash.com/@jezar",
       },
     ],
-  },{
+  }, {
     name: "Paris",
     id: [2988507],
     images: [
@@ -434,9 +434,8 @@ const handleMouseMoveOnInfo = () => {
   );
   sl(
     "main .weather .map-overlay .content-wrapper .weather-data .info .last-update"
-  ).innerHTML = `${
-    translate[`${isPersianCharacter ? "fa" : "en"}`].lastUpdate
-  } ${timeAgo(lastUpdate, isPersianCharacter ? "fa" : "en")}`;
+  ).innerHTML = `${translate[`${isPersianCharacter ? "fa" : "en"}`].lastUpdate
+    } ${timeAgo(lastUpdate, isPersianCharacter ? "fa" : "en")}`;
 };
 
 function onInputKeydown(event) {
@@ -497,14 +496,17 @@ function searchWeather(city, interval) {
     if (isPersianCharacter) {
       document.body.classList.add("rtl");
       inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید.";
+      sl(".portal-settings .action-wrapper button:nth-of-type(1)").innerText = "تنظیم مجدد";
+      sl(".portal-settings .action-wrapper button:nth-of-type(2)").innerText = "ذخیره";
     } else {
       document.body.classList.remove("rtl");
       inputEl.placeholder = "type City and hit Enter";
+      sl(".portal-settings .action-wrapper button:nth-of-type(1)").innerText = "Reset";
+      sl(".portal-settings .action-wrapper button:nth-of-type(2)").innerText = "Submit";
     }
   }
   fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lang=${
-      isPersianCharacter ? "fa" : "en"
+    `https://api.openweathermap.org/data/2.5/weather?lang=${isPersianCharacter ? "fa" : "en"
     }&q=${cityNameParam}&APPID=${OPEN_WEATHER_KEY}&units=metric`
   )
     .then((result) => {
@@ -610,9 +612,8 @@ function computeUI(result, city, interval) {
             0,
             cityData?.images?.length - 1
           ) || 0;
-          const image = require(`./static/image/${cityData.id[0] || cityData.id}-${
-            randomNumber + 1
-          }.jpg`);
+          const image = require(`./static/image/${cityData.id[0] || cityData.id}-${randomNumber + 1
+            }.jpg`);
           if (!CITY_HAVE_VIDEO.find((item) => item.id === result.id)) {
             sl("main .weather").style.backgroundImage = `url(${image})`;
             sl("main .weather .image-copyright").style.display = "block";
@@ -692,8 +693,8 @@ function computeUI(result, city, interval) {
     sl(
       "main .weather .map-overlay .content-wrapper .weather-data .temperature .value"
     ).innerHTML = isPersianCharacter
-      ? NumbersToPersian(result.main.temp.toFixed(TO_FIXED))
-      : result.main.temp.toFixed(TO_FIXED);
+        ? NumbersToPersian(result.main.temp.toFixed(TO_FIXED))
+        : result.main.temp.toFixed(TO_FIXED);
     sl(
       "main .weather .map-overlay .content-wrapper .weather-data .temperature .unit"
     ).innerHTML = UNIT;
@@ -703,8 +704,8 @@ function computeUI(result, city, interval) {
     sl(
       "main .weather .map-overlay .content-wrapper .weather-data .feels_like .value"
     ).innerHTML = isPersianCharacter
-      ? NumbersToPersian(result.main.feels_like.toFixed(TO_FIXED))
-      : result.main.feels_like.toFixed(TO_FIXED);
+        ? NumbersToPersian(result.main.feels_like.toFixed(TO_FIXED))
+        : result.main.feels_like.toFixed(TO_FIXED);
     sl(
       "main .weather .map-overlay .content-wrapper .weather-data .feels_like .unit"
     ).innerHTML = UNIT;
@@ -714,34 +715,33 @@ function computeUI(result, city, interval) {
     sl(
       "main .weather .map-overlay .content-wrapper .weather-data .wind-speed .value"
     ).innerHTML = isPersianCharacter
-      ? `${NumbersToPersian(result.wind.speed.toFixed(TO_FIXED))} <span>${
-          translate.fa.WindSpeedUnit
+        ? `${NumbersToPersian(result.wind.speed.toFixed(TO_FIXED))} <span>${translate.fa.WindSpeedUnit
         }</span>`
-      : `${result.wind.speed.toFixed(TO_FIXED)} ${translate.en.WindSpeedUnit}`;
+        : `${result.wind.speed.toFixed(TO_FIXED)} ${translate.en.WindSpeedUnit}`;
     sl(
       ".map-overlay .content-wrapper .weather-data .current-weather-icon span"
     ).innerHTML = result.weather[0].description;
     sl(
       "main .weather .map-overlay .content-wrapper .weather-data .temp_max .value"
     ).innerHTML = isPersianCharacter
-      ? NumbersToPersian(result.main.temp_max.toFixed(TO_FIXED))
-      : result.main.temp_max.toFixed(TO_FIXED);
+        ? NumbersToPersian(result.main.temp_max.toFixed(TO_FIXED))
+        : result.main.temp_max.toFixed(TO_FIXED);
     sl(
       "main .weather .map-overlay .content-wrapper .weather-data .temp_max .unit"
     ).innerHTML = UNIT;
     sl(
       "main .weather .map-overlay .content-wrapper .weather-data .temp_min .value"
     ).innerHTML = isPersianCharacter
-      ? NumbersToPersian(result.main.temp_min.toFixed(TO_FIXED))
-      : result.main.temp_min.toFixed(TO_FIXED);
+        ? NumbersToPersian(result.main.temp_min.toFixed(TO_FIXED))
+        : result.main.temp_min.toFixed(TO_FIXED);
     sl(
       "main .weather .map-overlay .content-wrapper .weather-data .temp_min .unit"
     ).innerHTML = UNIT;
     sl(
       "main .weather .map-overlay .content-wrapper .weather-data .humidity .value"
     ).innerHTML = isPersianCharacter
-      ? NumbersToPersian(result.main.humidity)
-      : result.main.humidity;
+        ? NumbersToPersian(result.main.humidity)
+        : result.main.humidity;
     setTimeout(() => {
       sl("main .weather .map-overlay").classList.add("interval");
     }, 250);
@@ -848,12 +848,10 @@ function currentTime() {
   min = updateTime(min);
   sec = updateTime(sec);
   curr_date = updateTime(curr_date);
-  sl(".digital-clock .time-wrapper .hour").innerHTML = `${
-    isPersianCharacter ? NumbersToPersian(hour) : hour
-  }:${isPersianCharacter ? NumbersToPersian(min) : min}`;
-  sl(".digital-clock .time-wrapper .second").innerHTML = `:${
-    isPersianCharacter ? NumbersToPersian(sec) : sec
-  }`;
+  sl(".digital-clock .time-wrapper .hour").innerHTML = `${isPersianCharacter ? NumbersToPersian(hour) : hour
+    }:${isPersianCharacter ? NumbersToPersian(min) : min}`;
+  sl(".digital-clock .time-wrapper .second").innerHTML = `:${isPersianCharacter ? NumbersToPersian(sec) : sec
+    }`;
   sl(".digital-clock .time-wrapper .minutes").innerHTML = `${midday}`;
 }
 function updateTime(k) {
