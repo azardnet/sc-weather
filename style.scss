@@ -1024,7 +1024,7 @@ main header button {
 
 .portal-settings {
   position: fixed;
-  width: 225px;
+  width: 245px;
   height: 156px;
   right: 0;
   left: 0;
@@ -1091,24 +1091,31 @@ main header button {
 }
 
 .rtl {
+  .portal-settings div {
+    flex-direction: row-reverse;
+    h6 {
+      margin-left: 10px;
+      margin-right: 0px;
+    }
+  }
   .portal-settings>div:nth-child(1) h6 {
     font-size: 0px;
     &:before {
-      content: "رنگ: ";
+      content: "رنگ ";
       font-size: 13px;
     }
   }
   .portal-settings>div:nth-child(2) h6 {
     font-size: 0px;
     &:before {
-      content: "تاری رنگ اصلی: ";
+      content: "تاری رنگ اصلی ";
       font-size: 13px;
     }
   }
   .portal-settings>div:nth-child(3) h6 {
     font-size: 0px;
     &:before {
-      content: "عکس تمام صفحه: ";
+      content: "عکس تمام صفحه";
       font-size: 13px;
     }
   }
