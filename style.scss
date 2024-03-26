@@ -1041,6 +1041,8 @@ main header button {
   h6 {
     font-family: "Vazir", Sans-Serif, serif;
     margin: 0 10px 0px 0px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 80%);
   }
 
   input[type="color"] {
@@ -1085,6 +1087,30 @@ main header button {
 
 .rtl .weather .map-overlay .content-wrapper .weather-data .wind-speed .value {
   direction: rtl;
+}
+
+.rtl {
+  .portal-settings>div:nth-child(1) h6 {
+    font-size: 0px;
+    &:before {
+      content: "رنگ: ";
+      font-size: 13px;
+    }
+  }
+  .portal-settings>div:nth-child(2) h6 {
+    font-size: 0px;
+    &:before {
+      content: "تاری رنگ اصلی: ";
+      font-size: 13px;
+    }
+  }
+  .portal-settings>div:nth-child(3) h6 {
+    font-size: 0px;
+    &:before {
+      content: "عکس تمام صفحه";
+      font-size: 13px;
+    }
+  }
 }
 
 @media only screen and (max-width: 750px) {
