@@ -946,6 +946,13 @@ main header button {
   }
 }
 
+.rtl .digital-clock {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate3d(-50%, 3vh, 0px);
+}
+
 .rtl main .weather .map-overlay .content-wrapper .time-wrapper {
   direction: ltr;
   font-size: 5.5em;

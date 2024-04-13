@@ -228,6 +228,10 @@ const CITY_HAVE_IMAGE = [
         photographer: "Venyamin Koretskiy",
         link: "https://unsplash.com/@bennjeck",
       },
+      {
+        photographer: "Davit Simonyan",
+        link: "https://unsplash.com/@neodavit",
+      },
     ],
   },
   {
@@ -607,7 +611,6 @@ function computeUI(result, city, interval) {
               return item.id.includes(result.id)
             }
           });
-          console.log('qq', cityData)
           const randomNumber = randomIntFromInterval(
             0,
             cityData?.images?.length - 1
