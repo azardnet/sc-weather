@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #918445;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -17,4 +17,16 @@ body,
 html {
   margin: 0;
   padding: 0;
+}
+
+
+.t-main {
+  background-color: rgb(255 255 255 / 10%);
+  width: 325px;
+  height: 220px;
+  box-shadow: 10px 8px 14px -4px rgb(0 0 0 / 16%), 4px 4px 0px 1px rgb(255 255 255 / 10%);
+  border: 1px solid rgb(255 255 255 / 15%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

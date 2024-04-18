@@ -4,7 +4,10 @@ import { useEffect, useState } from "react";
 import WeatherData from "./components/WeatherData";
 
 const AppWrapper = styled.section`
-  padding: 40px;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  align-items: center;
 `;
 
 const OPEN_WEATHER_KEY = import.meta.env.VITE_OPENWEATHER;
@@ -35,7 +38,7 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
 
   return (
     <AppWrapper>
-      <div>SC-weather</div>
+      {/* <div>SC-weather</div>
       <Search onSubmit={onSubmit} />
       <WeatherData />
       {data.loading ? (
@@ -46,7 +49,10 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
             ? ""
             : JSON.stringify(data.response, null, 4)}
         </pre>
-      )}
+      )} */}
+      <div className="t-main">
+        <div>Weather</div>
+      </div>
     </AppWrapper>
   );
 }
