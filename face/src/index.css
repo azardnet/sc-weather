@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Nova Round", system-ui, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -17,16 +17,4 @@ body,
 html {
   margin: 0;
   padding: 0;
-}
-
-
-.t-main {
-  background-color: rgb(255 255 255 / 10%);
-  width: 325px;
-  height: 220px;
-  box-shadow: 10px 8px 14px -4px rgb(0 0 0 / 16%), 4px 4px 0px 1px rgb(255 255 255 / 10%);
-  border: 1px solid rgb(255 255 255 / 15%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
