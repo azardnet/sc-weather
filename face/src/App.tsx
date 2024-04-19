@@ -63,6 +63,17 @@ const AppWrapper = styled.section`
     text-transform: uppercase;
     text-shadow: 1px 0px 0px rgb(0 0 0 / 30%), 0px 0px 2px rgb(0 0 0 / 11%);
   }
+  button {
+    position: absolute;
+    top: 0px;
+    background: rgb(255 255 255 / 5%);
+    width: 35px;
+    height: 18px;
+    border: 0;
+    left: 0px;
+    z-index: -1;
+    box-shadow: 7px 0px 8px -6px rgb(0 0 0 / 20%);
+  }
 }
 `;
 
@@ -110,6 +121,7 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
         <header>
           <img src="https://azardnet.github.io/sc-weather/img/gb.35dbacd736781608964ae37a3b390b48.svg" width={18} height={18} alt="uk" />
           <h1>Liverpool</h1>
+          <button></button>
         </header>
       </div>
     </AppWrapper>
