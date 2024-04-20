@@ -29,7 +29,7 @@ const AppWrapper = styled.section`
     background-color: rgb(145, 132, 69);
     top: -13px;
     left: -15px;
-    border-right: 1px solid rgba(255, 255, 255, 0.72);
+    border-right: 1px dashed rgba(255, 255, 255, 0.3);
     border-radius: 1px;
     transform: rotate(43deg);
 }
@@ -43,6 +43,18 @@ const AppWrapper = styled.section`
     width: 100%;
     height: 1px;
     background-color: rgb(255 255 255 / 15%);
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    background: rgb(255 255 255 / 5%);
+    width: 35px;
+    height: 18px;
+    border: 0;
+    left: 0px;
+    z-index: -1;
+    box-shadow: 7px 0px 8px -6px rgb(0 0 0 / 15%);
   }
   img {
     position: absolute;
@@ -66,13 +78,20 @@ const AppWrapper = styled.section`
   button {
     position: absolute;
     top: 0px;
-    background: rgb(255 255 255 / 5%);
+    background: transparent;
     width: 35px;
     height: 18px;
     border: 0;
     left: 0px;
-    z-index: -1;
-    box-shadow: 7px 0px 8px -6px rgb(0 0 0 / 20%);
+    svg {
+      width: 80%;
+      height: 80%;
+      margin-left: 8px;
+      margin-top: 2px;
+      path {
+        fill: #fff;
+      }
+    }
   }
 }
 `;
@@ -121,7 +140,9 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
         <header>
           <img src="https://azardnet.github.io/sc-weather/img/gb.35dbacd736781608964ae37a3b390b48.svg" width={18} height={18} alt="uk" />
           <h1>Liverpool</h1>
-          <button></button>
+          <button onClick={() => alert('search')}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 100" fill="none" x="0px" y="0px"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H14V14H0V0ZM0 38H14V52H0V38ZM14 76H0V90H14V76Z" fill="black" /></svg>
+          </button>
         </header>
       </div>
     </AppWrapper>
