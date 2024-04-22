@@ -100,6 +100,36 @@ export const AppWrapper = styled.section`
     }
     section {
       display: flex;
+      width: 100%;
+      padding: 8px 0px 0px 8px;
+      box-sizing: border-box;
+      position: relative;
+      .temperature {
+        .main-value {
+          strong {
+            font-size: 28px;
+            letter-spacing: -1px;
+            text-shadow: 0px 0px 1px rgb(0 0 0 / 30%);
+          }
+          span {
+            font-size: 10px;
+            display: inline-block;
+            transform: translate(2px, -14px);
+          }
+        }
+        .weather-state {
+          font-size: 11px;
+          margin-top: -8px;
+          margin-bottom: 0px;
+        }
+        > svg {
+          position: absolute;
+          top: 12px;
+          right: 8px;
+          width: 45px;
+          height: 45px;
+        }
+      }
     }
   }
 `;

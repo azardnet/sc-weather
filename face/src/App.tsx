@@ -75,6 +75,7 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
               <strong>26.6</strong>
               <span>°C</span>
             </div>
+            <h3 className="weather-state">few clouds</h3>
             <div className="max-min">
               <span>
                 <svg
@@ -90,7 +91,7 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
                   />
                 </svg>
                 <div>
-                  <strong>21.2</strong>
+                  <strong>27.2</strong>
                   <span>°C</span>
                 </div>
               </span>
@@ -113,7 +114,6 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
                 </div>
               </span>
             </div>
-            <h3 className="weather-state">few clouds</h3>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
               <defs>
                 <clipPath id="a">
