@@ -129,6 +129,28 @@ export const AppWrapper = styled.section`
           width: 45px;
           height: 45px;
         }
+        .max-min {
+          display: flex;
+          > span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            strong {
+              font-size: 12px;
+            }
+            span {
+              font-size: 8px;
+            }
+            svg {
+              path {
+                stroke: #fff;
+                stroke-width: 5px;
+              }
+              width: 8px;
+              height: 8px;
+            }
+          }
+        }
       }
     }
   }

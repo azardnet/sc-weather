@@ -61,8 +61,8 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
               y="0px"
             >
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M0 0H14V14H0V0ZM0 38H14V52H0V38ZM14 76H0V90H14V76Z"
                 fill="black"
               />
@@ -123,14 +123,14 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
                   />
                 </clipPath>
               </defs>
-              <g clip-path="url(#a)">
+              <g clipPath="url(#a)">
                 <g>
                   <path
                     fill="none"
                     stroke="#f59e0b"
-                    stroke-linecap="round"
-                    stroke-miterlimit="10"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeMiterlimit="10"
+                    strokeWidth="2"
                     d="M23.5 24a4.5 4.5 0 11-4.5-4.5 4.49 4.49 0 014.5 4.5zM19 15.67V12.5m0 23v-3.17m5.89-14.22l2.24-2.24M10.87 32.13l2.24-2.24m0-11.78l-2.24-2.24m16.26 16.26l-2.24-2.24M7.5 24h3.17m19.83 0h-3.17"
                   />
                   <animateTransform
@@ -146,18 +146,18 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
               <path
                 fill="none"
                 stroke="#e5e7eb"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="3"
                 d="M43.67 45.5h2.83a7 7 0 000-14h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0"
               />
               <g>
                 <path
                   fill="none"
                   stroke="#2885c7"
-                  stroke-linecap="round"
-                  stroke-miterlimit="10"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeMiterlimit="10"
+                  strokeWidth="2"
                   d="M24.39 43.03l-.78 4.94"
                 />
                 <animateTransform
@@ -178,9 +178,9 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
                 <path
                   fill="none"
                   stroke="#2885c7"
-                  stroke-linecap="round"
-                  stroke-miterlimit="10"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeMiterlimit="10"
+                  strokeWidth="2"
                   d="M31.39 43.03l-.78 4.94"
                 />
                 <animateTransform
@@ -203,9 +203,9 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
                 <path
                   fill="none"
                   stroke="#2885c7"
-                  stroke-linecap="round"
-                  stroke-miterlimit="10"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeMiterlimit="10"
+                  strokeWidth="2"
                   d="M38.39 43.03l-.78 4.94"
                 />
                 <animateTransform
