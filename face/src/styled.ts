@@ -124,7 +124,7 @@ export const AppWrapper = styled.section`
         }
         > svg {
           position: absolute;
-          top: 12px;
+          top: 10px;
           right: 8px;
           width: 45px;
           height: 45px;
@@ -135,19 +135,31 @@ export const AppWrapper = styled.section`
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            &:last-of-type {
+              margin-left: 14px;
+            }
+            > div {
+              position: relative;
+            }
             strong {
-              font-size: 12px;
+              font-size: 10px;
             }
             span {
-              font-size: 8px;
+              font-size: 6px;
+              position: absolute;
+              right: -7px;
+              top: 6px;
             }
             svg {
               path {
                 stroke: #fff;
-                stroke-width: 5px;
+                stroke-width: 3px;
               }
-              width: 8px;
-              height: 8px;
+              width: 10px;
+              height: 10px;
+              margin-right: 4px;
+              margin-top: 2px;
             }
           }
         }
