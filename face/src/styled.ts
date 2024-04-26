@@ -102,9 +102,10 @@ export const AppWrapper = styled.section`
     section {
       display: flex;
       width: 100%;
-      padding: 8px 0px 0px 8px;
+      padding: 8px 0px 8px 8px;
       box-sizing: border-box;
       position: relative;
+      border-bottom: 1px solid rgb(255 255 255 / 20%);
       .temperature {
         .feels-like {
           position: absolute;
@@ -112,12 +113,12 @@ export const AppWrapper = styled.section`
           align-items: center;
           justify-content: center;
           right: 13px;
-          top: 58px;
+          top: 56px;
           svg {
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             margin-top: 5px;
-            margin-right: 4px;
+            margin-right: 0px;
             path {
               fill: #fff;
             }
@@ -153,10 +154,10 @@ export const AppWrapper = styled.section`
         }
         > svg {
           position: absolute;
-          top: 8px;
+          top: 12px;
           right: 8px;
-          width: 45px;
-          height: 45px;
+          width: 30px;
+          height: 30px;
         }
         .max-min {
           display: flex;
