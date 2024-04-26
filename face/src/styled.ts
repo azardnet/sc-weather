@@ -87,6 +87,7 @@ export const AppWrapper = styled.section`
         height: 18px;
         border: 0;
         left: 0px;
+        cursor: pointer;
         svg {
           width: 80%;
           height: 80%;
@@ -105,6 +106,34 @@ export const AppWrapper = styled.section`
       box-sizing: border-box;
       position: relative;
       .temperature {
+        .feels-like {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          right: 13px;
+          top: 58px;
+          svg {
+            width: 20px;
+            height: 20px;
+            margin-top: 5px;
+            margin-right: 4px;
+            path {
+              fill: #fff;
+            }
+          }
+          .value {
+            position: relative;
+            strong {
+              font-size: 10px;
+            }
+            span {
+              position: absolute;
+              font-size: 6px;
+              top: 6px;
+            }
+          }
+        }
         .main-value {
           strong {
             font-size: 28px;
@@ -124,7 +153,7 @@ export const AppWrapper = styled.section`
         }
         > svg {
           position: absolute;
-          top: 10px;
+          top: 8px;
           right: 8px;
           width: 45px;
           height: 45px;
