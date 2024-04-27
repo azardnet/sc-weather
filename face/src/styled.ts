@@ -154,10 +154,10 @@ export const AppWrapper = styled.section`
         }
         > svg {
           position: absolute;
-          top: 12px;
+          top: 10px;
           right: 8px;
-          width: 30px;
-          height: 30px;
+          width: 38px;
+          height: 38px;
         }
         .max-min {
           display: flex;
