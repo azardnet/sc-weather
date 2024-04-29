@@ -113,7 +113,7 @@ export const AppWrapper = styled.section`
           align-items: center;
           justify-content: center;
           right: 13px;
-          top: 56px;
+          top: 60px;
           svg {
             width: 16px;
             height: 16px;
@@ -191,6 +191,16 @@ export const AppWrapper = styled.section`
               margin-right: 4px;
               margin-top: 2px;
             }
+          }
+        }
+      }
+    }
+    .temp-more-details {
+      display: flex;
+      div {
+        svg {
+          path {
+            fill: #fff;
           }
         }
       }
