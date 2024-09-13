@@ -56,6 +56,10 @@ const CITY_HAVE_IMAGE = [
         photographer: "Ashkan Forouzani",
         link: "https://unsplash.com/@ashkfor121",
       },
+      {
+        photographer: "ariyan Dv",
+        link: "https://unsplash.com/@ariyandv",
+      },
     ],
   },
   {
