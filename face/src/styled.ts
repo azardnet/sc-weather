@@ -17,6 +17,7 @@ export const AppWrapper = styled.section`
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
+    transform: scale(1.4);
   }
 
   .t-main:before {
@@ -197,8 +198,15 @@ export const AppWrapper = styled.section`
     }
     .temp-more-details {
       display: flex;
+      justify-content: space-between;
+      width: 100%;
       div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
         svg {
+          width: 30px;
           path {
             fill: #fff;
           }
