@@ -115,6 +115,7 @@ https://api.openweathermap.org/data/2.5/weather?lang=en&q=${input}&APPID=${OPEN_
               </span>
               <span>
                 <svg
+                  style={{transform: 'rotate3d(1, 0, 0, 180deg)'}}
                   xmlns="http://www.w3.org/2000/svg"
                   version="1.1"
                   x="0px"
