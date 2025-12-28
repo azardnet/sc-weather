@@ -16,384 +16,25 @@ import {
   isLight,
 } from "./utils";
 import { translate } from "./translate";
+import {
+  CITY_HAVE_IMAGE,
+  CITY_HAVE_VIDEO,
+  TO_FIXED,
+  SPEED_DETECTION_DELAY,
+  CREATE_MAP_DELAY,
+  PORTAL_MODAL_DELAY,
+  LOADING_TRANSITION_DELAY,
+  LOADING_DELAY,
+  REQUEST_INTERVAL,
+  UNIT,
+} from "./variables";
+
 const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
 const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`;
 const OPEN_WEATHER_KEY = process.env.OPENWEATHER;
-const UNIT = "°C";
-const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
-const LOADING_DELAY = 200; // ms
-const LOADING_TRANSITION_DELAY = 500; // ms
-const PORTAL_MODAL_DELAY = 2500; // 2.5s
-const CREATE_MAP_DELAY = 3000; // 3s
-const SPEED_DETECTION_DELAY = 15000; // 15s;
-const TO_FIXED = 2;
+
 let cacheData = { lat: 53.4106, lon: -2.9779 };
 let lastUpdate = new Date();
-const CITY_HAVE_IMAGE = [
-  {
-    name: "liverpool",
-    id: 2644210,
-    images: [
-      {
-        photographer: "Neil Martin",
-        link: "https://unsplash.com/@anagoge",
-      },
-      {
-        photographer: "Fleur",
-        link: "https://unsplash.com/@yer_a_wizard",
-      },
-      {
-        photographer: "Phil Kiel",
-        link: "https://unsplash.com/@pk_drone",
-      },
-    ],
-  },
-  {
-    name: "ahvāz",
-    id: 144448,
-    images: [
-      {
-        photographer: "Ashkan Forouzani",
-        link: "https://unsplash.com/@ashkfor121",
-      },
-      {
-        photographer: "ariyan Dv",
-        link: "https://unsplash.com/@ariyandv",
-      },
-    ],
-  },
-  {
-    name: "tehran",
-    id: 112931,
-    images: [
-      {
-        photographer: "Amirreza Kimiyaei",
-        link: "https://unsplash.com/@amirrezakm",
-      },
-      {
-        photographer: "Amirreza Kimiyaei",
-        link: "https://unsplash.com/@amirrezakm",
-      },
-      {
-        photographer: "Amirreza Amouie",
-        link: "https://unsplash.com/@amuuu",
-      },
-      {
-        photographer: "Khashayar Kouchpeydeh",
-        link: "https://unsplash.com/@kouchpeydeh",
-      },
-      {
-        photographer: "fatemeh momtaz",
-        link: "https://unsplash.com/@fatemehhmomtazz",
-      },
-      {
-        photographer: "Omid Armin",
-        link: "https://unsplash.com/@omidarmin",
-      },
-    ],
-  },
-  {
-    name: "āmol",
-    id: 143534,
-    images: [
-      {
-        photographer: "dash masoud",
-        link: "https://unsplash.com/@dashmasoud",
-      },
-    ],
-  },
-  {
-    name: "bābolsar",
-    id: 142358,
-    images: [
-      {
-        photographer: "Mehdi MeSSrro",
-        link: "https://unsplash.com/@messrro",
-      },
-    ],
-  },
-  {
-    name: "rasht",
-    id: 118743,
-    images: [
-      {
-        photographer: "Mostafa Yekrangi",
-        link: "https://unsplash.com/@mostafa",
-      },
-      {
-        photographer: "Ali Kokab",
-        link: "https://unsplash.com/@_alikokab_",
-      },
-    ],
-  },
-  {
-    name: "isfahan",
-    id: 418863,
-    images: [
-      {
-        photographer: "Yasin Abbasi",
-        link: "https://unsplash.com/@yasinabbasi",
-      },
-      {
-        photographer: "mostafa meraji",
-        link: "https://unsplash.com/@mostafa_meraji",
-      },
-    ],
-  },
-  {
-    name: "yazd",
-    id: 111822,
-    images: [
-      {
-        photographer: "Hasan Almasi",
-        link: "https://unsplash.com/@hasanalmasi",
-      },
-    ],
-  },
-  {
-    name: "amsterdam",
-    id: 2759794,
-    images: [
-      {
-        photographer: "Azhar J",
-        link: "https://unsplash.com/@azhrjl",
-      },
-    ],
-  },
-  {
-    name: "tabriz",
-    id: 113646,
-    images: [
-      {
-        photographer: "Mohammad Mohammadpour",
-        link: "https://unsplash.com/@m_mohammadpour",
-      },
-    ],
-  },
-  {
-    name: "sari",
-    id: 116996,
-    images: [
-      {
-        photographer: "",
-        link: "",
-      },
-      {
-        photographer: "Danial soheyli",
-        link: "https://unsplash.com/@es1992",
-      },
-    ],
-  },
-  {
-    name: "Karaj",
-    id: 128747,
-    images: [
-      {
-        photographer: "MHossein Hosseini",
-        link: "https://unsplash.com/@hosseiin",
-      },
-    ],
-  },
-  {
-    name: "Torin",
-    id: 3165524,
-    images: [
-      {
-        photographer: "cristiano caligaris",
-        link: "https://unsplash.com/@cristianocaligaris",
-      },
-    ],
-  },
-  {
-    name: "London",
-    id: 2643743,
-    images: [
-      {
-        photographer: "Benjamin Davies",
-        link: "https://unsplash.com/@bendavisual",
-      },
-    ],
-  },
-  {
-    name: "Dubai",
-    id: 292223,
-    images: [
-      {
-        photographer: "ZQ Lee",
-        link: "https://unsplash.com/@zqlee",
-      },
-    ],
-  },
-  {
-    name: "Yerevan",
-    id: 616052,
-    images: [
-      {
-        photographer: "Venyamin Koretskiy",
-        link: "https://unsplash.com/@bennjeck",
-      },
-      {
-        photographer: "Davit Simonyan",
-        link: "https://unsplash.com/@neodavit",
-      },
-    ],
-  },
-  {
-    name: "Tbilisi",
-    id: 611717,
-    images: [
-      {
-        photographer: "Kent Tupas",
-        link: "https://unsplash.com/@zplits",
-      },
-    ],
-  },
-  {
-    name: "Batumi",
-    id: 615532,
-    images: [
-      {
-        photographer: "Andrei Miranchuk",
-        link: "https://unsplash.com/@manuel_pirate",
-      },
-    ],
-  },
-  {
-    name: "Seattle",
-    id: 5809844,
-    images: [
-      {
-        photographer: "Thom Milkovic",
-        link: "https://unsplash.com/@thommilkovic",
-      },
-    ],
-  },
-  {
-    name: "Abu Dhabi",
-    id: 292968,
-    images: [
-      {
-        photographer: "Kevin JD",
-        link: "https://unsplash.com/@kevinjd123",
-      },
-    ],
-  },
-  {
-    name: "Cairo",
-    id: 360630,
-    images: [
-      {
-        photographer: "Spencer Davis",
-        link: "https://unsplash.com/@spencerdavis",
-      },
-    ],
-  },
-  {
-    name: "Riyadh",
-    id: 108410,
-    images: [
-      {
-        photographer: "ekrem osmanoglu",
-        link: "https://unsplash.com/@konevi",
-      },
-    ],
-  },
-  {
-    name: "Saint Petersburg",
-    id: 498817,
-    images: [
-      {
-        photographer: "Hu Chen",
-        link: "https://unsplash.com/@huchenme",
-      },
-    ],
-  },
-  {
-    name: "New York",
-    id: 5128581,
-    images: [
-      {
-        photographer: "Thomas Habr",
-        link: "https://unsplash.com/@thomashabr",
-      },
-    ],
-  },
-  {
-    name: "Washington D.C.",
-    id: 4140963,
-    images: [
-      {
-        photographer: "Duane Lempke",
-        link: "",
-      },
-    ],
-  },
-  {
-    name: "Strasbourg",
-    id: 2973783,
-    images: [
-      {
-        photographer: "Patrick Robert Doyle",
-        link: "https://unsplash.com/@teapowered",
-      },
-    ],
-  },
-  {
-    name: "Santa Monica",
-    id: 5393212,
-    images: [
-      {
-        photographer: "Matthew LeJune",
-        link: "https://unsplash.com/@matthewlejune",
-      },
-    ],
-  },
-  {
-    name: "Tokyo",
-    id: [1850144, 1850147],
-    images: [
-      {
-        photographer: "Jezael Melgoza",
-        link: "https://unsplash.com/@jezar",
-      },
-    ],
-  }, {
-    name: "Paris",
-    id: [2988507],
-    images: [
-      {
-        photographer: "Chris Karidis",
-        link: "https://unsplash.com/@chriskaridis",
-      },
-    ],
-  },
-  {
-    name: "Anzali Port",
-    id: [141679],
-    images: [
-      {
-        photographer: "MohammadReza Jelveh",
-        link: "https://unsplash.com/@mrjelveh",
-      },
-      {
-        photographer: "sara moezzi",
-        link: "https://unsplash.com/@sara_macha",
-      }
-    ],
-  },
-];
-const CITY_HAVE_VIDEO = [
-  {
-    name: "liverpool",
-    id: 2644210,
-    videos: [
-      {
-        channel: "Expedia",
-        link: "https://www.youtube.com/watch?v=ojrHLXj8GJA",
-      },
-    ],
-  },
-];
 
 function activePortalModal(text) {
   document.body.classList.remove("loading");
@@ -504,15 +145,20 @@ function searchWeather(city, interval) {
     if (isPersianCharacter) {
       document.body.classList.add("rtl");
       inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید.";
-      sl(".portal-settings .action-wrapper button:nth-of-type(1)").innerText = "تنظیم مجدد";
-      sl(".portal-settings .action-wrapper button:nth-of-type(2)").innerText = "ذخیره";
+      sl(".portal-settings .action-wrapper button:nth-of-type(1)").innerText =
+        "تنظیم مجدد";
+      sl(".portal-settings .action-wrapper button:nth-of-type(2)").innerText =
+        "ذخیره";
     } else {
       document.body.classList.remove("rtl");
       inputEl.placeholder = "type City and hit Enter";
-      sl(".portal-settings .action-wrapper button:nth-of-type(1)").innerText = "Reset";
-      sl(".portal-settings .action-wrapper button:nth-of-type(2)").innerText = "Submit";
+      sl(".portal-settings .action-wrapper button:nth-of-type(1)").innerText =
+        "Reset";
+      sl(".portal-settings .action-wrapper button:nth-of-type(2)").innerText =
+        "Submit";
     }
   }
+  console.log('fff', OPEN_WEATHER_KEY)
   fetch(
     `https://api.openweathermap.org/data/2.5/weather?lang=${isPersianCharacter ? "fa" : "en"
     }&q=${cityNameParam}&APPID=${OPEN_WEATHER_KEY}&units=metric`
@@ -596,13 +242,15 @@ function computeUI(result, city, interval) {
       sl("main .weather .map-overlay .content-wrapper h1 b").innerHTML =
         isPersianCharacter ? city : result.name;
       if (result.coord && result.coord.lat) {
-        if (!CITY_HAVE_IMAGE.find((item) => {
-          if (typeof item.id === "number") {
-            return item.id === result.id
-          } else {
-            return item.id.includes(result.id)
-          }
-        })) {
+        if (
+          !CITY_HAVE_IMAGE.find((item) => {
+            if (typeof item.id === "number") {
+              return item.id === result.id;
+            } else {
+              return item.id.includes(result.id);
+            }
+          })
+        ) {
           cacheData.lat = result.coord.lat;
           cacheData.lon = result.coord.lon;
           createMap(result.coord.lat, result.coord.lon);
@@ -610,17 +258,15 @@ function computeUI(result, city, interval) {
           deleteMap();
           const cityData = CITY_HAVE_IMAGE.find((item) => {
             if (typeof item.id === "number") {
-              return item.id === result.id
+              return item.id === result.id;
             } else {
-              return item.id.includes(result.id)
+              return item.id.includes(result.id);
             }
           });
-          const randomNumber = randomIntFromInterval(
-            0,
-            cityData?.images?.length - 1
-          ) || 0;
-          const image = require(`./static/image/${cityData.id[0] || cityData.id}-${randomNumber + 1
-            }.jpg`);
+          const randomNumber =
+            randomIntFromInterval(0, cityData?.images?.length - 1) || 0;
+          const image = require(`./static/image/${cityData.id[0] || cityData.id
+            }-${randomNumber + 1}.jpg`);
           if (!CITY_HAVE_VIDEO.find((item) => item.id === result.id)) {
             sl("main .weather").style.backgroundImage = `url(${image})`;
             sl("main .weather .image-copyright").style.display = "block";
@@ -879,14 +525,6 @@ function onContentLoaded() {
   setTimeout(() => {
     InitiateSpeedDetection();
   }, 400);
-  // if (navigator.geolocation) {
-  //   navigator.geolocation.getCurrentPosition((position) => {
-  //     console.log("test geo location", position);
-  //   });
-  // }
-  // sl("#video video").addEventListener("loadeddata", (e) => {
-  //   console.log("readyState", sl("#video video").readyState);
-  // });
   searchWeather(localStorage.getItem("last_search") || "Liverpool", false);
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker
@@ -940,9 +578,6 @@ sl("#fullScreenImage").addEventListener(
 sl(
   "main .weather .map-overlay .content-wrapper .weather-data .info"
 ).addEventListener("mousemove", handleMouseMoveOnInfo, false);
-// sl("main header form.search .location-icon").addEventListener("click", () => {
-//   alert("Not yet :(");
-// });
 document.addEventListener("fullscreenchange", onFullScreenChange);
 window.addEventListener("DOMContentLoaded", onContentLoaded);
 setInterval(currentTime, 1000);
