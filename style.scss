@@ -4,16 +4,16 @@
 
 @font-face {
   font-family: Vazir;
-  src: url("./static/fonts/Vazir-Medium.woff2") format("woff2"),
-    url("./static/fonts/Vazir-Medium.ttf") format("truetype");
+  src: url('./static/fonts/Vazir-Medium.woff2') format('woff2'),
+    url('./static/fonts/Vazir-Medium.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: Ephesis;
-  src: url("./static/fonts/Ephesis-Regular.woff2") format("woff2"),
-    url("./static/fonts/Ephesis-Regular.ttf") format("truetype");
+  src: url('./static/fonts/Ephesis-Regular.woff2') format('woff2'),
+    url('./static/fonts/Ephesis-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -75,7 +75,7 @@ main .weather {
     z-index: 2;
 
     .image-copyright {
-      font-family: "Ephesis";
+      font-family: 'Ephesis';
       letter-spacing: 4px;
       color: #fff;
     }
@@ -92,8 +92,8 @@ main .weather {
       transition-duration: 250ms;
       color: #fff;
 
-      &:before {
-        content: "";
+      &.internet-speed:before {
+        content: '';
         width: 40px;
         height: 40px;
         left: -10px;
@@ -117,7 +117,7 @@ main .weather {
       }
 
       &.loading:before {
-        background-image: url("./static/icons/import-loading.svg");
+        background-image: url('./static/icons/import-loading.svg');
         animation-name: loading-rotate;
         animation-duration: 2000ms;
         animation-iteration-count: infinite;
@@ -125,11 +125,11 @@ main .weather {
       }
 
       &.loaded:before {
-        background-image: url("./static/icons/import-wifi.svg");
+        background-image: url('./static/icons/import-wifi.svg');
       }
 
       &.error:before {
-        background-image: url("./static/icons/import-error.svg");
+        background-image: url('./static/icons/import-error.svg');
         background-size: 50%;
       }
 
@@ -176,7 +176,7 @@ main .weather #video {
 }
 
 .map-overlay .bottom {
-  content: "";
+  content: '';
   position: absolute;
   width: calc(100% + 4px);
   height: 35px;
@@ -186,7 +186,7 @@ main .weather #video {
   margin: auto;
   bottom: -5px;
   &:before {
-    content: "";
+    content: '';
     width: 100%;
     height: 40px;
     background-color: inherit;
@@ -196,7 +196,7 @@ main .weather #video {
 }
 
 .map-overlay .cover {
-  content: "";
+  content: '';
   position: absolute;
   width: calc(100% + 2px);
   height: calc(100% + 2px);
@@ -260,7 +260,7 @@ main .weather .map-overlay .content-wrapper .weather-data span {
 }
 
 main .weather .map-overlay .content-wrapper .weather-data .info {
-  background-image: url("./static/icons/import-info.svg");
+  background-image: url('./static/icons/import-info.svg');
   width: 30px;
   height: 30px;
   position: absolute;
@@ -310,7 +310,8 @@ main .weather .map-overlay .content-wrapper .weather-data .temperature .unit {
   font-size: 40%;
 }
 
-main .weather .map-overlay .content-wrapper .weather-data .feels_like {}
+main .weather .map-overlay .content-wrapper .weather-data .feels_like {
+}
 
 main .weather .map-overlay .content-wrapper .weather-data span .value-wrapper {
   display: inline-block;
@@ -385,7 +386,7 @@ main .weather .map-overlay .content-wrapper .weather-data .weather-details-wrapp
   }
 
   &:before {
-    content: "";
+    content: '';
     background-color: rgba(255, 255, 255, 0.02);
     position: absolute;
     width: calc(100% + 120px);
@@ -534,12 +535,12 @@ main .weather .map-overlay .content-wrapper .weather-data .temp_max {
   &:before {
     position: absolute;
     left: 0;
-    content: "";
+    content: '';
     width: 30px;
     height: 100%;
     opacity: 0.75;
     margin-right: 10px;
-    background-image: url("./static/icons/import-arrow-up.svg");
+    background-image: url('./static/icons/import-arrow-up.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 50%;
@@ -557,7 +558,7 @@ main .weather .map-overlay .content-wrapper .weather-data .humidity {
   text-align: center;
   line-height: 22px;
 
-  >div {
+  > div {
     display: flex;
   }
 
@@ -926,7 +927,7 @@ main header button {
     text-shadow: 3px 5px 0px rgba(255, 255, 255, 0.2);
     display: flex;
 
-    >div {
+    > div {
       display: flex;
     }
 
@@ -983,7 +984,7 @@ main header button {
     visibility: visible;
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       height: 100%;
       width: 100%;
@@ -1016,7 +1017,7 @@ main header button {
 
     &:before,
     &:after {
-      content: "";
+      content: '';
       width: 100%;
       height: 1px;
       position: absolute;
@@ -1055,20 +1056,20 @@ main header button {
   transition: visibility, opacity 750ms;
 
   h6 {
-    font-family: "Vazir", Sans-Serif, serif;
+    font-family: 'Vazir', Sans-Serif, serif;
     margin: 0 10px 0px 0px;
     font-size: 12px;
     color: rgba(0, 0, 0, 80%);
   }
 
-  input[type="color"] {
+  input[type='color'] {
     border: 0;
     background: rgba(255, 255, 255, 0.3);
     padding: 0px 6px;
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
   }
 
-  input[type="checkbox"] {
+  input[type='checkbox'] {
     width: 18px;
     height: 18px;
   }
@@ -1114,24 +1115,24 @@ main header button {
       margin-right: 0px;
     }
   }
-  .portal-settings>div:nth-child(1) h6 {
+  .portal-settings > div:nth-child(1) h6 {
     font-size: 0px;
     &:before {
-      content: "رنگ ";
+      content: 'رنگ ';
       font-size: 13px;
     }
   }
-  .portal-settings>div:nth-child(2) h6 {
+  .portal-settings > div:nth-child(2) h6 {
     font-size: 0px;
     &:before {
-      content: "تاری رنگ اصلی ";
+      content: 'تاری رنگ اصلی ';
       font-size: 13px;
     }
   }
-  .portal-settings>div:nth-child(3) h6 {
+  .portal-settings > div:nth-child(3) h6 {
     font-size: 0px;
     &:before {
-      content: "عکس تمام صفحه";
+      content: 'عکس تمام صفحه';
       font-size: 13px;
     }
   }
@@ -1168,7 +1169,6 @@ main header button {
 }
 
 .light {
-
   main .weather .map-overlay .content-wrapper h1 b,
   .digital-clock .time-wrapper,
   .weather-data .temp-feels-wrapper,
@@ -1187,7 +1187,7 @@ main header button {
   main .weather .map-overlay .content-wrapper .weather-data .temp_min:before,
   main .weather .map-overlay .content-wrapper .weather-data .temp_max:before,
   main .weather .map-overlay .content-wrapper .weather-data .humidity:before,
-  main .weather .bottom-overlay span:before {
+  main .weather .bottom-overlay span.internet-speed:before {
     filter: brightness(0);
   }
 
@@ -1217,4 +1217,75 @@ main header button {
       border-bottom: 1px solid rgba(0, 0, 0, 0.75);
     }
   }
+}
+
+// USDT Price Widget Styles (humidity-inspired)
+.usdt-price-widget {
+  height: 20px;
+  position: relative;
+  background-color: transparent;
+  padding: 0;
+  text-align: center;
+  line-height: 22px;
+  direction: ltr;
+  font-family: Vazir;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .label {
+    font-weight: 600;
+    font-size: 11px;
+    margin: 0;
+    color: #fff;
+    opacity: 0.9;
+  }
+
+  .unit {
+    top: 0;
+    direction: ltr;
+    font-size: 10px;
+    margin-left: 4px;
+    opacity: 0.8;
+  }
+
+  .value {
+    direction: ltr;
+    font-weight: 600;
+  }
+
+  // Green for price increase
+  &.price-up {
+    .value {
+      color: #4ecca3;
+    }
+  }
+
+  // Red for price decrease
+  &.price-down {
+    .value {
+      color: #ff6b6b;
+    }
+  }
+}
+
+.light .usdt-price-widget {
+  &.price-up {
+    .value {
+      color: #00a86b;
+    }
+  }
+
+  &.price-down {
+    .value {
+      color: #d32f2f;
+    }
+  }
+}
+
+.rtl .usdt-price-widget {
+  direction: ltr;
 }
