@@ -1,8 +1,8 @@
 import { sl } from "./utils";
 
-const YANDEX_MAP_KEY = process.env.YANDEX_MAP
-export const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`
-export const OPEN_WEATHER_KEY = process.env.OPENWEATHER
+const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
+export const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`;
+export const OPEN_WEATHER_KEY = process.env.OPENWEATHER;
 export const UNIT = "°C";
 export const REQUEST_INTERVAL = 30 * (60 * 1000); // 30 minutes
 export const LOADING_DELAY = 200; // ms
@@ -395,11 +395,42 @@ export const els = {
   mOverlayC: sl(".map-overlay .cover"),
   fColor: sl("#favcolor"),
   lSvgP: sl("main header form.search .location-icon svg path"),
-  lUpdate: sl('main .weather .map-overlay .content-wrapper .weather-data .info .last-update'),
-  header: sl('header'),
-  cList: sl('main header .city-list-wrapper'),
-  weather: sl('.weather'),
-  sActionB1: sl('.portal-settings .action-wrapper button:nth-of-type(1)'),
-  sActionB2: sl('.portal-settings .action-wrapper button:nth-of-type(2)'),
-  main: sl('main')
+  lUpdate: sl(
+    "main .weather .map-overlay .content-wrapper .weather-data .info .last-update"
+  ),
+  header: sl("header"),
+  cList: sl("main header .city-list-wrapper"),
+  weather: sl("main .weather"),
+  pSettings: sl(".portal-settings"),
+  sButton: sl(".setting-button"),
+  sActionB1: sl(".portal-settings .action-wrapper button:nth-of-type(1)"),
+  sActionB2: sl(".portal-settings .action-wrapper button:nth-of-type(2)"),
+  main: sl("main"),
+  video: sl("#video"),
+  videoV: sl("#video video"),
+  mOpacity: sl("#mapOpacity"),
+  fScreen: sl("#fullScreenImage"),
+  mOverlay: sl("main .weather .map-overlay"),
+  copyright: sl("main .weather .bottom-overlay .image-copyright"),
+  mOverlayTitle: sl("main .weather .map-overlay .content-wrapper h1 b"),
+  mOverlaySpan: sl("main .weather .map-overlay .content-wrapper h1 span"),
+  wSvgIcon: sl(
+    "main .weather .map-overlay .content-wrapper .weather-data .current-weather-icon div.svg-icon"
+  ),
+  input: sl("main header form.search input"),
+  wTemperatureV: sl(
+    "main .weather .map-overlay .content-wrapper .weather-data .temperature .value"
+  ),
+  wTemperatureU: sl(
+    "main .weather .map-overlay .content-wrapper .weather-data .temperature .unit"
+  ),
+  wFeelsT: sl(
+    "main .weather .map-overlay .content-wrapper .weather-data .feels_like .text"
+  ),
+  wFeelsV: sl(
+    "main .weather .map-overlay .content-wrapper .weather-data .feels_like .value"
+  ),
+  wFeelsU: sl(
+    "main .weather .map-overlay .content-wrapper .weather-data .feels_like .unit"
+  ),
 };
