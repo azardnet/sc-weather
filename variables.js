@@ -1,436 +1,436 @@
-import { sl } from "./utils";
+import { sl } from './utils'
 
-const YANDEX_MAP_KEY = process.env.YANDEX_MAP;
-export const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`;
-export const OPEN_WEATHER_KEY = process.env.OPENWEATHER;
-export const UNIT = "°C";
-export const REQUEST_INTERVAL = 30 * (60 * 1000); // 30 minutes
-export const LOADING_DELAY = 200; // ms
-export const LOADING_TRANSITION_DELAY = 500; // ms
-export const PORTAL_MODAL_DELAY = 2500; // 2.5s
-export const CREATE_MAP_DELAY = 3000; // 3s
-export const SPEED_DETECTION_DELAY = 20000; // 20s;
-export const TO_FIXED = 2;
+const YANDEX_MAP_KEY = process.env.YANDEX_MAP
+export const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`
+export const OPEN_WEATHER_KEY = process.env.OPENWEATHER
+export const UNIT = '°C'
+export const REQUEST_INTERVAL = 30 * (60 * 1000) // 30 minutes
+export const LOADING_DELAY = 200 // ms
+export const LOADING_TRANSITION_DELAY = 500 // ms
+export const PORTAL_MODAL_DELAY = 2500 // 2.5s
+export const CREATE_MAP_DELAY = 3000 // 3s
+export const SPEED_DETECTION_DELAY = 20000 // 20s;
+export const TO_FIXED = 2
 export const CITY_HAVE_IMAGE = [
   {
-    name: "liverpool",
+    name: 'liverpool',
     id: 2644210,
     images: [
       {
-        photographer: "Neil Martin",
-        link: "https://unsplash.com/@anagoge",
+        photographer: 'Neil Martin',
+        link: 'https://unsplash.com/@anagoge'
       },
       {
-        photographer: "Fleur",
-        link: "https://unsplash.com/@yer_a_wizard",
+        photographer: 'Fleur',
+        link: 'https://unsplash.com/@yer_a_wizard'
       },
       {
-        photographer: "Phil Kiel",
-        link: "https://unsplash.com/@pk_drone",
-      },
-    ],
+        photographer: 'Phil Kiel',
+        link: 'https://unsplash.com/@pk_drone'
+      }
+    ]
   },
   {
-    name: "ahvāz",
+    name: 'ahvāz',
     id: 144448,
     images: [
       {
-        photographer: "Ashkan Forouzani",
-        link: "https://unsplash.com/@ashkfor121",
+        photographer: 'Ashkan Forouzani',
+        link: 'https://unsplash.com/@ashkfor121'
       },
       {
-        photographer: "ariyan Dv",
-        link: "https://unsplash.com/@ariyandv",
-      },
-    ],
+        photographer: 'ariyan Dv',
+        link: 'https://unsplash.com/@ariyandv'
+      }
+    ]
   },
   {
-    name: "tehran",
+    name: 'tehran',
     id: 112931,
     images: [
       {
-        photographer: "Amirreza Kimiyaei",
-        link: "https://unsplash.com/@amirrezakm",
+        photographer: 'Amirreza Kimiyaei',
+        link: 'https://unsplash.com/@amirrezakm'
       },
       {
-        photographer: "Amirreza Kimiyaei",
-        link: "https://unsplash.com/@amirrezakm",
+        photographer: 'Amirreza Kimiyaei',
+        link: 'https://unsplash.com/@amirrezakm'
       },
       {
-        photographer: "Amirreza Amouie",
-        link: "https://unsplash.com/@amuuu",
+        photographer: 'Amirreza Amouie',
+        link: 'https://unsplash.com/@amuuu'
       },
       {
-        photographer: "Khashayar Kouchpeydeh",
-        link: "https://unsplash.com/@kouchpeydeh",
+        photographer: 'Khashayar Kouchpeydeh',
+        link: 'https://unsplash.com/@kouchpeydeh'
       },
       {
-        photographer: "fatemeh momtaz",
-        link: "https://unsplash.com/@fatemehhmomtazz",
+        photographer: 'fatemeh momtaz',
+        link: 'https://unsplash.com/@fatemehhmomtazz'
       },
       {
-        photographer: "Omid Armin",
-        link: "https://unsplash.com/@omidarmin",
-      },
-    ],
+        photographer: 'Omid Armin',
+        link: 'https://unsplash.com/@omidarmin'
+      }
+    ]
   },
   {
-    name: "āmol",
+    name: 'āmol',
     id: 143534,
     images: [
       {
-        photographer: "dash masoud",
-        link: "https://unsplash.com/@dashmasoud",
-      },
-    ],
+        photographer: 'dash masoud',
+        link: 'https://unsplash.com/@dashmasoud'
+      }
+    ]
   },
   {
-    name: "bābolsar",
+    name: 'bābolsar',
     id: 142358,
     images: [
       {
-        photographer: "Mehdi MeSSrro",
-        link: "https://unsplash.com/@messrro",
-      },
-    ],
+        photographer: 'Mehdi MeSSrro',
+        link: 'https://unsplash.com/@messrro'
+      }
+    ]
   },
   {
-    name: "rasht",
+    name: 'rasht',
     id: 118743,
     images: [
       {
-        photographer: "Mostafa Yekrangi",
-        link: "https://unsplash.com/@mostafa",
+        photographer: 'Mostafa Yekrangi',
+        link: 'https://unsplash.com/@mostafa'
       },
       {
-        photographer: "Ali Kokab",
-        link: "https://unsplash.com/@_alikokab_",
-      },
-    ],
+        photographer: 'Ali Kokab',
+        link: 'https://unsplash.com/@_alikokab_'
+      }
+    ]
   },
   {
-    name: "isfahan",
+    name: 'isfahan',
     id: 418863,
     images: [
       {
-        photographer: "Yasin Abbasi",
-        link: "https://unsplash.com/@yasinabbasi",
+        photographer: 'Yasin Abbasi',
+        link: 'https://unsplash.com/@yasinabbasi'
       },
       {
-        photographer: "mostafa meraji",
-        link: "https://unsplash.com/@mostafa_meraji",
-      },
-    ],
+        photographer: 'mostafa meraji',
+        link: 'https://unsplash.com/@mostafa_meraji'
+      }
+    ]
   },
   {
-    name: "yazd",
+    name: 'yazd',
     id: 111822,
     images: [
       {
-        photographer: "Hasan Almasi",
-        link: "https://unsplash.com/@hasanalmasi",
-      },
-    ],
+        photographer: 'Hasan Almasi',
+        link: 'https://unsplash.com/@hasanalmasi'
+      }
+    ]
   },
   {
-    name: "amsterdam",
+    name: 'amsterdam',
     id: 2759794,
     images: [
       {
-        photographer: "Azhar J",
-        link: "https://unsplash.com/@azhrjl",
-      },
-    ],
+        photographer: 'Azhar J',
+        link: 'https://unsplash.com/@azhrjl'
+      }
+    ]
   },
   {
-    name: "tabriz",
+    name: 'tabriz',
     id: 113646,
     images: [
       {
-        photographer: "Mohammad Mohammadpour",
-        link: "https://unsplash.com/@m_mohammadpour",
-      },
-    ],
+        photographer: 'Mohammad Mohammadpour',
+        link: 'https://unsplash.com/@m_mohammadpour'
+      }
+    ]
   },
   {
-    name: "sari",
+    name: 'sari',
     id: 116996,
     images: [
       {
-        photographer: "",
-        link: "",
+        photographer: '',
+        link: ''
       },
       {
-        photographer: "Danial soheyli",
-        link: "https://unsplash.com/@es1992",
-      },
-    ],
+        photographer: 'Danial soheyli',
+        link: 'https://unsplash.com/@es1992'
+      }
+    ]
   },
   {
-    name: "Karaj",
+    name: 'Karaj',
     id: 128747,
     images: [
       {
-        photographer: "MHossein Hosseini",
-        link: "https://unsplash.com/@hosseiin",
-      },
-    ],
+        photographer: 'MHossein Hosseini',
+        link: 'https://unsplash.com/@hosseiin'
+      }
+    ]
   },
   {
-    name: "Torin",
+    name: 'Torin',
     id: 3165524,
     images: [
       {
-        photographer: "cristiano caligaris",
-        link: "https://unsplash.com/@cristianocaligaris",
-      },
-    ],
+        photographer: 'cristiano caligaris',
+        link: 'https://unsplash.com/@cristianocaligaris'
+      }
+    ]
   },
   {
-    name: "London",
+    name: 'London',
     id: 2643743,
     images: [
       {
-        photographer: "Benjamin Davies",
-        link: "https://unsplash.com/@bendavisual",
-      },
-    ],
+        photographer: 'Benjamin Davies',
+        link: 'https://unsplash.com/@bendavisual'
+      }
+    ]
   },
   {
-    name: "Dubai",
+    name: 'Dubai',
     id: 292223,
     images: [
       {
-        photographer: "ZQ Lee",
-        link: "https://unsplash.com/@zqlee",
-      },
-    ],
+        photographer: 'ZQ Lee',
+        link: 'https://unsplash.com/@zqlee'
+      }
+    ]
   },
   {
-    name: "Yerevan",
+    name: 'Yerevan',
     id: 616052,
     images: [
       {
-        photographer: "Venyamin Koretskiy",
-        link: "https://unsplash.com/@bennjeck",
+        photographer: 'Venyamin Koretskiy',
+        link: 'https://unsplash.com/@bennjeck'
       },
       {
-        photographer: "Davit Simonyan",
-        link: "https://unsplash.com/@neodavit",
-      },
-    ],
+        photographer: 'Davit Simonyan',
+        link: 'https://unsplash.com/@neodavit'
+      }
+    ]
   },
   {
-    name: "Tbilisi",
+    name: 'Tbilisi',
     id: 611717,
     images: [
       {
-        photographer: "Kent Tupas",
-        link: "https://unsplash.com/@zplits",
-      },
-    ],
+        photographer: 'Kent Tupas',
+        link: 'https://unsplash.com/@zplits'
+      }
+    ]
   },
   {
-    name: "Batumi",
+    name: 'Batumi',
     id: 615532,
     images: [
       {
-        photographer: "Andrei Miranchuk",
-        link: "https://unsplash.com/@manuel_pirate",
-      },
-    ],
+        photographer: 'Andrei Miranchuk',
+        link: 'https://unsplash.com/@manuel_pirate'
+      }
+    ]
   },
   {
-    name: "Seattle",
+    name: 'Seattle',
     id: 5809844,
     images: [
       {
-        photographer: "Thom Milkovic",
-        link: "https://unsplash.com/@thommilkovic",
-      },
-    ],
+        photographer: 'Thom Milkovic',
+        link: 'https://unsplash.com/@thommilkovic'
+      }
+    ]
   },
   {
-    name: "Abu Dhabi",
+    name: 'Abu Dhabi',
     id: 292968,
     images: [
       {
-        photographer: "Kevin JD",
-        link: "https://unsplash.com/@kevinjd123",
-      },
-    ],
+        photographer: 'Kevin JD',
+        link: 'https://unsplash.com/@kevinjd123'
+      }
+    ]
   },
   {
-    name: "Cairo",
+    name: 'Cairo',
     id: 360630,
     images: [
       {
-        photographer: "Spencer Davis",
-        link: "https://unsplash.com/@spencerdavis",
-      },
-    ],
+        photographer: 'Spencer Davis',
+        link: 'https://unsplash.com/@spencerdavis'
+      }
+    ]
   },
   {
-    name: "Riyadh",
+    name: 'Riyadh',
     id: 108410,
     images: [
       {
-        photographer: "ekrem osmanoglu",
-        link: "https://unsplash.com/@konevi",
-      },
-    ],
+        photographer: 'ekrem osmanoglu',
+        link: 'https://unsplash.com/@konevi'
+      }
+    ]
   },
   {
-    name: "Saint Petersburg",
+    name: 'Saint Petersburg',
     id: 498817,
     images: [
       {
-        photographer: "Hu Chen",
-        link: "https://unsplash.com/@huchenme",
-      },
-    ],
+        photographer: 'Hu Chen',
+        link: 'https://unsplash.com/@huchenme'
+      }
+    ]
   },
   {
-    name: "New York",
+    name: 'New York',
     id: 5128581,
     images: [
       {
-        photographer: "Thomas Habr",
-        link: "https://unsplash.com/@thomashabr",
-      },
-    ],
+        photographer: 'Thomas Habr',
+        link: 'https://unsplash.com/@thomashabr'
+      }
+    ]
   },
   {
-    name: "Washington D.C.",
+    name: 'Washington D.C.',
     id: 4140963,
     images: [
       {
-        photographer: "Duane Lempke",
-        link: "",
-      },
-    ],
+        photographer: 'Duane Lempke',
+        link: ''
+      }
+    ]
   },
   {
-    name: "Strasbourg",
+    name: 'Strasbourg',
     id: 2973783,
     images: [
       {
-        photographer: "Patrick Robert Doyle",
-        link: "https://unsplash.com/@teapowered",
-      },
-    ],
+        photographer: 'Patrick Robert Doyle',
+        link: 'https://unsplash.com/@teapowered'
+      }
+    ]
   },
   {
-    name: "Santa Monica",
+    name: 'Santa Monica',
     id: 5393212,
     images: [
       {
-        photographer: "Matthew LeJune",
-        link: "https://unsplash.com/@matthewlejune",
-      },
-    ],
+        photographer: 'Matthew LeJune',
+        link: 'https://unsplash.com/@matthewlejune'
+      }
+    ]
   },
   {
-    name: "Tokyo",
+    name: 'Tokyo',
     id: [1850144, 1850147],
     images: [
       {
-        photographer: "Jezael Melgoza",
-        link: "https://unsplash.com/@jezar",
-      },
-    ],
+        photographer: 'Jezael Melgoza',
+        link: 'https://unsplash.com/@jezar'
+      }
+    ]
   },
   {
-    name: "Paris",
+    name: 'Paris',
     id: [2988507],
     images: [
       {
-        photographer: "Chris Karidis",
-        link: "https://unsplash.com/@chriskaridis",
-      },
-    ],
+        photographer: 'Chris Karidis',
+        link: 'https://unsplash.com/@chriskaridis'
+      }
+    ]
   },
   {
-    name: "Anzali Port",
+    name: 'Anzali Port',
     id: [141679],
     images: [
       {
-        photographer: "MohammadReza Jelveh",
-        link: "https://unsplash.com/@mrjelveh",
+        photographer: 'MohammadReza Jelveh',
+        link: 'https://unsplash.com/@mrjelveh'
       },
       {
-        photographer: "sara moezzi",
-        link: "https://unsplash.com/@sara_macha",
-      },
-    ],
-  },
-];
+        photographer: 'sara moezzi',
+        link: 'https://unsplash.com/@sara_macha'
+      }
+    ]
+  }
+]
 export const CITY_HAVE_VIDEO = [
   {
-    name: "liverpool",
+    name: 'liverpool',
     id: 2644210,
     videos: [
       {
-        channel: "Expedia",
-        link: "https://www.youtube.com/watch?v=ojrHLXj8GJA",
-      },
-    ],
+        channel: 'Expedia',
+        link: 'https://www.youtube.com/watch?v=ojrHLXj8GJA'
+      }
+    ]
   },
   {
-    name: "tehran",
+    name: 'tehran',
     id: 112931,
     videos: [
       {
-        channel: "Exploropia",
-        link: "https://www.youtube.com/watch?v=7DkoPGGdKAA",
-      },
-    ],
+        channel: 'Exploropia',
+        link: 'https://www.youtube.com/watch?v=7DkoPGGdKAA'
+      }
+    ]
   },
-];
+  {
+    name: 'arak',
+    id: 143127,
+    videos: [
+      {
+        channel: 'Exploropia',
+        link: 'https://www.youtube.com/watch?v=7DkoPGGdKAA'
+      },
+      {
+        channel: 'Exploropia',
+        link: 'https://www.youtube.com/watch?v=7DkoPGGdKAA'
+      }
+    ]
+  }
+]
 
 export const els = {
-  pModal: sl(".portal-model"),
-  pModelTxt: sl(".portal-model .text"),
-  mOverlayB: sl(".map-overlay .bottom"),
-  mOverlayC: sl(".map-overlay .cover"),
-  fColor: sl("#favcolor"),
-  lSvgP: sl("main header form.search .location-icon svg path"),
-  lUpdate: sl(
-    "main .weather .map-overlay .content-wrapper .weather-data .info .last-update"
-  ),
-  header: sl("header"),
-  cList: sl("main header .city-list-wrapper"),
-  weather: sl("main .weather"),
-  pSettings: sl(".portal-settings"),
-  sButton: sl(".setting-button"),
-  sActionB1: sl(".portal-settings .action-wrapper button:nth-of-type(1)"),
-  sActionB2: sl(".portal-settings .action-wrapper button:nth-of-type(2)"),
-  main: sl("main"),
-  video: sl("#video"),
-  videoV: sl("#video video"),
-  mOpacity: sl("#mapOpacity"),
-  fScreen: sl("#fullScreenImage"),
-  mOverlay: sl("main .weather .map-overlay"),
-  copyright: sl("main .weather .bottom-overlay .image-copyright"),
-  mOverlayTitle: sl("main .weather .map-overlay .content-wrapper h1 b"),
-  mOverlaySpan: sl("main .weather .map-overlay .content-wrapper h1 span"),
-  wSvgIcon: sl(
-    "main .weather .map-overlay .content-wrapper .weather-data .current-weather-icon div.svg-icon"
-  ),
-  input: sl("main header form.search input"),
-  wTemperatureV: sl(
-    "main .weather .map-overlay .content-wrapper .weather-data .temperature .value"
-  ),
-  wTemperatureU: sl(
-    "main .weather .map-overlay .content-wrapper .weather-data .temperature .unit"
-  ),
-  wFeelsT: sl(
-    "main .weather .map-overlay .content-wrapper .weather-data .feels_like .text"
-  ),
-  wFeelsV: sl(
-    "main .weather .map-overlay .content-wrapper .weather-data .feels_like .value"
-  ),
-  wFeelsU: sl(
-    "main .weather .map-overlay .content-wrapper .weather-data .feels_like .unit"
-  ),
-};
+  pModal: sl('.portal-model'),
+  pModelTxt: sl('.portal-model .text'),
+  mOverlayB: sl('.map-overlay .bottom'),
+  mOverlayC: sl('.map-overlay .cover'),
+  fColor: sl('#favcolor'),
+  lSvgP: sl('main header form.search .location-icon svg path'),
+  lUpdate: sl('main .weather .map-overlay .content-wrapper .weather-data .info .last-update'),
+  header: sl('header'),
+  cList: sl('main header .city-list-wrapper'),
+  weather: sl('main .weather'),
+  pSettings: sl('.portal-settings'),
+  sButton: sl('.setting-button'),
+  sActionB1: sl('.portal-settings .action-wrapper button:nth-of-type(1)'),
+  sActionB2: sl('.portal-settings .action-wrapper button:nth-of-type(2)'),
+  main: sl('main'),
+  video: sl('#video'),
+  videoV: sl('#video video'),
+  mOpacity: sl('#mapOpacity'),
+  fScreen: sl('#fullScreenImage'),
+  mOverlay: sl('main .weather .map-overlay'),
+  copyright: sl('main .weather .bottom-overlay .image-copyright'),
+  mOverlayTitle: sl('main .weather .map-overlay .content-wrapper h1 b'),
+  mOverlaySpan: sl('main .weather .map-overlay .content-wrapper h1 span'),
+  wSvgIcon: sl('main .weather .map-overlay .content-wrapper .weather-data .current-weather-icon div.svg-icon'),
+  input: sl('main header form.search input'),
+  wTemperatureV: sl('main .weather .map-overlay .content-wrapper .weather-data .temperature .value'),
+  wTemperatureU: sl('main .weather .map-overlay .content-wrapper .weather-data .temperature .unit'),
+  wFeelsT: sl('main .weather .map-overlay .content-wrapper .weather-data .feels_like .text'),
+  wFeelsV: sl('main .weather .map-overlay .content-wrapper .weather-data .feels_like .value'),
+  wFeelsU: sl('main .weather .map-overlay .content-wrapper .weather-data .feels_like .unit')
+}
