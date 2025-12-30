@@ -387,6 +387,16 @@ export const CITY_HAVE_VIDEO = [
     ]
   },
   {
+    name: 'ahvāz',
+    id: 144448,
+    videos: [
+      {
+        channel: 'pooyanartwork',
+        link: 'https://www.youtube.com/watch?v=wXGU-2-36xo'
+      },
+    ]
+  },
+  {
     name: 'arak',
     id: 143127,
     videos: [
