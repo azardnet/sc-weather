@@ -26,12 +26,11 @@ import {
   LOADING_TRANSITION_DELAY,
   LOADING_DELAY,
   REQUEST_INTERVAL,
-  UNIT
+  MAP_URL,
+  OPEN_WEATHER_KEY,
+  UNIT,
+  els
 } from './variables'
-
-const YANDEX_MAP_KEY = process.env.YANDEX_MAP
-const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`
-const OPEN_WEATHER_KEY = process.env.OPENWEATHER
 
 let cacheData = { lat: 53.4106, lon: -2.9779 }
 let lastUpdate = new Date()
@@ -40,32 +39,32 @@ function activePortalModal(text) {
   document.body.classList.remove('loading')
   document.body.classList.add('loaded')
   document.body.classList.add('blur')
-  sl('.portal-model').classList.add('active')
-  sl('.portal-model .text').innerHTML = text
-  sl('.portal-model .text').style.color = '#ffffff'
+  els.pModal.classList.add('active')
+  els.pModelTxt.innerHTML = text
+  els.pModelTxt.style.color = '#ffffff'
   setTimeout(() => {
-    sl('.portal-model').classList.remove('active')
+    els.pModal.classList.remove('active')
     document.body.classList.remove('blur')
   }, PORTAL_MODAL_DELAY)
 }
 
 function changeColor(color) {
   document.body.style.backgroundColor = color
-  sl('.map-overlay .bottom').style.backgroundColor = color
-  sl('.map-overlay .cover').style.backgroundColor = color
-  sl('#favcolor').value = color
-  sl('main header form.search .location-icon svg path').style.fill = color
-  sl('main header form.search .location-icon svg path').style.stroke = color
+  els.mOverlayB.style.backgroundColor = color
+  els.mOverlayC.style.backgroundColor = color
+  els.fColor.value = color
+  els.lSvgP.style.fill = color
+  els.lSvgP.style.stroke = color
   document.documentElement.classList.remove(isLight(color) ? 'dark' : 'light')
   document.documentElement.classList.add(isLight(color) ? 'light' : 'dark')
 }
 
 function changeMapOpacity(value) {
-  sl('.map-overlay .cover').style.opacity = value / 100
+  els.mOverlayC.style.opacity = value / 100
 }
 const handleChangeColor = debounce(function () {
-  changeColor(sl('#favcolor').value)
-  localStorage.setItem('color', sl('#favcolor').value)
+  changeColor(els.fColor.value)
+  localStorage.setItem('color', els.fColor.value)
 }, 20)
 
 const handleMapOpacityChange = debounce(function () {
@@ -79,7 +78,7 @@ const handleFullScreenImageChange = function (event) {
 
 const handleMouseMoveOnInfo = () => {
   const isPersianCharacter = checkPersianCharacters(localStorage.getItem('last_search'))
-  sl('main .weather .map-overlay .content-wrapper .weather-data .info .last-update').innerHTML = `${
+  els.lUpdate.innerHTML = `${
     translate[`${isPersianCharacter ? 'fa' : 'en'}`].lastUpdate
   } ${timeAgo(lastUpdate, isPersianCharacter ? 'fa' : 'en')}`
 }
@@ -96,18 +95,18 @@ function onInputKeydown(event) {
     event.key !== 'Enter'
   ) {
     if (checkPersianCharacters(event.key)) {
-      sl('header').classList.add('right')
-      sl('header').classList.remove('left')
+      els.header.classList.add('right')
+      els.header.classList.remove('left')
       inputEl.placeholder = translate.fa.TypeCity
     } else {
-      sl('header').classList.remove('right')
-      sl('header').classList.add('left')
+      els.header.classList.remove('right')
+      els.header.classList.add('left')
       inputEl.placeholder = translate.en.TypeCity
     }
   }
   if (event.key === 'Enter') {
     event.preventDefault()
-    sl('main header .city-list-wrapper').classList.remove('active')
+    els.cList.classList.remove('active')
     inputEl.blur()
     if (!document.body.classList.contains('blur')) {
       if (inputEl.value.length < 22 && inputEl.value.length > 1) {
@@ -116,7 +115,7 @@ function onInputKeydown(event) {
           searchWeather(inputEl.value, false)
         }, 120)
         setTimeout(() => {
-          sl('.weather').style.opacity = 1
+          els.weather.style.opacity = 1
         }, Math.max(0, LOADING_DELAY - LOADING_TRANSITION_DELAY))
       } else {
         activePortalModal('invalid city')
@@ -142,16 +141,15 @@ function searchWeather(city, interval) {
     if (isPersianCharacter) {
       document.body.classList.add('rtl')
       inputEl.placeholder = 'اسم شهر را وارد کنید و Enter بزنید.'
-      sl('.portal-settings .action-wrapper button:nth-of-type(1)').innerText = 'تنظیم مجدد'
-      sl('.portal-settings .action-wrapper button:nth-of-type(2)').innerText = 'ذخیره'
+      els.sActionB1.innerText = 'تنظیم مجدد'
+      els.sActionB2.innerText = 'ذخیره'
     } else {
       document.body.classList.remove('rtl')
       inputEl.placeholder = 'type City and hit Enter'
-      sl('.portal-settings .action-wrapper button:nth-of-type(1)').innerText = 'Reset'
-      sl('.portal-settings .action-wrapper button:nth-of-type(2)').innerText = 'Submit'
+      els.sActionB1.innerText = 'Reset'
+      els.sActionB2.innerText = 'Submit'
     }
   }
-  console.log('fff', OPEN_WEATHER_KEY)
   fetch(
     `https://api.openweathermap.org/data/2.5/weather?lang=${
       isPersianCharacter ? 'fa' : 'en'
@@ -166,7 +164,7 @@ function searchWeather(city, interval) {
 }
 
 function loaded(delay = true) {
-  sl('main').style.display = 'flex'
+  els.main.style.display = 'flex'
   if (delay) {
     setTimeout(() => {
       document.body.classList.remove('loading')

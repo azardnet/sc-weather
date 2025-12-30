@@ -1,10 +1,15 @@
+import { sl } from "./utils";
+
+const YANDEX_MAP_KEY = process.env.YANDEX_MAP
+export const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`
+export const OPEN_WEATHER_KEY = process.env.OPENWEATHER
 export const UNIT = "°C";
-export const REQUEST_INTERVAL = 45 * (60 * 1000); // 45 minutes
+export const REQUEST_INTERVAL = 30 * (60 * 1000); // 30 minutes
 export const LOADING_DELAY = 200; // ms
 export const LOADING_TRANSITION_DELAY = 500; // ms
 export const PORTAL_MODAL_DELAY = 2500; // 2.5s
 export const CREATE_MAP_DELAY = 3000; // 3s
-export const SPEED_DETECTION_DELAY = 15000; // 15s;
+export const SPEED_DETECTION_DELAY = 20000; // 20s;
 export const TO_FIXED = 2;
 export const CITY_HAVE_IMAGE = [
   {
@@ -334,7 +339,8 @@ export const CITY_HAVE_IMAGE = [
         link: "https://unsplash.com/@jezar",
       },
     ],
-  }, {
+  },
+  {
     name: "Paris",
     id: [2988507],
     images: [
@@ -355,7 +361,7 @@ export const CITY_HAVE_IMAGE = [
       {
         photographer: "sara moezzi",
         link: "https://unsplash.com/@sara_macha",
-      }
+      },
     ],
   },
 ];
@@ -376,8 +382,24 @@ export const CITY_HAVE_VIDEO = [
     videos: [
       {
         channel: "Exploropia",
-        link: "https://www.youtube.com/watch?v=7DkoPGGdKAA&",
+        link: "https://www.youtube.com/watch?v=7DkoPGGdKAA",
       },
     ],
   },
 ];
+
+export const els = {
+  pModal: sl(".portal-model"),
+  pModelTxt: sl(".portal-model .text"),
+  mOverlayB: sl(".map-overlay .bottom"),
+  mOverlayC: sl(".map-overlay .cover"),
+  fColor: sl("#favcolor"),
+  lSvgP: sl("main header form.search .location-icon svg path"),
+  lUpdate: sl('main .weather .map-overlay .content-wrapper .weather-data .info .last-update'),
+  header: sl('header'),
+  cList: sl('main header .city-list-wrapper'),
+  weather: sl('.weather'),
+  sActionB1: sl('.portal-settings .action-wrapper button:nth-of-type(1)'),
+  sActionB2: sl('.portal-settings .action-wrapper button:nth-of-type(2)'),
+  main: sl('main')
+};
