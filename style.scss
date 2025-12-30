@@ -61,7 +61,7 @@ main .weather {
   overflow: hidden;
 
   .bottom-overlay {
-    width: calc(100% - 2em);
+    width: calc(100% - 6em);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -84,6 +84,7 @@ main .weather {
       font-family: Vazir;
       position: relative;
       min-height: 40px;
+      font-size: 14px;
       height: 3em;
       display: flex;
       align-items: center;
@@ -1219,7 +1220,6 @@ main header button {
   }
 }
 
-// USDT Price Widget Styles (humidity-inspired)
 .usdt-price-widget {
   height: 20px;
   position: relative;
@@ -1234,6 +1234,7 @@ main header button {
     display: flex;
     align-items: center;
     gap: 2px;
+    font-size: 18px;
   }
 
   .label {
@@ -1268,6 +1269,16 @@ main header button {
   &.price-down {
     .value {
       color: #ff6b6b;
+    }
+  }
+} 
+
+.gold-price-widget {
+  > div {
+    display: flex;
+    align-items: center;
+    .gold-price {
+      font-size: 18px;
     }
   }
 }
