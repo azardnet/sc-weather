@@ -370,4 +370,14 @@ export const CITY_HAVE_VIDEO = [
       },
     ],
   },
+  {
+    name: "tehran",
+    id: 112931,
+    videos: [
+      {
+        channel: "Exploropia",
+        link: "https://www.youtube.com/watch?v=7DkoPGGdKAA&",
+      },
+    ],
+  },
 ];
