@@ -1,6 +1,6 @@
 ### sc-weather TODO
 - [x] add loading
-- [ ] svg for all type of weather state
+- [x] svg for all type of weather state
 - [ ] wrapper back-end with express
 - [x] responsive
 - [x] add humidity
