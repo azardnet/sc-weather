@@ -7,7 +7,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <link rel="shortcut icon" href="./static/favicon.ico" />
     <link rel="manifest" href="./static/manifest.json" />
-    <link rel="mask-icon" href="./static/import-safari-pinned-tab.svg" color="#5bbad5" />
+    <link
+      rel="mask-icon"
+      href="./static/import-safari-pinned-tab.svg"
+      color="#5bbad5"
+    />
     <link rel="apple-touch-icon" href="./static/apple-touch-icon.png" />
     <meta name="msapplication-TileColor" content="#072322" />
     <meta name="theme-color" content="#072322" />
@@ -149,7 +153,12 @@
             </svg>
           </button>
           <button class="full-screen">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" x="0px" y="0px">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 100 100"
+              x="0px"
+              y="0px"
+            >
               <g data-name="Group">
                 <polygon
                   data-name="Path"
@@ -179,18 +188,22 @@
         <div id="map"></div>
         <div class="bottom-overlay">
           <span class="internet-speed error"></span>
-          <span class="usdt-price-widget">
-            <div>
-              <span class="label">USDT</span>
-              <span class="value usdt-price">-</span><span class="unit">T</span>
-            </div>
-          </span>
-          <span class="gold-price-widget">
-            <div>
-              <span class="label">GOLD:</span>
-              <span class="value gold-price">-</span><span class="unit">T</span>
-            </div>
-          </span>
+          <div class="price-container">
+            <span class="usdt-price-widget">
+              <div>
+                <span class="label">USDT: </span>
+                <span class="value usdt-price">-</span
+                ><span class="unit">T</span>
+              </div>
+            </span>
+            <span class="gold-price-widget">
+              <div>
+                <span class="label">GOLD: </span>
+                <span class="value gold-price">-</span
+                ><span class="unit">T</span>
+              </div>
+            </span>
+          </div>
           <a class="image-copyright" target="_blank"></a>
         </div>
         <div class="map-overlay">
@@ -206,9 +219,13 @@
                 ></span>
                 <span class="feels_like"
                   ><span class="text"></span
-                  ><span class="value-wrapper"><span class="value"></span><span class="unit"></span><span></span></span
+                  ><span class="value-wrapper"
+                    ><span class="value"></span><span class="unit"></span
+                    ><span></span></span
                 ></span>
-                <span class="wind-speed"><span class="text"></span><span class="value"></span></span>
+                <span class="wind-speed"
+                  ><span class="text"></span><span class="value"></span
+                ></span>
               </div>
               <div class="current-weather-icon">
                 <div class="svg-icon"></div>
@@ -217,10 +234,14 @@
               <div class="weather-details-wrapper">
                 <div class="min-max-wrapper">
                   <span class="temp_max">
-                    <div><span class="value"></span><span class="unit"></span></div>
+                    <div>
+                      <span class="value"></span><span class="unit"></span>
+                    </div>
                   </span>
                   <span class="temp_min">
-                    <div><span class="value"></span><span class="unit"></span></div>
+                    <div>
+                      <span class="value"></span><span class="unit"></span>
+                    </div>
                   </span>
                 </div>
                 <span class="humidity">
@@ -273,7 +294,11 @@
     </main>
     <div class="portal-loading">
       <div class="logo">
-        <svg class="azard" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+        <svg
+          class="azard"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1000 1000"
+        >
           <path
             fill-rule="evenodd"
             clip-rule="evenodd"
