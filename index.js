@@ -619,7 +619,7 @@ function onPortalModalClose() {
 }
 
 function onContentLoaded() {
-  sl("main .weather .bottom-overlay span").classList.add("error");
+  sl("main .weather .bottom-overlay span.internet-speed").classList.add("error");
   setTimeout(() => {
     InitiateSpeedDetection();
   }, 400);

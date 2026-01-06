@@ -96,7 +96,7 @@ export function MeasureConnectionSpeed() {
   };
 
   download.onerror = () => {
-    sl("main .weather .bottom-overlay span").className = "error";
+    sl("main .weather .bottom-overlay span").className = "internet-speed error";
   };
 
   startTime = new Date().getTime();
@@ -109,7 +109,7 @@ export function MeasureConnectionSpeed() {
     const speedBps = (bitsLoaded / duration).toFixed(2);
     const speedKbps = (speedBps / 1024).toFixed(2) * 1;
     const speedMbps = (speedKbps / 1024).toFixed(2) * 1;
-    sl("main .weather .bottom-overlay span").className = "loaded";
+    sl("main .weather .bottom-overlay span").className = "internet-speed loaded";
     const result = speedKbps / 1024 > 1.24 ? speedMbps : speedKbps;
     setTimeout(() => {
       sl("main .weather .bottom-overlay span").innerHTML = `${result} ${
@@ -129,7 +129,7 @@ export function MeasureConnectionSpeed() {
 }
 
 export function InitiateSpeedDetection() {
-  sl("main .weather .bottom-overlay span").className = "loading";
+  sl("main .weather .bottom-overlay span").className = "internet-speed loading";
   setTimeout(MeasureConnectionSpeed, 10);
 }
 
