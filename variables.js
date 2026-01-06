@@ -60,7 +60,7 @@ export const els = {
   usdt: sl('.usdt-price'),
   gold: sl('.gold-price'),
   usdtW: sl('.usdt-price-widget'),
-  ISpeed: sl('.main .weather .bottom-overlay span.internet-speed'),
+  ISpeed: sl('.internet-speed'),
   FScreen: sl('main header button.full-screen'),
   Sreset: sl('.portal-settings .reset'),
   SSubmit: sl(".portal-settings .submit"),

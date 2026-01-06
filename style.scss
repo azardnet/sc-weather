@@ -1260,7 +1260,7 @@ main header button {
   align-items: flex-start;
 }
 
-.usdt-price-widget {
+.usdt-price-widget, .gold-price-widget {
   height: 20px;
   position: relative;
   background-color: transparent;
@@ -1297,30 +1297,6 @@ main header button {
   }
 }
 
-.gold-price-widget {
-  > div {
-    display: flex;
-    align-items: center;
-    .gold-price {
-      font-size: 18px;
-    }
-  }
-}
-
-.light .usdt-price-widget {
-  &.price-up {
-    .value {
-      color: #00a86b;
-    }
-  }
-
-  &.price-down {
-    .value {
-      color: #d32f2f;
-    }
-  }
-}
-
-.rtl .usdt-price-widget {
+.rtl .usdt-price-widget, .rtl .gold-price-widget {
   direction: ltr;
 }
