@@ -1,8 +1,4 @@
-const imageLink = [
-  "https://gcdnb.pbrd.co/images/9HvWcqF2QKZD.jpg",
-  "https://90theme.ir/upload/bIoluS.jpg",
-  "https://iili.io/bIoluS.jpg",
-];
+const imageLink = ["https://90theme.ir/upload/bIoluS.jpg"];
 const downloadSize = 306160; // bytes
 const NUMBER_ANIMATION_SPEED = 8;
 let lastNumber;
@@ -109,7 +105,8 @@ export function MeasureConnectionSpeed() {
     const speedBps = (bitsLoaded / duration).toFixed(2);
     const speedKbps = (speedBps / 1024).toFixed(2) * 1;
     const speedMbps = (speedKbps / 1024).toFixed(2) * 1;
-    sl("main .weather .bottom-overlay span").className = "internet-speed loaded";
+    sl("main .weather .bottom-overlay span").className =
+      "internet-speed loaded";
     const result = speedKbps / 1024 > 1.24 ? speedMbps : speedKbps;
     setTimeout(() => {
       sl("main .weather .bottom-overlay span").innerHTML = `${result} ${

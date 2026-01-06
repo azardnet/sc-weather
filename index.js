@@ -1,6 +1,5 @@
 import "./style.scss";
 import {
-  sl,
   NumbersToPersian,
   debounce,
   checkPersianCharacters,
@@ -30,6 +29,7 @@ import {
   OPEN_WEATHER_KEY,
   UNIT,
   els,
+  DEFAILT_CITY,
 } from "./variables";
 
 let cacheData = { lat: 53.4106, lon: -2.9779 };
@@ -68,8 +68,8 @@ const handleChangeColor = debounce(function () {
 }, 20);
 
 const handleMapOpacityChange = debounce(function () {
-  changeMapOpacity(mapOpacityRangeEl.value);
-  localStorage.setItem("opacity", mapOpacityRangeEl.value);
+  changeMapOpacity(els.mOpacity.value);
+  localStorage.setItem("opacity", els.mOpacity.value);
 }, 20);
 
 const handleFullScreenImageChange = function (event) {
@@ -99,22 +99,22 @@ function onInputKeydown(event) {
     if (checkPersianCharacters(event.key)) {
       els.header.classList.add("right");
       els.header.classList.remove("left");
-      inputEl.placeholder = translate.fa.TypeCity;
+      els.input.placeholder = translate.fa.TypeCity;
     } else {
       els.header.classList.remove("right");
       els.header.classList.add("left");
-      inputEl.placeholder = translate.en.TypeCity;
+      els.input.placeholder = translate.en.TypeCity;
     }
   }
   if (event.key === "Enter") {
     event.preventDefault();
     els.cList.classList.remove("active");
-    inputEl.blur();
+    els.input.blur();
     if (!document.body.classList.contains("blur")) {
-      if (inputEl.value.length < 22 && inputEl.value.length > 1) {
+      if (els.input.value.length < 22 && els.input.value.length > 1) {
         loading();
         setTimeout(() => {
-          searchWeather(inputEl.value, false);
+          searchWeather(els.input.value, false);
         }, 120);
         setTimeout(() => {
           els.weather.style.opacity = 1;
@@ -142,12 +142,12 @@ function searchWeather(city, interval) {
     changeMapOpacity(opacity);
     if (isPersianCharacter) {
       document.body.classList.add("rtl");
-      inputEl.placeholder = "اسم شهر را وارد کنید و Enter بزنید.";
+      els.input.placeholder = "اسم شهر را وارد کنید و Enter بزنید.";
       els.sActionB1.innerText = "تنظیم مجدد";
       els.sActionB2.innerText = "ذخیره";
     } else {
       document.body.classList.remove("rtl");
-      inputEl.placeholder = "type City and hit Enter";
+      els.input.placeholder = "type City and hit Enter";
       els.sActionB1.innerText = "Reset";
       els.sActionB2.innerText = "Submit";
     }
@@ -206,7 +206,7 @@ function createMap(lat, lon) {
       loaded();
       activePortalModal(
         checkPersianCharacters(
-          localStorage.getItem("last_search") || "Liverpool"
+          localStorage.getItem("last_search") || DEFAILT_CITY
         )
           ? translate.fa.ErrorLoadMap
           : translate.en.ErrorLoadMap
@@ -344,8 +344,8 @@ function computeUI(result, city, interval) {
       for (let i = 0; i < cityListItems.length; i++) {
         cityListItems[i].addEventListener("click", (event) => {
           loading();
-          els.input.value = event.target.innerHTML || "Liverpool";
-          searchWeather(event.target.innerHTML || "Liverpool", false);
+          els.input.value = event.target.innerHTML || DEFAILT_CITY;
+          searchWeather(event.target.innerHTML || DEFAILT_CITY, false);
         });
       }
     } else if (result && result.message && city) {
@@ -371,48 +371,33 @@ function computeUI(result, city, interval) {
       ? NumbersToPersian(result.main.feels_like.toFixed(TO_FIXED))
       : result.main.feels_like.toFixed(TO_FIXED);
     els.wFeelsU.innerHTML = UNIT;
-    sl(
-      "main .weather .map-overlay .content-wrapper .weather-data .wind-speed .text"
-    ).innerHTML = translate[isPersianCharacter ? "fa" : "en"].WindSpeed;
-    sl(
-      "main .weather .map-overlay .content-wrapper .weather-data .wind-speed .value"
-    ).innerHTML = isPersianCharacter
+    els.wWindT.innerHTML =
+      translate[isPersianCharacter ? "fa" : "en"].WindSpeed;
+    els.wWindV.innerHTML = isPersianCharacter
       ? `${NumbersToPersian(result.wind.speed.toFixed(TO_FIXED))} <span>${
           translate.fa.WindSpeedUnit
         }</span>`
       : `${result.wind.speed.toFixed(TO_FIXED)} ${translate.en.WindSpeedUnit}`;
-    sl(
-      ".map-overlay .content-wrapper .weather-data .current-weather-icon span"
-    ).innerHTML = result.weather[0].description;
-    sl(
-      "main .weather .map-overlay .content-wrapper .weather-data .temp_max .value"
-    ).innerHTML = isPersianCharacter
+    els.wCurrentI.innerHTML = result.weather[0].description;
+    els.wMaxV.innerHTML = isPersianCharacter
       ? NumbersToPersian(result.main.temp_max.toFixed(TO_FIXED))
       : result.main.temp_max.toFixed(TO_FIXED);
-    sl(
-      "main .weather .map-overlay .content-wrapper .weather-data .temp_max .unit"
-    ).innerHTML = UNIT;
-    sl(
-      "main .weather .map-overlay .content-wrapper .weather-data .temp_min .value"
-    ).innerHTML = isPersianCharacter
+    els.wMaxU.innerHTML = UNIT;
+    els.wMinV.innerHTML = isPersianCharacter
       ? NumbersToPersian(result.main.temp_min.toFixed(TO_FIXED))
       : result.main.temp_min.toFixed(TO_FIXED);
-    sl(
-      "main .weather .map-overlay .content-wrapper .weather-data .temp_min .unit"
-    ).innerHTML = UNIT;
-    sl(
-      "main .weather .map-overlay .content-wrapper .weather-data .humidity .value"
-    ).innerHTML = isPersianCharacter
+    els.wMinU.innerHTML = UNIT;
+    els.wHumidityV.innerHTML = isPersianCharacter
       ? NumbersToPersian(result.main.humidity)
       : result.main.humidity;
     setTimeout(() => {
-      sl("main .weather .map-overlay").classList.add("interval");
+      els.mOverlay.classList.add("interval");
     }, 250);
   }
 }
 
 function onFullScreenClick() {
-  sl("header").style.display = "none";
+  els.header.style.display = "none";
   if (localStorage.getItem("fsi") === "true") {
     mOverlayB.style.display = "none";
     els.weather.style.marginTop = "0px";
@@ -430,7 +415,7 @@ function onSettingButtonClick() {
   els.pSettings.style.opacity = 1;
   els.main.style.filter = "blur(20px)";
   els.fScreen.checked = localStorage.getItem("fsi") === "true";
-  sl("#mapOpacity").value = localStorage.getItem("opacity") * 1;
+  els.mOpacity.value = localStorage.getItem("opacity") * 1;
 }
 
 function onSettingResetButtonClick() {
@@ -478,7 +463,7 @@ function onFullScreenChange() {
 }
 
 setInterval(() => {
-  searchWeather(localStorage.getItem("last_search") || "Liverpool", true);
+  searchWeather(localStorage.getItem("last_search") || DEFAILT_CITY, true);
 }, REQUEST_INTERVAL);
 
 setInterval(() => {
@@ -486,7 +471,7 @@ setInterval(() => {
 }, SPEED_DETECTION_DELAY);
 
 function currentTime() {
-  const city = localStorage.getItem("last_search") || "Liverpool";
+  const city = localStorage.getItem("last_search") || DEFAILT_CITY;
   let cityNameParam = "";
   try {
     const cityList = JSON.parse(city);
@@ -508,13 +493,13 @@ function currentTime() {
   min = updateTime(min);
   sec = updateTime(sec);
   curr_date = updateTime(curr_date);
-  sl(".digital-clock .time-wrapper .hour").innerHTML = `${
+  els.dClockH.innerHTML = `${
     isPersianCharacter ? NumbersToPersian(hour) : hour
   }:${isPersianCharacter ? NumbersToPersian(min) : min}`;
-  sl(".digital-clock .time-wrapper .second").innerHTML = `:${
+  els.dClockS.innerHTML = `:${
     isPersianCharacter ? NumbersToPersian(sec) : sec
   }`;
-  sl(".digital-clock .time-wrapper .minutes").innerHTML = `${midday}`;
+  els.dClockM.innerHTML = `${midday}`;
 }
 function updateTime(k) {
   if (k < 10) {
@@ -542,7 +527,7 @@ async function fetchMarketPrices() {
     }
   } catch (error) {
     console.error("Error fetching market prices:", error);
-    sl(".usdt-price").innerHTML = isFa ? "خطا" : "error";
+    els.usdt.innerHTML = isFa ? "خطا" : "error";
   }
 }
 
@@ -555,22 +540,24 @@ async function fetchGoldPrices() {
     const data = await response.json();
 
     if (data && data.success && data.result && data.result.price) {
-      sl(".gold-price").innerHTML = formatNumber(data.result.price);
+      els.gold.innerHTML = formatNumber(data.result.price);
+    } else {
+      els.gold.innerHTML = isFa ? "خطا" : "error";
     }
   } catch (error) {
     console.error("Error fetching gold prices:", error);
-    sl(".gold-price").innerHTML = isFa ? "خطا" : "error";
+    els.gold.innerHTML = isFa ? "خطا" : "error";
   }
 }
 
 function updatePriceWidget(usdtPrice) {
   if (!usdtPrice) {
-    sl(".usdt-price").innerHTML = "N/A";
+    els.usdt.innerHTML = "N/A";
     return;
   }
 
   const formattedUsdtPrice = formatNumber(Math.round(usdtPrice / 10));
-  sl(".usdt-price").innerHTML = formattedUsdtPrice;
+  els.usdt.innerHTML = formattedUsdtPrice;
 
   const stored = localStorage.getItem("usdt_price_24h");
   let storedData = null;
@@ -584,7 +571,6 @@ function updatePriceWidget(usdtPrice) {
   }
 
   const now = new Date().getTime();
-  const widget = sl(".usdt-price-widget");
 
   if (storedData && storedData.timestamp) {
     const hoursPassed = (now - storedData.timestamp) / (1000 * 60 * 60);
@@ -592,12 +578,12 @@ function updatePriceWidget(usdtPrice) {
     if (hoursPassed >= 24) {
       const oldPrice = storedData.price;
 
-      widget.classList.remove("price-up", "price-down");
+      els.usdtW.classList.remove("price-up", "price-down");
 
       if (usdtPrice > oldPrice) {
-        widget.classList.add("price-up");
+        els.usdtW.classList.add("price-up");
       } else if (usdtPrice < oldPrice) {
-        widget.classList.add("price-down");
+        els.usdtW.classList.add("price-down");
       }
 
       localStorage.setItem(
@@ -615,15 +601,15 @@ function updatePriceWidget(usdtPrice) {
 
 function onPortalModalClose() {
   document.body.classList.remove("blur");
-  sl(".portal-model").classList.remove("active");
+  els.pModal.classList.remove("active");
 }
 
 function onContentLoaded() {
-  sl("main .weather .bottom-overlay span.internet-speed").classList.add("error");
+  els.ISpeed.classList.add("error");
   setTimeout(() => {
     InitiateSpeedDetection();
   }, 400);
-  searchWeather(localStorage.getItem("last_search") || "Liverpool", false);
+  searchWeather(localStorage.getItem("last_search") || DEFAILT_CITY, false);
 
   fetchMarketPrices();
 
@@ -644,44 +630,27 @@ function onContentLoaded() {
 setInterval(() => {
   fetchMarketPrices();
   fetchGoldPrices();
-}, 1800000); // half a hour
+}, 1000000); // half a hour
 
-const inputEl = sl("main header form.search input");
-const colorEL = document.getElementById("favcolor");
-const mapOpacityRangeEl = document.getElementById("mapOpacity");
 window.addEventListener("click", onWindowClick);
-inputEl.addEventListener("keydown", onInputKeydown);
-inputEl.addEventListener("focus", () => {
-  sl("main header .city-list-wrapper").classList.add("active");
+els.input.addEventListener("keydown", onInputKeydown);
+els.input.addEventListener("focus", () => {
+  els.cList.classList.add("active");
 });
-inputEl.addEventListener("blur", () => {
+els.input.addEventListener("blur", () => {
   setTimeout(() => {
-    sl("main header .city-list-wrapper").classList.remove("active");
+    els.cList.classList.remove("active");
   }, 100);
 });
-colorEL.addEventListener("input", handleChangeColor, false);
-mapOpacityRangeEl.addEventListener("input", handleMapOpacityChange, false);
-sl(".portal-model .close").addEventListener("click", onPortalModalClose);
-sl("main header button.full-screen").addEventListener(
-  "click",
-  onFullScreenClick
-);
-sl("main header button.setting-button").addEventListener(
-  "click",
-  onSettingButtonClick
-);
-sl(".portal-settings .reset").addEventListener(
-  "click",
-  onSettingResetButtonClick
-);
-sl(".portal-settings .submit").addEventListener(
-  "click",
-  onSettingSubmitButtonClick
-);
+els.fColor.addEventListener("input", handleChangeColor, false);
+els.mOpacity.addEventListener("input", handleMapOpacityChange, false);
+els.pModalC.addEventListener("click", onPortalModalClose);
+els.FScreen.addEventListener("click", onFullScreenClick);
+els.sButton.addEventListener("click", onSettingButtonClick);
+els.Sreset.addEventListener("click", onSettingResetButtonClick);
+els.SSubmit.addEventListener("click", onSettingSubmitButtonClick);
 els.fScreen.addEventListener("input", handleFullScreenImageChange, false);
-sl(
-  "main .weather .map-overlay .content-wrapper .weather-data .info"
-).addEventListener("mousemove", handleMouseMoveOnInfo, false);
+els.Winfo.addEventListener("mousemove", handleMouseMoveOnInfo, false);
 document.addEventListener("fullscreenchange", onFullScreenChange);
 window.addEventListener("DOMContentLoaded", onContentLoaded);
 setInterval(currentTime, 1000);
