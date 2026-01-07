@@ -60,17 +60,17 @@ function changeColor(color) {
 }
 
 function changeMapOpacity(value) {
-  els.mOverlayC.style.opacity = value / 100;
+  els.mOverlayC.style.opacity = (value / 100)*1;
 }
 const handleChangeColor = debounce(function () {
   changeColor(els.fColor.value);
   localStorage.setItem("color", els.fColor.value);
-}, 20);
+}, 40);
 
 const handleMapOpacityChange = debounce(function () {
   changeMapOpacity(els.mOpacity.value);
   localStorage.setItem("opacity", els.mOpacity.value);
-}, 20);
+}, 40);
 
 const handleFullScreenImageChange = function (event) {
   localStorage.setItem("fsi", event.target.checked);
@@ -245,13 +245,11 @@ function computeUI(result, city, interval) {
     els.videoV.play().catch(() => {});
     deleteMap();
     els.mOverlayB.style.display = "none";
-    els.mOverlayC.style.display = "none";
   } else {
     els.video.style.display = "none";
     els.videoV.pause();
     els.videoV.innerHTML = "";
     els.mOverlayB.style.display = "flex";
-    els.mOverlayC.style.display = "block";
   }
   els.mOverlay.classList.remove("interval");
   els.copyright.style.display = "none";
@@ -265,7 +263,6 @@ function computeUI(result, city, interval) {
         if (hasVideo) {
           deleteMap();
           els.mOverlayB.style.display = "none";
-          els.mOverlayC.style.display = "none";
           loaded();
         } else if (
           !CITY_HAVE_IMAGE.find((item) => {
@@ -279,7 +276,6 @@ function computeUI(result, city, interval) {
           cacheData.lat = result.coord.lat;
           cacheData.lon = result.coord.lon;
           els.mOverlayB.style.display = "flex";
-          els.mOverlayC.style.display = "block";
           createMap(result.coord.lat, result.coord.lon);
         } else {
           deleteMap();
@@ -300,7 +296,6 @@ function computeUI(result, city, interval) {
           els.copyright.innerHTML = cityData.images[randomNumber].photographer;
           els.copyright.href = cityData.images[randomNumber].link;
           els.mOverlayB.style.display = "flex";
-          els.mOverlayC.style.display = "block";
           loaded();
         }
       }
@@ -399,7 +394,7 @@ function computeUI(result, city, interval) {
 function onFullScreenClick() {
   els.header.style.display = "none";
   if (localStorage.getItem("fsi") === "true") {
-    mOverlayB.style.display = "none";
+    els.mOverlayB.style.display = "none";
     els.weather.style.marginTop = "0px";
     els.weather.style.width = "100vw";
     els.weather.style.height = "100vh";
