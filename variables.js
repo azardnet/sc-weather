@@ -418,7 +418,17 @@ export const CITY_HAVE_IMAGE = [
         link: 'https://unsplash.com/@sara_macha'
       }
     ]
-  }
+  },
+    {
+    name: 'Leipzig',
+    id: [6548737],
+    images: [
+      {
+        photographer: 'MediaEcke',
+        link: 'https://unsplash.com/@mediaecke'
+      },
+    ]
+  },
 ]
 export const CITY_HAVE_VIDEO = [
   {
