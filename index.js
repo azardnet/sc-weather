@@ -530,12 +530,12 @@ async function fetchGoldPrices() {
   const isFa = checkPersianCharacters(localStorage.getItem("last_search"));
   try {
     const response = await fetch(
-      "https://api.wallgold.ir/api/v1/price?symbol=GLD_18C_750TMN&side=buy"
+      "https://azard.net/gold"
     );
     const data = await response.json();
 
-    if (data && data.success && data.result && data.result.price) {
-      els.gold.innerHTML = formatNumber(data.result.price);
+    if (data && data.average) {
+      els.gold.innerHTML = formatNumber(data.average);
     } else {
       els.gold.innerHTML = isFa ? "خطا" : "error";
     }
