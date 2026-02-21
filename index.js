@@ -530,7 +530,7 @@ async function fetchGoldPrices() {
   const isFa = checkPersianCharacters(localStorage.getItem("last_search"));
   try {
     const response = await fetch(
-      "https://azard.net/gold"
+      "https://azard.net/gold/"
     );
     const data = await response.json();
 
