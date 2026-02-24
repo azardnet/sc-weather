@@ -1315,6 +1315,10 @@ main header button {
   left: 0;
   margin: auto;
   overflow: hidden;
+  @media only screen and (max-width: 750px) {
+    top: -42px;
+    width: 100%;
+  }
   span {
     white-space: nowrap;
     font-family: "Vazir";
