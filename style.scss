@@ -4,7 +4,8 @@
 
 @font-face {
   font-family: Vazir;
-  src: url("./static/fonts/Vazir-Medium.woff2") format("woff2"),
+  src:
+    url("./static/fonts/Vazir-Medium.woff2") format("woff2"),
     url("./static/fonts/Vazir-Medium.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
@@ -12,7 +13,8 @@
 
 @font-face {
   font-family: Ephesis;
-  src: url("./static/fonts/Ephesis-Regular.woff2") format("woff2"),
+  src:
+    url("./static/fonts/Ephesis-Regular.woff2") format("woff2"),
     url("./static/fonts/Ephesis-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
@@ -74,7 +76,7 @@ main .weather {
     color: #ffffff;
     z-index: 2;
     background: #00000030;
-    padding: 8px 40px;
+    padding: 8px 16px;
     box-sizing: border-box;
 
     .image-copyright {
@@ -87,7 +89,7 @@ main .weather {
       font-family: Vazir;
       position: relative;
       min-height: 40px;
-      font-size: 16px;
+      font-size: 18px;
       height: 3em;
       display: flex;
       align-items: center;
@@ -634,7 +636,9 @@ main .weather .map-overlay .content-wrapper .weather-data .humidity {
       left: -50%;
       transform: rotate(360deg);
       transition: all 1s ease;
-      animation: wave 5s linear infinite, movetop 10s linear forwards;
+      animation:
+        wave 5s linear infinite,
+        movetop 10s linear forwards;
     }
 
     @keyframes movetop {
@@ -950,7 +954,7 @@ main header button {
 
 .digital-clock {
   position: absolute;
-  top: 55%;
+  top: 52%;
   left: 50%;
   transform: translate3d(-40%, 3vh, 0px);
 
@@ -1088,7 +1092,9 @@ main header button {
   visibility: hidden;
   opacity: 0;
   padding: 20px;
-  transition: visibility, opacity 750ms;
+  transition:
+    visibility,
+    opacity 750ms;
 
   h6 {
     font-family: "Vazir", Sans-Serif, serif;
@@ -1260,7 +1266,8 @@ main header button {
   align-items: flex-start;
 }
 
-.usdt-price-widget, .gold-price-widget {
+.usdt-price-widget,
+.gold-price-widget {
   height: 20px;
   position: relative;
   background-color: transparent;
@@ -1297,6 +1304,27 @@ main header button {
   }
 }
 
-.rtl .usdt-price-widget, .rtl .gold-price-widget {
+.rtl .usdt-price-widget,
+.rtl .gold-price-widget {
   direction: ltr;
+}
+.news-container {
+  width: calc(100% - 335px);
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin: auto;
+  overflow: hidden;
+  span {
+    white-space: nowrap;
+    font-family: "Vazir";
+    position: relative;
+    text-align: right;
+    animation-name: news;
+    animation-iteration-count: infinite;
+    animation-duration: 90s;
+    animation-timing-function: linear;
+    will-change: transform;
+    font-weight: bold !important;
+  }
 }

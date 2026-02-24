@@ -64,6 +64,7 @@ export const els = {
   FScreen: sl('main header button.full-screen'),
   Sreset: sl('.portal-settings .reset'),
   SSubmit: sl(".portal-settings .submit"),
+  NewsC: sl(".news-container span")
 }
 
 export const CITY_HAVE_IMAGE = [

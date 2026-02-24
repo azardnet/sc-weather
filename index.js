@@ -13,6 +13,7 @@ import {
   arrayMove,
   getStorage,
   isLight,
+  dynamicKeyframe,
 } from "./utils";
 import { translate } from "./translate";
 import {
@@ -60,7 +61,7 @@ function changeColor(color) {
 }
 
 function changeMapOpacity(value) {
-  els.mOverlayC.style.opacity = (value / 100)*1;
+  els.mOverlayC.style.opacity = (value / 100) * 1;
 }
 const handleChangeColor = debounce(function () {
   changeColor(els.fColor.value);
@@ -80,9 +81,8 @@ const handleMouseMoveOnInfo = () => {
   const isPersianCharacter = checkPersianCharacters(
     localStorage.getItem("last_search")
   );
-  els.lUpdate.innerHTML = `${
-    translate[`${isPersianCharacter ? "fa" : "en"}`].lastUpdate
-  } ${timeAgo(lastUpdate, isPersianCharacter ? "fa" : "en")}`;
+  els.lUpdate.innerHTML = `${translate[`${isPersianCharacter ? "fa" : "en"}`].lastUpdate
+    } ${timeAgo(lastUpdate, isPersianCharacter ? "fa" : "en")}`;
 };
 
 function onInputKeydown(event) {
@@ -153,8 +153,7 @@ function searchWeather(city, interval) {
     }
   }
   fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lang=${
-      isPersianCharacter ? "fa" : "en"
+    `https://api.openweathermap.org/data/2.5/weather?lang=${isPersianCharacter ? "fa" : "en"
     }&q=${cityNameParam}&APPID=${OPEN_WEATHER_KEY}&units=metric`
   )
     .then((result) => {
@@ -234,15 +233,14 @@ function computeUI(result, city, interval) {
     if (currentVideoIndex === 0) {
       videoSrc = require(`./static/videos/${result.id}.mp4`);
     } else {
-      videoSrc = require(`./static/videos/${result.id}-${
-        currentVideoIndex + 1
-      }.mp4`);
+      videoSrc = require(`./static/videos/${result.id}-${currentVideoIndex + 1
+        }.mp4`);
     }
     source.setAttribute("src", videoSrc);
     source.setAttribute("type", "video/mp4");
     els.videoV.appendChild(source);
     els.videoV.load();
-    els.videoV.play().catch(() => {});
+    els.videoV.play().catch(() => { });
     deleteMap();
     els.mOverlayB.style.display = "none";
   } else {
@@ -288,9 +286,8 @@ function computeUI(result, city, interval) {
           });
           const randomNumber =
             randomIntFromInterval(0, cityData?.images?.length - 1) || 0;
-          const image = require(`./static/image/${
-            cityData.id[0] || cityData.id
-          }-${randomNumber + 1}.jpg`);
+          const image = require(`./static/image/${cityData.id[0] || cityData.id
+            }-${randomNumber + 1}.jpg`);
           els.weather.style.backgroundImage = `url(${image})`;
           els.copyright.style.display = "block";
           els.copyright.innerHTML = cityData.images[randomNumber].photographer;
@@ -369,9 +366,8 @@ function computeUI(result, city, interval) {
     els.wWindT.innerHTML =
       translate[isPersianCharacter ? "fa" : "en"].WindSpeed;
     els.wWindV.innerHTML = isPersianCharacter
-      ? `${NumbersToPersian(result.wind.speed.toFixed(TO_FIXED))} <span>${
-          translate.fa.WindSpeedUnit
-        }</span>`
+      ? `${NumbersToPersian(result.wind.speed.toFixed(TO_FIXED))} <span>${translate.fa.WindSpeedUnit
+      }</span>`
       : `${result.wind.speed.toFixed(TO_FIXED)} ${translate.en.WindSpeedUnit}`;
     els.wCurrentI.innerHTML = result.weather[0].description;
     els.wMaxV.innerHTML = isPersianCharacter
@@ -488,12 +484,10 @@ function currentTime() {
   min = updateTime(min);
   sec = updateTime(sec);
   curr_date = updateTime(curr_date);
-  els.dClockH.innerHTML = `${
-    isPersianCharacter ? NumbersToPersian(hour) : hour
-  }:${isPersianCharacter ? NumbersToPersian(min) : min}`;
-  els.dClockS.innerHTML = `:${
-    isPersianCharacter ? NumbersToPersian(sec) : sec
-  }`;
+  els.dClockH.innerHTML = `${isPersianCharacter ? NumbersToPersian(hour) : hour
+    }:${isPersianCharacter ? NumbersToPersian(min) : min}`;
+  els.dClockS.innerHTML = `:${isPersianCharacter ? NumbersToPersian(sec) : sec
+    }`;
   els.dClockM.innerHTML = `${midday}`;
 }
 function updateTime(k) {
@@ -506,6 +500,26 @@ function updateTime(k) {
 
 function formatNumber(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+async function fetchNews() {
+  try {
+    const response = await fetch(
+      "https://htmliha.ir/get/"
+    );
+    const data = await response.json();
+
+    if (data && data.data) {
+      const newsText = data?.data?.map((item) => {
+        return `${item.source}: ${item.title}`
+      }).join('    |    ');
+      els.NewsC.style.transform = `translate3d()`;
+      dynamicKeyframe('news', `-${newsText.length * 3}px, 0px, 0px`, `${newsText.length * 3}px, 0px, 0px`);
+      els.NewsC.innerHTML = newsText;
+    }
+  } catch (error) {
+    console.error("Error fetching news:", error);
+  }
 }
 
 async function fetchMarketPrices() {
@@ -609,6 +623,7 @@ function onContentLoaded() {
   fetchMarketPrices();
 
   fetchGoldPrices();
+  fetchNews();
 
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker
@@ -625,7 +640,12 @@ function onContentLoaded() {
 setInterval(() => {
   fetchMarketPrices();
   fetchGoldPrices();
-}, 1000000); // half a hour
+}, 1000000);
+
+
+// setInterval(() => {
+//   fetchNews();
+// }, 7000); 
 
 window.addEventListener("click", onWindowClick);
 els.input.addEventListener("keydown", onInputKeydown);
