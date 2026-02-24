@@ -221,6 +221,7 @@ function computeUI(result, city, interval) {
     els.videoV.pause();
     els.videoV.innerHTML = "";
     const videoCount = cityVideoData.videos?.length || 1;
+    const randomNumber = randomIntFromInterval(0, cityVideoData.videos?.length) || 1;
     const lastVideoIndexKey = `last_video_index_${result.id}`;
     let currentVideoIndex = parseInt(
       localStorage.getItem(lastVideoIndexKey) || "0",
@@ -230,12 +231,7 @@ function computeUI(result, city, interval) {
     localStorage.setItem(lastVideoIndexKey, currentVideoIndex.toString());
     const source = document.createElement("source");
     let videoSrc;
-    if (currentVideoIndex === 0) {
-      videoSrc = require(`./static/videos/${result.id}.mp4`);
-    } else {
-      videoSrc = require(`./static/videos/${result.id}-${currentVideoIndex + 1
-        }.mp4`);
-    }
+    videoSrc = require(`./static/videos/${result.id}-${randomNumber}.mp4`);
     source.setAttribute("src", videoSrc);
     source.setAttribute("type", "video/mp4");
     els.videoV.appendChild(source);
@@ -554,8 +550,20 @@ async function fetchGoldPrices() {
       els.gold.innerHTML = isFa ? "خطا" : "error";
     }
   } catch (error) {
-    console.error("Error fetching gold prices:", error);
-    els.gold.innerHTML = isFa ? "خطا" : "error";
+    try {
+      const response = await fetch(
+        "https://api.wallgold.ir/api/v1/price?symbol=GLD_18C_750TMN&side=buy"
+      );
+      const data = await response.json();
+
+      if (data && data.result && data.result.price) {
+        els.gold.innerHTML = formatNumber(data.result.price);
+      } else {
+        els.gold.innerHTML = isFa ? "خطا" : "error";
+      }
+    } catch (error) {
+      els.gold.innerHTML = isFa ? "خطا" : "error";
+    }
   }
 }
 

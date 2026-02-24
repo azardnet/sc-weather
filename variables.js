@@ -449,6 +449,10 @@ export const CITY_HAVE_VIDEO = [
       {
         channel: 'Exploropia',
         link: 'https://www.youtube.com/watch?v=7DkoPGGdKAA'
+      },
+      {
+        channel: 'Exploropia',
+        link: 'https://www.youtube.com/watch?v=7DkoPGGdKAA'
       }
     ]
   },
