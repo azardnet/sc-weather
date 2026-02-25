@@ -63,6 +63,9 @@ function changeColor(color) {
 function changeMapOpacity(value) {
   els.mOverlayC.style.opacity = (value / 100) * 1;
 }
+function changeAnimationDuration(value) {
+  els.NewsC.style['animation-duration'] = `${value}s`;
+}
 const handleChangeColor = debounce(function () {
   changeColor(els.fColor.value);
   localStorage.setItem("color", els.fColor.value);
@@ -71,6 +74,11 @@ const handleChangeColor = debounce(function () {
 const handleMapOpacityChange = debounce(function () {
   changeMapOpacity(els.mOpacity.value);
   localStorage.setItem("opacity", els.mOpacity.value);
+}, 40);
+
+const handleAnimationDurationChange = debounce(function () {
+  changeAnimationDuration(els.animationD.value);
+  localStorage.setItem("animation-duration", els.animationD.value);
 }, 40);
 
 const handleFullScreenImageChange = function (event) {
@@ -138,8 +146,11 @@ function searchWeather(city, interval) {
   if (!interval) {
     const color = localStorage.getItem("color") || "#072322";
     const opacity = localStorage.getItem("opacity") || "90";
+    const animationDuration = localStorage.getItem("animation-duration") || "120";
     changeColor(color);
     changeMapOpacity(opacity);
+    changeAnimationDuration(animationDuration);
+    // els.animationD.value = animationDuration * 1;
     if (isPersianCharacter) {
       document.body.classList.add("rtl");
       els.input.placeholder = "اسم شهر را وارد کنید و Enter بزنید.";
@@ -402,12 +413,14 @@ function onSettingButtonClick() {
   els.pSettings.style.opacity = 1;
   els.main.style.filter = "blur(20px)";
   els.fScreen.checked = localStorage.getItem("fsi") === "true";
-  els.mOpacity.value = localStorage.getItem("opacity") * 1;
+  els.mOpacity.value = localStorage.getItem("opacity") * 1 || 90;
+  els.animationD.value = localStorage.getItem("animation-duration") * 1 || 160;
 }
 
 function onSettingResetButtonClick() {
   changeColor("#072322");
   changeMapOpacity("90");
+  changeAnimationDuration(160);
   els.main.style.filter = "blur(0px)";
   els.pSettings.style.visibility = "hidden";
   els.pSettings.style.opacity = 0;
@@ -668,6 +681,7 @@ els.input.addEventListener("blur", () => {
 });
 els.fColor.addEventListener("input", handleChangeColor, false);
 els.mOpacity.addEventListener("input", handleMapOpacityChange, false);
+els.animationD.addEventListener("input", handleAnimationDurationChange, false);
 els.pModalC.addEventListener("click", onPortalModalClose);
 els.FScreen.addEventListener("click", onFullScreenClick);
 els.sButton.addEventListener("click", onSettingButtonClick);
