@@ -13,7 +13,7 @@ import {
   arrayMove,
   getStorage,
   isLight,
-  dynamicKeyframe,
+  dynamicTranslateKeyframe,
 } from "./utils";
 import { translate } from "./translate";
 import {
@@ -508,10 +508,11 @@ async function fetchNews() {
     if (data && data.data) {
       const newsText = data?.data?.map((item) => {
         return `${item.source}: ${item.title}`
-      }).join('    |    ');
-      els.NewsC.style.transform = `translate3d()`;
-      dynamicKeyframe('news', `-${newsText.length * 3}px, 0px, 0px`, `${newsText.length * 3}px, 0px, 0px`);
+      }).join(' \u0020 ⎹⎹⎹⎹ \u0020 ');
       els.NewsC.innerHTML = newsText;
+      const newsLength = newsText.length * 3.410;
+      els.NewsC.style.transform = `translate3d(-${newsLength}px, 0px, 0px)`;
+      dynamicTranslateKeyframe('news', `-${newsLength}px, 0px, 0px`, `${newsLength}px, 0px, 0px`);
     }
   } catch (error) {
     console.error("Error fetching news:", error);

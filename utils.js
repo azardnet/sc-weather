@@ -16,20 +16,23 @@ export function NumbersToPersian(text) {
   }
 }
 
-
-export function dynamicKeyframe(name, startTranformValue, endTranformValue) {
-  const style = document.createElement('style');
+export function dynamicTranslateKeyframe(
+  name,
+  startTranformValue,
+  endTranformValue,
+) {
+  const style = document.createElement("style");
   const keyFrames = `
 @keyframes ${name} {
     0% {
       transform: translate3d(${startTranformValue});
-    },
+    }
     100% {
         transform: translate3d(${endTranformValue});
     }
 }`;
   style.innerHTML = keyFrames;
-  document.getElementsByTagName('head')[0].appendChild(style);
+  document.getElementsByTagName("head")[0].appendChild(style);
 }
 
 export function debounce(func, wait, immediate) {
@@ -125,14 +128,15 @@ export function MeasureConnectionSpeed() {
       "internet-speed loaded";
     const result = speedKbps / 1024 > 1.24 ? speedMbps : speedKbps;
     setTimeout(() => {
-      sl("main .weather .bottom-overlay span").innerHTML = `${result} ${speedKbps / 1024 > 1.24 ? "Mb/s" : "Kb/s"
-        }`;
+      sl("main .weather .bottom-overlay span").innerHTML = `${result} ${
+        speedKbps / 1024 > 1.24 ? "Mb/s" : "Kb/s"
+      }`;
       setTimeout(() => {
         sl("main .weather .bottom-overlay span").classList.remove(
-          lastNumber > result * 1 ? "top" : "down"
+          lastNumber > result * 1 ? "top" : "down",
         );
         sl("main .weather .bottom-overlay span").classList.add(
-          lastNumber > result * 1 ? "down" : "top"
+          lastNumber > result * 1 ? "down" : "top",
         );
         lastNumber = result - 1;
       }, 250);
@@ -193,17 +197,19 @@ export function timeAgo(dateParam, lang) {
   if (seconds < 5) {
     return `${lang === "fa" ? "الان" : "now"}`;
   } else if (seconds < 60) {
-    return `${lang === "fa"
+    return `${
+      lang === "fa"
         ? `${NumbersToPersian(seconds)} ثانیه پیش`
         : `${seconds} seconds ago`
-      }`;
+    }`;
   } else if (seconds < 90) {
     return `${lang === "fa" ? "حدودا یک دقیقه پیش" : "about a minute ago"}`;
   } else if (minutes < 60) {
-    return `${lang === "fa"
+    return `${
+      lang === "fa"
         ? `${NumbersToPersian(minutes)} دقیقه پیش`
         : `${minutes} minutes ago`
-      }`;
+    }`;
   }
   return getFormattedDate(date);
 }

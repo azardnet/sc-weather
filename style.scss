@@ -1310,10 +1310,11 @@ main header button {
   direction: ltr;
 }
 .news-container {
-  width: calc(100% - 335px);
+  width: calc(100% - 375px);
   position: absolute;
   right: 0;
   left: 0;
+  top: 30px;
   margin: auto;
   overflow: hidden;
   @media only screen and (max-width: 750px) {
@@ -1322,14 +1323,14 @@ main header button {
   }
   span {
     white-space: nowrap;
-    font-family: "Vazir";
-    position: relative;
-    text-align: right;
+    text-align: right !important;
     animation-name: news;
     animation-iteration-count: infinite;
     animation-duration: 90s;
     animation-timing-function: linear;
     will-change: transform;
     font-weight: bold !important;
+    transform: translate3d(0px,0px,0px);
+    direction: rtl;
   }
 }
