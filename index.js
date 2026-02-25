@@ -508,7 +508,7 @@ async function fetchNews() {
     if (data && data.data) {
       const newsText = data?.data?.map((item) => {
         return `${item.source}: ${item.title}`
-      }).join('  \u0020   📰    \u0020  ');
+      }).join('  \u0020   |    \u0020  ');
       els.NewsC.innerHTML = newsText;
       const newsLength = newsText.length * 3.410;
       els.NewsC.style.transform = `translate3d(-${newsLength}px, 0px, 0px)`;
