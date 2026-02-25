@@ -80,7 +80,7 @@ main .weather {
     box-sizing: border-box;
 
     .image-copyright {
-      display: none;
+      display: none !important;
       font-family: "Ephesis";
       letter-spacing: 4px;
       color: #fff;
@@ -1326,7 +1326,7 @@ main header button {
     text-align: right !important;
     animation-name: news;
     animation-iteration-count: infinite;
-    animation-duration: 120s;
+    animation-duration: 160s;
     animation-timing-function: linear;
     will-change: transform;
     font-weight: bold !important;
