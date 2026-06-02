@@ -1,7 +1,9 @@
-const imageLink = ["https://images.hamrahtel.com/512x/webp/hmt-saleor-production/products/3_bb8c8d50.jpg"];
-const downloadSize = 40299; // bytes
-const NUMBER_ANIMATION_SPEED = 8;
-let lastNumber;
+const imageLink = [
+  "https://azardnet.github.io/sc-weather/img/128747-1.3052c8c7fd93c649d6e8937b06bb6f2f.jpg",
+];
+const downloadSize = 471649; // bytes
+// const downloadSize = 371600; // bytes
+let lastNumber = 0;
 
 export function sl(selector) {
   return document.querySelector(selector);
@@ -79,22 +81,22 @@ export function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export function startNumberAnimation(selector, start, end, unit) {
-  increaseNumber(start, end, sl(selector), unit);
+export function startNumberAnimation(selector, start, end, unit, time, speed) {
+  increaseNumber(start, end, sl(selector), unit, time, speed);
 }
 
-export function increaseNumber(start, end, el, unit) {
+export function increaseNumber(start, end, el, unit, time, speed) {
   if (start <= end) {
     el.innerHTML = `${start.toFixed(2)} ${unit}`;
     setTimeout(() => {
       increaseNumber(start + 1, end, el, unit);
-    }, NUMBER_ANIMATION_SPEED);
+    }, speed);
     setTimeout(() => {
       if (start > end) {
         el.innerHTML = `${end.toFixed(2)} ${unit}`;
         return false;
       }
-    }, 1000);
+    }, time);
   } else {
     el.innerHTML = `${end.toFixed(2)} ${unit}`;
     return false;
@@ -127,6 +129,15 @@ export function MeasureConnectionSpeed() {
     sl("main .weather .bottom-overlay span").className =
       "internet-speed loaded";
     const result = speedKbps / 1024 > 1.24 ? speedMbps : speedKbps;
+    console.log("aaaaa", lastNumber, result);
+    startNumberAnimation(
+      "main .weather .bottom-overlay span",
+      lastNumber,
+      result,
+      speedKbps / 1024 > 1.24 ? "Mb/s" : "Kb/s",
+      1000,
+      (speedKbps / 1024 > 1.24) ? 100 : 50,
+    );
     setTimeout(() => {
       sl("main .weather .bottom-overlay span").innerHTML = `${result} ${
         speedKbps / 1024 > 1.24 ? "Mb/s" : "Kb/s"
@@ -146,7 +157,7 @@ export function MeasureConnectionSpeed() {
 
 export function InitiateSpeedDetection() {
   sl("main .weather .bottom-overlay span").className = "internet-speed loading";
-  setTimeout(MeasureConnectionSpeed, 10);
+  setTimeout(MeasureConnectionSpeed, 100);
 }
 
 export function setStorage(key, data) {

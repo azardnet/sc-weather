@@ -663,7 +663,7 @@ setInterval(() => {
   fetchMarketPrices();
   fetchGoldPrices();
   fetchNews();
-}, 700000);
+}, 500000);
 
 
 window.addEventListener("click", onWindowClick);
