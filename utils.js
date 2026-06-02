@@ -1,5 +1,5 @@
-const imageLink = ["https://90theme.ir/upload/bIoluS.jpg"];
-const downloadSize = 306160; // bytes
+const imageLink = ["https://images.hamrahtel.com/512x/webp/hmt-saleor-production/products/3_bb8c8d50.jpg"];
+const downloadSize = 40299; // bytes
 const NUMBER_ANIMATION_SPEED = 8;
 let lastNumber;
 

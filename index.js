@@ -662,12 +662,9 @@ function onContentLoaded() {
 setInterval(() => {
   fetchMarketPrices();
   fetchGoldPrices();
-}, 1000000);
+  fetchNews();
+}, 700000);
 
-
-// setInterval(() => {
-//   fetchNews();
-// }, 7000); 
 
 window.addEventListener("click", onWindowClick);
 els.input.addEventListener("keydown", onInputKeydown);
