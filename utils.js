@@ -129,7 +129,6 @@ export function MeasureConnectionSpeed() {
     sl("main .weather .bottom-overlay span").className =
       "internet-speed loaded";
     const result = speedKbps / 1024 > 1.24 ? speedMbps : speedKbps;
-    console.log("aaaaa", lastNumber, result);
     startNumberAnimation(
       "main .weather .bottom-overlay span",
       lastNumber,
