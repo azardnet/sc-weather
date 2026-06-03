@@ -64,7 +64,7 @@ function changeMapOpacity(value) {
   els.mOverlayC.style.opacity = (value / 100) * 1;
 }
 function changeAnimationDuration(value) {
-  els.NewsC.style['animation-duration'] = `${value}s`;
+  els.NewsC.style["animation-duration"] = `${value}s`;
 }
 const handleChangeColor = debounce(function () {
   changeColor(els.fColor.value);
@@ -87,10 +87,11 @@ const handleFullScreenImageChange = function (event) {
 
 const handleMouseMoveOnInfo = () => {
   const isPersianCharacter = checkPersianCharacters(
-    localStorage.getItem("last_search")
+    localStorage.getItem("last_search"),
   );
-  els.lUpdate.innerHTML = `${translate[`${isPersianCharacter ? "fa" : "en"}`].lastUpdate
-    } ${timeAgo(lastUpdate, isPersianCharacter ? "fa" : "en")}`;
+  els.lUpdate.innerHTML = `${
+    translate[`${isPersianCharacter ? "fa" : "en"}`].lastUpdate
+  } ${timeAgo(lastUpdate, isPersianCharacter ? "fa" : "en")}`;
 };
 
 function onInputKeydown(event) {
@@ -124,9 +125,12 @@ function onInputKeydown(event) {
         setTimeout(() => {
           searchWeather(els.input.value, false);
         }, 120);
-        setTimeout(() => {
-          els.weather.style.opacity = 1;
-        }, Math.max(0, LOADING_DELAY - LOADING_TRANSITION_DELAY));
+        setTimeout(
+          () => {
+            els.weather.style.opacity = 1;
+          },
+          Math.max(0, LOADING_DELAY - LOADING_TRANSITION_DELAY),
+        );
       } else {
         activePortalModal("invalid city");
       }
@@ -146,7 +150,8 @@ function searchWeather(city, interval) {
   if (!interval) {
     const color = localStorage.getItem("color") || "#072322";
     const opacity = localStorage.getItem("opacity") || "90";
-    const animationDuration = localStorage.getItem("animation-duration") || "120";
+    const animationDuration =
+      localStorage.getItem("animation-duration") || "120";
     changeColor(color);
     changeMapOpacity(opacity);
     changeAnimationDuration(animationDuration);
@@ -164,8 +169,9 @@ function searchWeather(city, interval) {
     }
   }
   fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lang=${isPersianCharacter ? "fa" : "en"
-    }&q=${cityNameParam}&APPID=${OPEN_WEATHER_KEY}&units=metric`
+    `https://api.openweathermap.org/data/2.5/weather?lang=${
+      isPersianCharacter ? "fa" : "en"
+    }&q=${cityNameParam}&APPID=${OPEN_WEATHER_KEY}&units=metric`,
   )
     .then((result) => {
       return result.json();
@@ -178,11 +184,14 @@ function searchWeather(city, interval) {
 function loaded(delay = true) {
   els.main.style.display = "flex";
   if (delay) {
-    setTimeout(() => {
-      document.body.classList.remove("loading");
-      document.body.classList.add("loaded");
-      document.body.classList.remove("blur");
-    }, Math.max(0, LOADING_DELAY - LOADING_TRANSITION_DELAY));
+    setTimeout(
+      () => {
+        document.body.classList.remove("loading");
+        document.body.classList.add("loaded");
+        document.body.classList.remove("blur");
+      },
+      Math.max(0, LOADING_DELAY - LOADING_TRANSITION_DELAY),
+    );
   } else {
     document.body.classList.remove("loading");
     document.body.classList.add("loaded");
@@ -216,10 +225,10 @@ function createMap(lat, lon) {
       loaded();
       activePortalModal(
         checkPersianCharacters(
-          localStorage.getItem("last_search") || DEFAILT_CITY
+          localStorage.getItem("last_search") || DEFAILT_CITY,
         )
           ? translate.fa.ErrorLoadMap
-          : translate.en.ErrorLoadMap
+          : translate.en.ErrorLoadMap,
       );
     }
   }, CREATE_MAP_DELAY);
@@ -232,11 +241,12 @@ function computeUI(result, city, interval) {
     els.videoV.pause();
     els.videoV.innerHTML = "";
     const videoCount = cityVideoData.videos?.length || 1;
-    const randomNumber = randomIntFromInterval(0, cityVideoData.videos?.length) || 1;
+    const randomNumber =
+      randomIntFromInterval(0, cityVideoData.videos?.length) || 1;
     const lastVideoIndexKey = `last_video_index_${result.id}`;
     let currentVideoIndex = parseInt(
       localStorage.getItem(lastVideoIndexKey) || "0",
-      10
+      10,
     );
     currentVideoIndex = (currentVideoIndex + 1) % videoCount;
     localStorage.setItem(lastVideoIndexKey, currentVideoIndex.toString());
@@ -247,7 +257,7 @@ function computeUI(result, city, interval) {
     source.setAttribute("type", "video/mp4");
     els.videoV.appendChild(source);
     els.videoV.load();
-    els.videoV.play().catch(() => { });
+    els.videoV.play().catch(() => {});
     deleteMap();
     els.mOverlayB.style.display = "none";
   } else {
@@ -293,8 +303,11 @@ function computeUI(result, city, interval) {
           });
           const randomNumber =
             randomIntFromInterval(0, cityData?.images?.length - 1) || 0;
-          const image = require(`./static/image/${cityData.id[0] || cityData.id
-            }-${randomNumber + 1}.jpg`);
+          const image = require(
+            `./static/image/${
+              cityData.id[0] || cityData.id
+            }-${randomNumber + 1}.jpg`,
+          );
           els.weather.style.backgroundImage = `url(${image})`;
           els.copyright.style.display = "block";
           els.copyright.innerHTML = cityData.images[randomNumber].photographer;
@@ -304,8 +317,12 @@ function computeUI(result, city, interval) {
         }
       }
       if (result.sys && result.sys.country) {
-        const flagImage = require(`./static/flags/${result.sys.country.toLowerCase()}.svg`);
-        const weatherIcon = require(`./static/icons/openweathermap/${result.weather[0].icon}.svg`);
+        const flagImage = require(
+          `./static/flags/${result.sys.country.toLowerCase()}.svg`,
+        );
+        const weatherIcon = require(
+          `./static/icons/openweathermap/${result.weather[0].icon}.svg`,
+        );
         els.mOverlaySpan.style.backgroundImage = `url("${flagImage}")`;
         els.wSvgIcon.style.backgroundImage = `url("${weatherIcon}")`;
       }
@@ -352,7 +369,7 @@ function computeUI(result, city, interval) {
       activePortalModal(
         checkPersianCharacters(city)
           ? translate.fa.CityNotFound
-          : translate.en.CityNotFound
+          : translate.en.CityNotFound,
       );
       setTimeout(() => {
         searchWeather(getStorage("last_search"), false);
@@ -373,8 +390,9 @@ function computeUI(result, city, interval) {
     els.wWindT.innerHTML =
       translate[isPersianCharacter ? "fa" : "en"].WindSpeed;
     els.wWindV.innerHTML = isPersianCharacter
-      ? `${NumbersToPersian(result.wind.speed.toFixed(TO_FIXED))} <span>${translate.fa.WindSpeedUnit
-      }</span>`
+      ? `${NumbersToPersian(result.wind.speed.toFixed(TO_FIXED))} <span>${
+          translate.fa.WindSpeedUnit
+        }</span>`
       : `${result.wind.speed.toFixed(TO_FIXED)} ${translate.en.WindSpeedUnit}`;
     els.wCurrentI.innerHTML = result.weather[0].description;
     els.wMaxV.innerHTML = isPersianCharacter
@@ -454,7 +472,7 @@ function onFullScreenChange() {
     els.weather.style.height = "calc(80vh + 40px)";
     if (
       !CITY_HAVE_IMAGE.find(
-        (item) => item.id === localStorage.getItem("last_search_id") * 1
+        (item) => item.id === localStorage.getItem("last_search_id") * 1,
       )
     ) {
       createMap();
@@ -493,10 +511,12 @@ function currentTime() {
   min = updateTime(min);
   sec = updateTime(sec);
   curr_date = updateTime(curr_date);
-  els.dClockH.innerHTML = `${isPersianCharacter ? NumbersToPersian(hour) : hour
-    }:${isPersianCharacter ? NumbersToPersian(min) : min}`;
-  els.dClockS.innerHTML = `:${isPersianCharacter ? NumbersToPersian(sec) : sec
-    }`;
+  els.dClockH.innerHTML = `${
+    isPersianCharacter ? NumbersToPersian(hour) : hour
+  }:${isPersianCharacter ? NumbersToPersian(min) : min}`;
+  els.dClockS.innerHTML = `:${
+    isPersianCharacter ? NumbersToPersian(sec) : sec
+  }`;
   els.dClockM.innerHTML = `${midday}`;
 }
 function updateTime(k) {
@@ -513,19 +533,23 @@ function formatNumber(num) {
 
 async function fetchNews() {
   try {
-    const response = await fetch(
-      "https://htmliha.ir/get/"
-    );
+    const response = await fetch("https://htmliha.ir/get/");
     const data = await response.json();
 
     if (data && data.data) {
-      const newsText = data?.data?.map((item) => {
-        return `${item.source}: ${item.title}`
-      }).join('  \u0020   |    \u0020  ');
+      const newsText = data?.data
+        ?.map((item) => {
+          return `${item.source}: ${item.title}`;
+        })
+        .join("  \u0020   |    \u0020  ");
       els.NewsC.innerHTML = newsText;
-      const newsLength = newsText.length * 3.410;
+      const newsLength = newsText.length * 3.41;
       els.NewsC.style.transform = `translate3d(-${newsLength}px, 0px, 0px)`;
-      dynamicTranslateKeyframe('news', `-${newsLength}px, 0px, 0px`, `${newsLength}px, 0px, 0px`);
+      dynamicTranslateKeyframe(
+        "news",
+        `-${newsLength}px, 0px, 0px`,
+        `${newsLength}px, 0px, 0px`,
+      );
     }
   } catch (error) {
     console.error("Error fetching news:", error);
@@ -536,13 +560,14 @@ async function fetchMarketPrices() {
   const isFa = checkPersianCharacters(localStorage.getItem("last_search"));
   try {
     const response = await fetch(
-      "https://apiv2.nobitex.ir/market/stats?srcCurrency=usdt&dstCurrency=rls"
+      "https://apiv2.nobitex.ir/market/stats?srcCurrency=usdt,btc&dstCurrency=rls,usdt",
     );
     const data = await response.json();
 
     if (data && data.stats && data.stats["usdt-rls"]) {
       const usdtPrice = data.stats["usdt-rls"].latest;
-      updatePriceWidget(usdtPrice);
+      const btcPrice = data.stats["btc-usdt"].latest;
+      updatePriceWidget(usdtPrice, btcPrice);
     }
   } catch (error) {
     console.error("Error fetching market prices:", error);
@@ -553,9 +578,7 @@ async function fetchMarketPrices() {
 async function fetchGoldPrices() {
   const isFa = checkPersianCharacters(localStorage.getItem("last_search"));
   try {
-    const response = await fetch(
-      "https://azard.net/gold/"
-    );
+    const response = await fetch("https://azard.net/gold/");
     const data = await response.json();
 
     if (data && data.average) {
@@ -566,7 +589,7 @@ async function fetchGoldPrices() {
   } catch (error) {
     try {
       const response = await fetch(
-        "https://api.wallgold.ir/api/v1/price?symbol=GLD_18C_750TMN&side=buy"
+        "https://api.wallgold.ir/api/v1/price?symbol=GLD_18C_750TMN&side=buy",
       );
       const data = await response.json();
 
@@ -581,53 +604,17 @@ async function fetchGoldPrices() {
   }
 }
 
-function updatePriceWidget(usdtPrice) {
-  if (!usdtPrice) {
+function updatePriceWidget(usdtPrice, btcPrice) {
+  if (!usdtPrice || !btcPrice) {
     els.usdt.innerHTML = "N/A";
+    els.btct.innerHTML = "N/A";
     return;
   }
 
   const formattedUsdtPrice = formatNumber(Math.round(usdtPrice / 10));
+  const formattedBtctPrice = formatNumber((btcPrice));
   els.usdt.innerHTML = formattedUsdtPrice;
-
-  const stored = localStorage.getItem("usdt_price_24h");
-  let storedData = null;
-
-  if (stored) {
-    try {
-      storedData = JSON.parse(stored);
-    } catch (e) {
-      console.error("Error parsing stored price:", e);
-    }
-  }
-
-  const now = new Date().getTime();
-
-  if (storedData && storedData.timestamp) {
-    const hoursPassed = (now - storedData.timestamp) / (1000 * 60 * 60);
-
-    if (hoursPassed >= 24) {
-      const oldPrice = storedData.price;
-
-      els.usdtW.classList.remove("price-up", "price-down");
-
-      if (usdtPrice > oldPrice) {
-        els.usdtW.classList.add("price-up");
-      } else if (usdtPrice < oldPrice) {
-        els.usdtW.classList.add("price-down");
-      }
-
-      localStorage.setItem(
-        "usdt_price_24h",
-        JSON.stringify({ price: usdtPrice, timestamp: now })
-      );
-    }
-  } else {
-    localStorage.setItem(
-      "usdt_price_24h",
-      JSON.stringify({ price: usdtPrice, timestamp: now })
-    );
-  }
+  els.btct.innerHTML = formattedBtctPrice;
 }
 
 function onPortalModalClose() {
@@ -664,7 +651,6 @@ setInterval(() => {
   fetchGoldPrices();
   fetchNews();
 }, 500000);
-
 
 window.addEventListener("click", onWindowClick);
 els.input.addEventListener("keydown", onInputKeydown);
