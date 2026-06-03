@@ -267,7 +267,6 @@ function computeUI(result, city, interval) {
     els.mOverlayB.style.display = "flex";
   }
   els.mOverlay.classList.remove("interval");
-  els.copyright.style.display = "none";
   lastUpdate = new Date();
   const isPersianCharacter = checkPersianCharacters(city);
   if (!interval) {
@@ -309,9 +308,6 @@ function computeUI(result, city, interval) {
             }-${randomNumber + 1}.jpg`,
           );
           els.weather.style.backgroundImage = `url(${image})`;
-          els.copyright.style.display = "block";
-          els.copyright.innerHTML = cityData.images[randomNumber].photographer;
-          els.copyright.href = cityData.images[randomNumber].link;
           els.mOverlayB.style.display = "flex";
           loaded();
         }
