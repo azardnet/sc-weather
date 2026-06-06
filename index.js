@@ -14,6 +14,8 @@ import {
   getStorage,
   isLight,
   dynamicTranslateKeyframe,
+  updateTime,
+  formatNumber,
 } from "./utils";
 import { translate } from "./translate";
 import {
@@ -23,7 +25,6 @@ import {
   SPEED_DETECTION_DELAY,
   CREATE_MAP_DELAY,
   PORTAL_MODAL_DELAY,
-  LOADING_TRANSITION_DELAY,
   LOADING_DELAY,
   REQUEST_INTERVAL,
   MAP_URL,
@@ -129,7 +130,7 @@ function onInputKeydown(event) {
           () => {
             els.weather.style.opacity = 1;
           },
-          Math.max(0, LOADING_DELAY - LOADING_TRANSITION_DELAY),
+          LOADING_DELAY,
         );
       } else {
         activePortalModal("invalid city");
@@ -190,7 +191,7 @@ function loaded(delay = true) {
         document.body.classList.add("loaded");
         document.body.classList.remove("blur");
       },
-      Math.max(0, LOADING_DELAY - LOADING_TRANSITION_DELAY),
+      LOADING_DELAY,
     );
   } else {
     document.body.classList.remove("loading");
@@ -514,17 +515,6 @@ function currentTime() {
     isPersianCharacter ? NumbersToPersian(sec) : sec
   }`;
   els.dClockM.innerHTML = `${midday}`;
-}
-function updateTime(k) {
-  if (k < 10) {
-    return "0" + k;
-  } else {
-    return k;
-  }
-}
-
-function formatNumber(num) {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 async function fetchNews() {

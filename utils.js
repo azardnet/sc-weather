@@ -2,7 +2,6 @@ const imageLink = [
   "https://azardnet.github.io/sc-weather/img/128747-1.3052c8c7fd93c649d6e8937b06bb6f2f.jpg",
 ];
 const downloadSize = 471649; // bytes
-// const downloadSize = 371600; // bytes
 let lastNumber = 0;
 
 export function sl(selector) {
@@ -239,4 +238,16 @@ export function isLight(color) {
   const c_b = parseInt(hex.substring(4, 4 + 2), 16);
   const brightness = (c_r * 299 + c_g * 587 + c_b * 114) / 1000;
   return brightness > 155;
+}
+
+export function updateTime(k) {
+  if (k < 10) {
+    return "0" + k;
+  } else {
+    return k;
+  }
+}
+
+export function formatNumber(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

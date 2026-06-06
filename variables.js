@@ -5,8 +5,7 @@ export const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YAN
 export const OPEN_WEATHER_KEY = process.env.OPENWEATHER
 export const UNIT = '°C'
 export const REQUEST_INTERVAL = 30 * (60 * 1000) // 30 minutes
-export const LOADING_DELAY = 200 // ms
-export const LOADING_TRANSITION_DELAY = 500 // ms
+export const LOADING_DELAY = 500 // ms
 export const PORTAL_MODAL_DELAY = 2500 // 2.5s
 export const CREATE_MAP_DELAY = 3000 // 3s
 export const SPEED_DETECTION_DELAY = 10000 // 10s;
