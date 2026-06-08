@@ -519,7 +519,7 @@ function currentTime() {
 
 async function fetchNews() {
   try {
-    const response = await fetch("https://htmliha.ir/get/");
+    const response = await fetch("https://azard.net/get/");
     const data = await response.json();
 
     if (data && data.data) {
