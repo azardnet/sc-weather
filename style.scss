@@ -83,7 +83,7 @@ main .weather {
       font-family: Vazir;
       position: relative;
       min-height: 40px;
-      font-size: 18px;
+      font-size: 20px;
       height: 3em;
       display: flex;
       align-items: center;
@@ -210,7 +210,7 @@ main .weather #video {
 }
 
 main .weather .map-overlay .content-wrapper {
-  margin-top: 30px;
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -229,10 +229,9 @@ main .weather .map-overlay .content-wrapper {
 main .weather .map-overlay .content-wrapper h1 {
   position: relative;
   margin: 0;
-
   b {
     font-family: Ephesis, Vazir;
-    font-size: 3.5em;
+    font-size: 2.5em;
     letter-spacing: 10px;
     color: #ffffff;
     opacity: 0.8;
@@ -247,11 +246,15 @@ main .weather .map-overlay .content-wrapper .weather-data {
   font-family: Vazir;
   color: #ffffff;
   display: flex;
-  width: 100%;
+  width: 90%;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: 50px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin: auto;
+  top: 40px;
 }
 
 main .weather .map-overlay .content-wrapper .weather-data span {
@@ -322,9 +325,6 @@ main .weather .map-overlay .content-wrapper .weather-data .temperature .unit {
   font-size: 40%;
 }
 
-main .weather .map-overlay .content-wrapper .weather-data .feels_like {
-}
-
 main .weather .map-overlay .content-wrapper .weather-data span .value-wrapper {
   display: inline-block;
   margin: 0 3px;
@@ -362,24 +362,26 @@ main
   min-width: 68px;
   align-items: center;
   position: relative;
-  margin-top: -70px;
+  margin-top: 0px;
 }
 
 .map-overlay .content-wrapper .weather-data .current-weather-icon {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: -30px;
-
+  position: absolute;
+  right: -12px;
+  top: -16px;
+  opacity: 0.75;
   span {
     text-transform: capitalize;
   }
 
   .svg-icon {
-    width: 82px;
-    height: 82px;
-
+    width: 28px;
+    height: 28px;
+    margin-right: 4px;
     @media only screen and (max-width: 750px) {
       width: 52px;
       height: 52px;
@@ -402,28 +404,6 @@ main
   justify-content: center;
   align-items: flex-start;
   position: relative;
-
-  @media only screen and (max-width: 750px) {
-    &:before {
-      display: none;
-    }
-  }
-
-  &:before {
-    content: "";
-    background-color: rgba(255, 255, 255, 0.02);
-    position: absolute;
-    width: calc(100% + 120px);
-    height: calc(100% + 50px);
-    top: -35px;
-    left: -88px;
-  }
-}
-
-.rtl .weather-data .temp-feels-wrapper {
-  &:before {
-    left: -28px;
-  }
 }
 
 .weather-data .current-weather-icon svg path {
@@ -529,7 +509,7 @@ main
 
 main .weather .map-overlay .content-wrapper .weather-data .feels_like {
   margin-top: 0px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 main .weather .map-overlay .content-wrapper .weather-data .temperature:after {
@@ -551,8 +531,7 @@ main .weather .map-overlay .content-wrapper .weather-data .temp_max {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.25);
-  padding-left: 30px;
+  padding-left: 20px;
   width: 100%;
   height: 30px;
 
@@ -563,27 +542,27 @@ main .weather .map-overlay .content-wrapper .weather-data .temp_max {
     width: 30px;
     height: 100%;
     opacity: 0.75;
-    margin-right: 10px;
     background-image: url("./static/icons/import-arrow-up.svg");
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 50%;
-    background-color: rgba(255, 255, 255, 0.25);
+    background-size: 70%;
   }
 }
 
 main .weather .map-overlay .content-wrapper .weather-data .humidity {
   height: 20px;
   position: absolute;
-  bottom: -46px;
+  bottom: -30px;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.25);
-  padding: 5px 15px 5px 15px;
+  padding: 5px 6px 5px 12px;
   text-align: center;
   line-height: 22px;
 
   > div {
     display: flex;
+    > span {
+      opacity: 0.75;
+    }
   }
 
   .unit {
@@ -593,7 +572,8 @@ main .weather .map-overlay .content-wrapper .weather-data .humidity {
   .humidity-icon {
     width: 26px;
     height: 26px;
-    margin-right: 10px;
+    margin-right: 8px;
+    opacity: 0.75;
 
     svg {
       height: 26px;
@@ -705,7 +685,7 @@ main .weather .map-overlay .content-wrapper .weather-data .humidity {
 }
 
 main .weather .map-overlay .content-wrapper .weather-data .temp_min {
-  margin-top: 1em;
+  margin-top: 0.25em;
 
   &:before {
     transform: rotate(180deg);
@@ -948,7 +928,7 @@ main header button {
 
 .digital-clock {
   position: absolute;
-  top: 52%;
+  top: 46%;
   left: 50%;
   transform: translate3d(-40%, 3vh, 0px);
 
@@ -1240,10 +1220,6 @@ main header button {
     border: 2px solid rgba(0, 0, 0, 0.75);
   }
 
-  .weather-data .temp-feels-wrapper:before {
-    background-color: rgba(0, 0, 0, 0.03);
-  }
-
   form.search .city-list-wrapper li {
     color: #000;
 
@@ -1304,7 +1280,7 @@ main header button {
   direction: ltr;
 }
 .news-container {
-  width: calc(100% - 375px);
+  width: calc(100% - 430px);
   position: absolute;
   right: 0;
   left: 0;
