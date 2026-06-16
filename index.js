@@ -66,6 +66,7 @@ function changeMapOpacity(value) {
 }
 function changeAnimationDuration(value) {
   els.NewsC.style["animation-duration"] = `${value}s`;
+  els.TgjuC.style["animation-duration"] = `${value}s`;
 }
 const handleChangeColor = debounce(function () {
   changeColor(els.fColor.value);
@@ -126,12 +127,9 @@ function onInputKeydown(event) {
         setTimeout(() => {
           searchWeather(els.input.value, false);
         }, 120);
-        setTimeout(
-          () => {
-            els.weather.style.opacity = 1;
-          },
-          LOADING_DELAY,
-        );
+        setTimeout(() => {
+          els.weather.style.opacity = 1;
+        }, LOADING_DELAY);
       } else {
         activePortalModal("invalid city");
       }
@@ -185,14 +183,11 @@ function searchWeather(city, interval) {
 function loaded(delay = true) {
   els.main.style.display = "flex";
   if (delay) {
-    setTimeout(
-      () => {
-        document.body.classList.remove("loading");
-        document.body.classList.add("loaded");
-        document.body.classList.remove("blur");
-      },
-      LOADING_DELAY,
-    );
+    setTimeout(() => {
+      document.body.classList.remove("loading");
+      document.body.classList.add("loaded");
+      document.body.classList.remove("blur");
+    }, LOADING_DELAY);
   } else {
     document.body.classList.remove("loading");
     document.body.classList.add("loaded");
@@ -566,12 +561,25 @@ async function fetchGoldPrices() {
   try {
     const response = await fetch("https://azard.net/gold/");
     const data = await response.json();
+    // console.log("nwesss", data);
 
     if (data && data.average) {
       els.gold.innerHTML = formatNumber(data.average);
     } else {
       els.gold.innerHTML = isFa ? "خطا" : "error";
     }
+
+    // if (data && data.tgju && data.tgju.current && data.tgju.current.nim) {
+    //   const priceText = `نیم‌سکه: ${NumbersToPersian(formatNumber((data.tgju.current.nim.h.split(",").join("") * 1) / 10))} | تمام سکه: ${NumbersToPersian(formatNumber((data.tgju.current.sekee_real.h.split(",").join("") * 1) / 10))}`;
+    //   const PriceLength = priceText.length * 3.41;
+    //   els.TgjuC.style.transform = `translate3d(-${PriceLength}px, 0px, 0px)`;
+    //   dynamicTranslateKeyframe(
+    //     "price",
+    //     `-${PriceLength}px, 0px, 0px`,
+    //     `${PriceLength}px, 0px, 0px`,
+    //   );
+    //   els.TgjuC.innerHTML = priceText;
+    // }
   } catch (error) {
     try {
       const response = await fetch(
@@ -598,7 +606,7 @@ function updatePriceWidget(usdtPrice, btcPrice) {
   }
 
   const formattedUsdtPrice = formatNumber(Math.round(usdtPrice / 10));
-  const formattedBtctPrice = formatNumber((btcPrice));
+  const formattedBtctPrice = formatNumber(btcPrice);
   els.usdt.innerHTML = formattedUsdtPrice;
   els.btct.innerHTML = formattedBtctPrice;
 }

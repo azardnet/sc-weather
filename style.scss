@@ -137,7 +137,7 @@ main .weather {
       }
 
       &.down {
-        color: rgba(255, 0, 0, 0.35);
+        color: rgba(255, 0, 0, 0.75);
       }
     }
   }
@@ -210,7 +210,7 @@ main .weather #video {
 }
 
 main .weather .map-overlay .content-wrapper {
-  margin-top: 15px;
+  margin-top: 25px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1295,6 +1295,33 @@ main header button {
     white-space: nowrap;
     text-align: right !important;
     animation-name: news;
+    animation-iteration-count: infinite;
+    animation-duration: 160s;
+    animation-timing-function: linear;
+    will-change: transform;
+    font-weight: bold !important;
+    transform: translate3d(0px, 0px, 0px);
+    direction: rtl;
+  }
+}
+
+
+.tgju-container {
+  width: calc(100% - 430px);
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 26px;
+  margin: auto;
+  overflow: hidden;
+  @media only screen and (max-width: 750px) {
+    top: -42px;
+    width: 100%;
+  }
+  span {
+    white-space: nowrap;
+    text-align: right !important;
+    animation-name: price;
     animation-iteration-count: infinite;
     animation-duration: 160s;
     animation-timing-function: linear;

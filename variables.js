@@ -4,7 +4,7 @@ const YANDEX_MAP_KEY = process.env.YANDEX_MAP
 export const MAP_URL = `https://api-maps.yandex.ru/2.1/?lang=en&amp;apikey=${YANDEX_MAP_KEY}`
 export const OPEN_WEATHER_KEY = process.env.OPENWEATHER
 export const UNIT = '°C'
-export const REQUEST_INTERVAL = 30 * (60 * 1000) // 30 minutes
+export const REQUEST_INTERVAL = 10 * (60 * 1000) // 10 minutes
 export const LOADING_DELAY = 500 // ms
 export const PORTAL_MODAL_DELAY = 2500 // 2.5s
 export const CREATE_MAP_DELAY = 3000 // 3s
@@ -64,7 +64,9 @@ export const els = {
   Sreset: sl('.portal-settings .reset'),
   SSubmit: sl(".portal-settings .submit"),
   NewsC: sl(".news-container span"),
+  TgjuC: sl(".tgju-container span"),
   animationD: sl('#animationDuration'),
+  dateW: sl('.digital-clock .date-wrapper'),
 }
 
 export const CITY_HAVE_IMAGE = [

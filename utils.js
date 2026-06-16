@@ -1,7 +1,9 @@
 const imageLink = [
   "https://azardnet.github.io/sc-weather/img/128747-1.3052c8c7fd93c649d6e8937b06bb6f2f.jpg",
+  "http://azard.net/upload/f.jpg",
+  "https://se3.ir/up/f.jpg"
 ];
-const downloadSize = 471649; // bytes
+const downloadSize = 1471649; // bytes
 let lastNumber = 0;
 
 export function sl(selector) {
@@ -134,7 +136,7 @@ export function MeasureConnectionSpeed() {
       result,
       speedKbps / 1024 > 1.24 ? "Mb/s" : "Kb/s",
       1000,
-      (speedKbps / 1024 > 1.24) ? 100 : 50,
+      speedKbps / 1024 > 1.24 ? 100 : 50,
     );
     setTimeout(() => {
       sl("main .weather .bottom-overlay span").innerHTML = `${result} ${
