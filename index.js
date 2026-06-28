@@ -510,6 +510,7 @@ function currentTime() {
     isPersianCharacter ? NumbersToPersian(sec) : sec
   }`;
   els.dClockM.innerHTML = `${midday}`;
+  els.dateW.innerHTML = ` ${date.toLocaleDateString('fa-ir')} `
 }
 
 async function fetchNews() {

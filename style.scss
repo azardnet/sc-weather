@@ -958,6 +958,14 @@ main header button {
       text-align: center;
     }
   }
+  .date-wrapper {
+    font-family: Vazir;
+    color: #fff;
+    font-size: 19px;
+    width: 100%;
+    text-align: center;
+    margin-top: -15px;
+  }
 }
 
 .rtl .digital-clock {
@@ -1304,7 +1312,6 @@ main header button {
     direction: rtl;
   }
 }
-
 
 .tgju-container {
   width: calc(100% - 430px);
