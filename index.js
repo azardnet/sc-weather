@@ -515,13 +515,13 @@ function currentTime() {
 
 async function fetchNews() {
   try {
-    const response = await fetch("https://azard.net/get/");
+    const response = await fetch("https://htmliha.ir/get/");
     const data = await response.json();
 
     if (data && data.data) {
       const newsText = data?.data
         ?.map((item) => {
-          return `${item.source}: ${item.title}`;
+          return `بی‌بی‌سی: ${item.title}`;
         })
         .join("  \u0020   |    \u0020  ");
       els.NewsC.innerHTML = newsText;
