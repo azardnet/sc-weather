@@ -521,7 +521,7 @@ async function fetchNews() {
     if (data && data.data) {
       const newsText = data?.data
         ?.map((item) => {
-          return `بی‌بی‌سی: ${item.title}`;
+          return `${item.source}: ${item.title}`;
         })
         .join("  \u0020   |    \u0020  ");
       els.NewsC.innerHTML = newsText;
