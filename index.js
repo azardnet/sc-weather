@@ -66,7 +66,6 @@ function changeMapOpacity(value) {
 }
 function changeAnimationDuration(value) {
   els.NewsC.style["animation-duration"] = `${value}s`;
-  els.TgjuC.style["animation-duration"] = `${value}s`;
 }
 const handleChangeColor = debounce(function () {
   changeColor(els.fColor.value);
@@ -570,17 +569,6 @@ async function fetchGoldPrices() {
       els.gold.innerHTML = isFa ? "خطا" : "error";
     }
 
-    // if (data && data.tgju && data.tgju.current && data.tgju.current.nim) {
-    //   const priceText = `نیم‌سکه: ${NumbersToPersian(formatNumber((data.tgju.current.nim.h.split(",").join("") * 1) / 10))} | تمام سکه: ${NumbersToPersian(formatNumber((data.tgju.current.sekee_real.h.split(",").join("") * 1) / 10))}`;
-    //   const PriceLength = priceText.length * 3.41;
-    //   els.TgjuC.style.transform = `translate3d(-${PriceLength}px, 0px, 0px)`;
-    //   dynamicTranslateKeyframe(
-    //     "price",
-    //     `-${PriceLength}px, 0px, 0px`,
-    //     `${PriceLength}px, 0px, 0px`,
-    //   );
-    //   els.TgjuC.innerHTML = priceText;
-    // }
   } catch (error) {
     try {
       const response = await fetch(

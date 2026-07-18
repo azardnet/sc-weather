@@ -64,7 +64,6 @@ export const els = {
   Sreset: sl('.portal-settings .reset'),
   SSubmit: sl(".portal-settings .submit"),
   NewsC: sl(".news-container span"),
-  TgjuC: sl(".tgju-container span"),
   animationD: sl('#animationDuration'),
   dateW: sl('.digital-clock .date-wrapper'),
 }
@@ -422,7 +421,7 @@ export const CITY_HAVE_IMAGE = [
       }
     ]
   },
-    {
+  {
     name: 'Leipzig',
     id: [6548737],
     images: [
