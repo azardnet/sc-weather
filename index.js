@@ -34,13 +34,20 @@ import {
   DEFAILT_CITY,
 } from "./variables";
 
+// ------------------------------------------------------------------
+// Module-scoped state
+// ------------------------------------------------------------------
 let cacheData = { lat: 53.4106, lon: -2.9779 };
 let lastUpdate = new Date();
 
+// ------------------------------------------------------------------
+// DOM & UI Helpers
+// ------------------------------------------------------------------
+
+/** Show a portal modal with given text, auto‑hide after delay */
 function activePortalModal(text) {
   document.body.classList.remove("loading");
-  document.body.classList.add("loaded");
-  document.body.classList.add("blur");
+  document.body.classList.add("loaded", "blur");
   els.pModal.classList.add("active");
   els.pModelTxt.innerHTML = text;
   els.pModelTxt.style.color = "#ffffff";
@@ -50,6 +57,7 @@ function activePortalModal(text) {
   }, PORTAL_MODAL_DELAY);
 }
 
+/** Change the main colour and update related elements */
 function changeColor(color) {
   document.body.style.backgroundColor = color;
   els.mOverlayB.style.backgroundColor = color;
@@ -61,12 +69,19 @@ function changeColor(color) {
   document.documentElement.classList.add(isLight(color) ? "light" : "dark");
 }
 
+/** Change the opacity of the map overlay */
 function changeMapOpacity(value) {
   els.mOverlayC.style.opacity = (value / 100) * 1;
 }
+
+/** Change the animation duration of the news ticker */
 function changeAnimationDuration(value) {
-  els.NewsC.style["animation-duration"] = `${value}s`;
+  els.NewsC.style.animationDuration = `${value}s`;
 }
+
+// ------------------------------------------------------------------
+// Debounced event handlers for settings
+// ------------------------------------------------------------------
 const handleChangeColor = debounce(function () {
   changeColor(els.fColor.value);
   localStorage.setItem("color", els.fColor.value);
@@ -86,27 +101,48 @@ const handleFullScreenImageChange = function (event) {
   localStorage.setItem("fsi", event.target.checked);
 };
 
+// ------------------------------------------------------------------
+// Misc UI updates
+// ------------------------------------------------------------------
+
+/** Update the "last update" label on mouse move over info area */
 const handleMouseMoveOnInfo = () => {
-  const isPersianCharacter = checkPersianCharacters(
-    localStorage.getItem("last_search"),
+  const lastSearch = localStorage.getItem("last_search");
+  let history = [];
+  try {
+    history = JSON.parse(lastSearch) || [];
+  } catch (_) {
+    history = lastSearch ? [lastSearch] : [];
+  }
+  const isPersian = checkPersianCharacters(
+    history.reverse()[0]
   );
-  els.lUpdate.innerHTML = `${
-    translate[`${isPersianCharacter ? "fa" : "en"}`].lastUpdate
-  } ${timeAgo(lastUpdate, isPersianCharacter ? "fa" : "en")}`;
+  const lang = isPersian ? "fa" : "en";
+  els.lUpdate.innerHTML = `${translate[lang].lastUpdate} ${timeAgo(
+    lastUpdate,
+    lang
+  )}`;
 };
 
+// ------------------------------------------------------------------
+// Input handling (search bar)
+// ------------------------------------------------------------------
+
 function onInputKeydown(event) {
-  if (
-    event.code !== "Backspace" &&
-    event.key !== "Control" &&
-    event.key !== "Alt" &&
-    event.key !== "Shift" &&
-    event.key !== "CapsLock" &&
-    event.key !== "Tab" &&
-    event.code !== "Space" &&
-    event.key !== "Enter"
-  ) {
-    if (checkPersianCharacters(event.key)) {
+  const key = event.key;
+  const code = event.code;
+  const ignoreKeys = [
+    "Backspace",
+    "Control",
+    "Alt",
+    "Shift",
+    "CapsLock",
+    "Tab",
+    "Enter",
+  ];
+  if (!ignoreKeys.includes(key) && code !== "Space") {
+    const isPersian = checkPersianCharacters(key);
+    if (isPersian) {
       els.header.classList.add("right");
       els.header.classList.remove("left");
       els.input.placeholder = translate.fa.TypeCity;
@@ -116,15 +152,17 @@ function onInputKeydown(event) {
       els.input.placeholder = translate.en.TypeCity;
     }
   }
-  if (event.key === "Enter") {
+
+  if (key === "Enter") {
     event.preventDefault();
     els.cList.classList.remove("active");
     els.input.blur();
     if (!document.body.classList.contains("blur")) {
-      if (els.input.value.length < 22 && els.input.value.length > 1) {
+      const city = els.input.value.trim();
+      if (city.length > 1 && city.length < 22) {
         loading();
         setTimeout(() => {
-          searchWeather(els.input.value, false);
+          searchWeather(city, false);
         }, 120);
         setTimeout(() => {
           els.weather.style.opacity = 1;
@@ -136,16 +174,79 @@ function onInputKeydown(event) {
   }
 }
 
+// ------------------------------------------------------------------
+// Loading states
+// ------------------------------------------------------------------
+
+function loaded(delay = true) {
+  els.main.style.display = "flex";
+  const removeLoading = () => {
+    document.body.classList.remove("loading", "blur");
+    document.body.classList.add("loaded");
+  };
+  if (delay) {
+    setTimeout(removeLoading, LOADING_DELAY);
+  } else {
+    removeLoading();
+  }
+}
+
+function loading() {
+  document.body.classList.remove("loaded");
+  document.body.classList.add("loading", "blur");
+}
+
+// ------------------------------------------------------------------
+// Map creation
+// ------------------------------------------------------------------
+
+function createMap(lat, lon) {
+  deleteMap();
+  if (!checkExistJsFile("yandex")) {
+    createJsFile(MAP_URL);
+  }
+  setTimeout(() => {
+    try {
+      ymaps.ready(() => {
+        new ymaps.Map("map", {
+          center: lat && lon ? [lat, lon] : [cacheData.lat, cacheData.lon],
+          zoom: 13,
+          controls: [],
+        });
+        loaded();
+      });
+    } catch (_) {
+      deleteMap();
+      loaded();
+      const isPersian = checkPersianCharacters(
+        localStorage.getItem("last_search") || DEFAILT_CITY
+      );
+      activePortalModal(
+        isPersian ? translate.fa.ErrorLoadMap : translate.en.ErrorLoadMap
+      );
+    }
+  }, CREATE_MAP_DELAY);
+}
+
+// ------------------------------------------------------------------
+// Core weather data fetching
+// ------------------------------------------------------------------
+
 function searchWeather(city, interval) {
-  let cityNameParam = "";
+  // Extract city name if it's a JSON array string
+  let cityNameParam;
   try {
     const cityList = JSON.parse(city);
     cityNameParam = cityList[cityList.length - 1];
-  } catch (error) {
+  } catch (_) {
     cityNameParam = city;
   }
-  const isPersianCharacter = checkPersianCharacters(cityNameParam);
+
+  const isPersian = checkPersianCharacters(cityNameParam);
+  const lang = isPersian ? "fa" : "en";
+
   if (!interval) {
+    // Restore settings from localStorage
     const color = localStorage.getItem("color") || "#072322";
     const opacity = localStorage.getItem("opacity") || "90";
     const animationDuration =
@@ -153,8 +254,8 @@ function searchWeather(city, interval) {
     changeColor(color);
     changeMapOpacity(opacity);
     changeAnimationDuration(animationDuration);
-    // els.animationD.value = animationDuration * 1;
-    if (isPersianCharacter) {
+
+    if (isPersian) {
       document.body.classList.add("rtl");
       els.input.placeholder = "اسم شهر را وارد کنید و Enter بزنید.";
       els.sActionB1.innerText = "تنظیم مجدد";
@@ -166,93 +267,28 @@ function searchWeather(city, interval) {
       els.sActionB2.innerText = "Submit";
     }
   }
-  fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lang=${
-      isPersianCharacter ? "fa" : "en"
-    }&q=${cityNameParam}&APPID=${OPEN_WEATHER_KEY}&units=metric`,
-  )
-    .then((result) => {
-      return result.json();
-    })
+
+  const url = `https://api.openweathermap.org/data/2.5/weather?lang=${lang}&q=${cityNameParam}&APPID=${OPEN_WEATHER_KEY}&units=metric`;
+
+  fetch(url)
+    .then((res) => res.json())
     .then((result) => {
       computeUI(result, cityNameParam, interval);
     });
 }
 
-function loaded(delay = true) {
-  els.main.style.display = "flex";
-  if (delay) {
-    setTimeout(() => {
-      document.body.classList.remove("loading");
-      document.body.classList.add("loaded");
-      document.body.classList.remove("blur");
-    }, LOADING_DELAY);
-  } else {
-    document.body.classList.remove("loading");
-    document.body.classList.add("loaded");
-    document.body.classList.remove("blur");
-  }
-}
-
-function loading() {
-  document.body.classList.remove("loaded");
-  document.body.classList.add("blur");
-  document.body.classList.add("loading");
-}
-
-function createMap(lat, lon) {
-  deleteMap();
-  if (!checkExistJsFile("yandex")) {
-    createJsFile(MAP_URL);
-  }
-  setTimeout(() => {
-    try {
-      ymaps.ready(function () {
-        new ymaps.Map("map", {
-          center: lat && lon ? [lat, lon] : [cacheData.lat, cacheData.lon],
-          zoom: 13,
-          controls: [],
-        });
-        loaded();
-      });
-    } catch (error) {
-      deleteMap();
-      loaded();
-      activePortalModal(
-        checkPersianCharacters(
-          localStorage.getItem("last_search") || DEFAILT_CITY,
-        )
-          ? translate.fa.ErrorLoadMap
-          : translate.en.ErrorLoadMap,
-      );
-    }
-  }, CREATE_MAP_DELAY);
-}
+// ------------------------------------------------------------------
+// UI rendering after weather data arrives
+// ------------------------------------------------------------------
 
 function computeUI(result, city, interval) {
-  const cityVideoData = CITY_HAVE_VIDEO.find((item) => item.id === result.id);
-  if (cityVideoData) {
-    els.video.style.display = "block";
-    els.videoV.pause();
-    els.videoV.innerHTML = "";
-    const videoCount = cityVideoData.videos?.length || 1;
-    const randomNumber =
-      randomIntFromInterval(0, cityVideoData.videos?.length) || 1;
-    const lastVideoIndexKey = `last_video_index_${result.id}`;
-    let currentVideoIndex = parseInt(
-      localStorage.getItem(lastVideoIndexKey) || "0",
-      10,
-    );
-    currentVideoIndex = (currentVideoIndex + 1) % videoCount;
-    localStorage.setItem(lastVideoIndexKey, currentVideoIndex.toString());
-    const source = document.createElement("source");
-    let videoSrc;
-    videoSrc = require(`./static/videos/${result.id}-${randomNumber}.mp4`);
-    source.setAttribute("src", videoSrc);
-    source.setAttribute("type", "video/mp4");
-    els.videoV.appendChild(source);
-    els.videoV.load();
-    els.videoV.play().catch(() => {});
+  const isPersian = checkPersianCharacters(city);
+  const lang = isPersian ? "fa" : "en";
+
+  // ----- Background: video or image or map -----
+  const cityVideo = CITY_HAVE_VIDEO.find((item) => item.id === result.id);
+  if (cityVideo) {
+    setupVideoBackground(result.id, cityVideo);
     deleteMap();
     els.mOverlayB.style.display = "none";
   } else {
@@ -261,147 +297,186 @@ function computeUI(result, city, interval) {
     els.videoV.innerHTML = "";
     els.mOverlayB.style.display = "flex";
   }
+
   els.mOverlay.classList.remove("interval");
   lastUpdate = new Date();
-  const isPersianCharacter = checkPersianCharacters(city);
+
+  // ----- Update main UI only on non‑interval calls -----
   if (!interval) {
     if (result && city && !result.message) {
-      els.mOverlayTitle.innerHTML = isPersianCharacter ? city : result.name;
+      // City title
+      els.mOverlayTitle.innerHTML = isPersian ? city : result.name;
+
+      // Background handling (map or image)
       if (result.coord && result.coord.lat) {
-        const hasVideo = CITY_HAVE_VIDEO.find((item) => item.id === result.id);
+        const hasVideo = CITY_HAVE_VIDEO.some((item) => item.id === result.id);
         if (hasVideo) {
           deleteMap();
           els.mOverlayB.style.display = "none";
           loaded();
         } else if (
-          !CITY_HAVE_IMAGE.find((item) => {
-            if (typeof item.id === "number") {
-              return item.id === result.id;
-            } else {
-              return item.id.includes(result.id);
-            }
-          })
+          !CITY_HAVE_IMAGE.some((item) =>
+            typeof item.id === "number"
+              ? item.id === result.id
+              : item.id.includes(result.id)
+          )
         ) {
           cacheData.lat = result.coord.lat;
           cacheData.lon = result.coord.lon;
           els.mOverlayB.style.display = "flex";
           createMap(result.coord.lat, result.coord.lon);
         } else {
-          deleteMap();
-          const cityData = CITY_HAVE_IMAGE.find((item) => {
-            if (typeof item.id === "number") {
-              return item.id === result.id;
-            } else {
-              return item.id.includes(result.id);
-            }
-          });
-          const randomNumber =
-            randomIntFromInterval(0, cityData?.images?.length - 1) || 0;
-          const image = require(
-            `./static/image/${
-              cityData.id[0] || cityData.id
-            }-${randomNumber + 1}.jpg`,
+          const cityImageData = CITY_HAVE_IMAGE.find((item) =>
+            typeof item.id === "number"
+              ? item.id === result.id
+              : item.id.includes(result.id)
           );
+          const randomIndex =
+            randomIntFromInterval(0, cityImageData?.images?.length - 1) || 0;
+          const imageId = cityImageData.id[0] || cityImageData.id;
+          const image = require(`./static/image/${imageId}-${randomIndex + 1}.jpg`);
           els.weather.style.backgroundImage = `url(${image})`;
           els.mOverlayB.style.display = "flex";
           loaded();
         }
       }
+
+      // Flag & weather icon
       if (result.sys && result.sys.country) {
-        const flagImage = require(
-          `./static/flags/${result.sys.country.toLowerCase()}.svg`,
-        );
-        const weatherIcon = require(
-          `./static/icons/openweathermap/${result.weather[0].icon}.svg`,
-        );
-        els.mOverlaySpan.style.backgroundImage = `url("${flagImage}")`;
-        els.wSvgIcon.style.backgroundImage = `url("${weatherIcon}")`;
+        const flagSrc = require(`./static/flags/${result.sys.country.toLowerCase()}.svg`);
+        const iconSrc = require(`./static/icons/openweathermap/${result.weather[0].icon}.svg`);
+        els.mOverlaySpan.style.backgroundImage = `url("${flagSrc}")`;
+        els.wSvgIcon.style.backgroundImage = `url("${iconSrc}")`;
       }
-      localStorage.setItem("last_search_id", result.id);
-      const cityName = isPersianCharacter ? city : result.name;
-      const lastSearch = localStorage.getItem("last_search");
-      let lastSearchList = [];
-      try {
-        lastSearchList = JSON.parse(lastSearch) || [];
-      } catch (error) {
-        lastSearchList = [lastSearch] || [];
-      }
-      if (
-        cityName &&
-        Array.isArray(lastSearchList) &&
-        !lastSearchList.includes(cityName)
-      ) {
-        if (lastSearchList.length > 5) {
-          lastSearchList.shift();
-        }
-        lastSearchList.push(cityName);
-      } else if (lastSearchList.length === 0) {
-        lastSearchList = [cityName];
-      } else if (lastSearchList.includes(cityName)) {
-        const currentItemIndex = lastSearchList.indexOf(cityName);
-        arrayMove(lastSearchList, currentItemIndex, lastSearchList.length - 1);
-      }
-      let lastSearchHtmlItems = ``;
-      for (let i = 0; i < lastSearchList.length; i++) {
-        lastSearchHtmlItems += `<li>${lastSearchList[i]}</li>`;
-      }
-      els.cList.innerHTML = lastSearchHtmlItems;
-      localStorage.setItem("last_search", JSON.stringify(lastSearchList));
-      const cityListItems = document.querySelectorAll(".city-list-wrapper li");
-      for (let i = 0; i < cityListItems.length; i++) {
-        cityListItems[i].addEventListener("click", (event) => {
-          loading();
-          els.input.value = event.target.innerHTML || DEFAILT_CITY;
-          searchWeather(event.target.innerHTML || DEFAILT_CITY, false);
-        });
-      }
+
+      // Update search history
+      updateSearchHistory(isPersian ? city : result.name);
+
+      // Show weather data (always)
+      updateWeatherDisplay(result, isPersian);
+
+      // After a short delay, add the interval class
+      setTimeout(() => {
+        els.mOverlay.classList.add("interval");
+      }, 250);
     } else if (result && result.message && city) {
       loaded();
       activePortalModal(
-        checkPersianCharacters(city)
-          ? translate.fa.CityNotFound
-          : translate.en.CityNotFound,
+        isPersian ? translate.fa.CityNotFound : translate.en.CityNotFound
       );
       setTimeout(() => {
         searchWeather(getStorage("last_search"), false);
       }, 2500);
     }
-  }
-  if (result && result.main) {
-    els.wTemperatureV.innerHTML = isPersianCharacter
-      ? NumbersToPersian(result.main.temp.toFixed(TO_FIXED))
-      : result.main.temp.toFixed(TO_FIXED);
-    els.wTemperatureU.innerHTML = UNIT;
-    els.wFeelsT.innerHTML =
-      translate[isPersianCharacter ? "fa" : "en"].FeelsLike;
-    els.wFeelsV.innerHTML = isPersianCharacter
-      ? NumbersToPersian(result.main.feels_like.toFixed(TO_FIXED))
-      : result.main.feels_like.toFixed(TO_FIXED);
-    els.wFeelsU.innerHTML = UNIT;
-    els.wWindT.innerHTML =
-      translate[isPersianCharacter ? "fa" : "en"].WindSpeed;
-    els.wWindV.innerHTML = isPersianCharacter
-      ? `${NumbersToPersian(result.wind.speed.toFixed(TO_FIXED))} <span>${
-          translate.fa.WindSpeedUnit
-        }</span>`
-      : `${result.wind.speed.toFixed(TO_FIXED)} ${translate.en.WindSpeedUnit}`;
-    els.wCurrentI.innerHTML = result.weather[0].description;
-    els.wMaxV.innerHTML = isPersianCharacter
-      ? NumbersToPersian(result.main.temp_max.toFixed(TO_FIXED))
-      : result.main.temp_max.toFixed(TO_FIXED);
-    els.wMaxU.innerHTML = UNIT;
-    els.wMinV.innerHTML = isPersianCharacter
-      ? NumbersToPersian(result.main.temp_min.toFixed(TO_FIXED))
-      : result.main.temp_min.toFixed(TO_FIXED);
-    els.wMinU.innerHTML = UNIT;
-    els.wHumidityV.innerHTML = isPersianCharacter
-      ? NumbersToPersian(result.main.humidity)
-      : result.main.humidity;
-    setTimeout(() => {
-      els.mOverlay.classList.add("interval");
-    }, 250);
+  } else {
+    // Interval call: only update weather numbers
+    if (result && result.main) {
+      updateWeatherDisplay(result, isPersian);
+    }
   }
 }
+
+/** Update weather numerical values in the UI */
+function updateWeatherDisplay(result, isPersian) {
+  const lang = isPersian ? "fa" : "en";
+  const main = result.main;
+  const wind = result.wind;
+
+  els.wTemperatureV.innerHTML = isPersian
+    ? NumbersToPersian(main.temp.toFixed(TO_FIXED))
+    : main.temp.toFixed(TO_FIXED);
+  els.wTemperatureU.innerHTML = UNIT;
+
+  els.wFeelsT.innerHTML = translate[lang].FeelsLike;
+  els.wFeelsV.innerHTML = isPersian
+    ? NumbersToPersian(main.feels_like.toFixed(TO_FIXED))
+    : main.feels_like.toFixed(TO_FIXED);
+  els.wFeelsU.innerHTML = UNIT;
+
+  els.wWindT.innerHTML = translate[lang].WindSpeed;
+  els.wWindV.innerHTML = isPersian
+    ? `${NumbersToPersian(wind.speed.toFixed(TO_FIXED))} <span>${translate.fa.WindSpeedUnit
+    }</span>`
+    : `${wind.speed.toFixed(TO_FIXED)} ${translate.en.WindSpeedUnit}`;
+
+  els.wCurrentI.innerHTML = result.weather[0].description;
+  els.wMaxV.innerHTML = isPersian
+    ? NumbersToPersian(main.temp_max.toFixed(TO_FIXED))
+    : main.temp_max.toFixed(TO_FIXED);
+  els.wMaxU.innerHTML = UNIT;
+  els.wMinV.innerHTML = isPersian
+    ? NumbersToPersian(main.temp_min.toFixed(TO_FIXED))
+    : main.temp_min.toFixed(TO_FIXED);
+  els.wMinU.innerHTML = UNIT;
+  els.wHumidityV.innerHTML = isPersian
+    ? NumbersToPersian(main.humidity)
+    : main.humidity;
+}
+
+/** Set up video background for cities that have videos */
+function setupVideoBackground(cityId, cityVideoData) {
+  els.video.style.display = "block";
+  els.videoV.pause();
+  els.videoV.innerHTML = "";
+
+  const videoCount = cityVideoData.videos?.length || 1;
+  const randomNumber = randomIntFromInterval(0, cityVideoData.videos?.length) || 1;
+  const lastVideoIndexKey = `last_video_index_${cityId}`;
+  let currentVideoIndex =
+    parseInt(localStorage.getItem(lastVideoIndexKey) || "0", 10);
+  currentVideoIndex = (currentVideoIndex + 1) % videoCount;
+  localStorage.setItem(lastVideoIndexKey, String(currentVideoIndex));
+
+  const source = document.createElement("source");
+  const videoSrc = require(`./static/videos/${cityId}-${randomNumber}.mp4`);
+  source.setAttribute("src", videoSrc);
+  source.setAttribute("type", "video/mp4");
+  els.videoV.appendChild(source);
+  els.videoV.load();
+  els.videoV.play().catch(() => { });
+}
+
+/** Update the search history list in the dropdown */
+function updateSearchHistory(cityName) {
+  const lastSearch = localStorage.getItem("last_search");
+  let history = [];
+  try {
+    history = JSON.parse(lastSearch) || [];
+  } catch (_) {
+    history = lastSearch ? [lastSearch] : [];
+  }
+
+  if (!Array.isArray(history)) {
+    history = [history];
+  }
+
+  if (history.includes(cityName)) {
+    const idx = history.indexOf(cityName);
+    arrayMove(history, idx, history.length - 1);
+  } else {
+    if (history.length > 5) history.shift();
+    history.push(cityName);
+  }
+
+  // Render history items
+  const html = history.map((item) => `<li>${item}</li>`).join("");
+  els.cList.innerHTML = html;
+  localStorage.setItem("last_search", JSON.stringify(history));
+
+  // Attach click listeners to each history item
+  document.querySelectorAll(".city-list-wrapper li").forEach((li) => {
+    li.addEventListener("click", (e) => {
+      const city = e.target.innerHTML || DEFAILT_CITY;
+      loading();
+      els.input.value = city;
+      searchWeather(city, false);
+    });
+  });
+}
+
+// ------------------------------------------------------------------
+// Fullscreen & settings UI
+// ------------------------------------------------------------------
 
 function onFullScreenClick() {
   els.header.style.display = "none";
@@ -422,8 +497,8 @@ function onSettingButtonClick() {
   els.pSettings.style.opacity = 1;
   els.main.style.filter = "blur(20px)";
   els.fScreen.checked = localStorage.getItem("fsi") === "true";
-  els.mOpacity.value = localStorage.getItem("opacity") * 1 || 90;
-  els.animationD.value = localStorage.getItem("animation-duration") * 1 || 160;
+  els.mOpacity.value = +(localStorage.getItem("opacity") || 90);
+  els.animationD.value = +(localStorage.getItem("animation-duration") || 160);
 }
 
 function onSettingResetButtonClick() {
@@ -461,67 +536,70 @@ function onFullScreenChange() {
     els.weather.style.marginTop = "10px";
     els.weather.style.width = "80vw";
     els.weather.style.height = "calc(80vh + 40px)";
-    if (
-      !CITY_HAVE_IMAGE.find(
-        (item) => item.id === localStorage.getItem("last_search_id") * 1,
-      )
-    ) {
+    const lastId = +(localStorage.getItem("last_search_id") || 0);
+    if (!CITY_HAVE_IMAGE.some((item) => item.id === lastId)) {
       createMap();
     }
   }
 }
 
-setInterval(() => {
-  searchWeather(localStorage.getItem("last_search") || DEFAILT_CITY, true);
-}, REQUEST_INTERVAL);
+function onPortalModalClose() {
+  document.body.classList.remove("blur");
+  els.pModal.classList.remove("active");
+}
 
-setInterval(() => {
-  MeasureConnectionSpeed();
-}, SPEED_DETECTION_DELAY);
+// ------------------------------------------------------------------
+// Clock update
+// ------------------------------------------------------------------
 
 function currentTime() {
   const city = localStorage.getItem("last_search") || DEFAILT_CITY;
-  let cityNameParam = "";
+  let cityNameParam;
   try {
-    const cityList = JSON.parse(city);
-    cityNameParam = cityList[cityList.length - 1];
-  } catch (error) {
+    const list = JSON.parse(city);
+    cityNameParam = list[list.length - 1];
+  } catch (_) {
     cityNameParam = city;
   }
-  const isPersianCharacter = checkPersianCharacters(cityNameParam);
+  const isPersian = checkPersianCharacters(cityNameParam);
 
-  const date = new Date();
-  let hour = date.getHours();
-  let min = date.getMinutes();
-  let sec = date.getSeconds();
-  let curr_date = date.getDate();
-  let midday = "AM";
-  midday = hour >= 12 ? "PM" : "AM";
-  hour = hour == 0 ? 12 : hour > 12 ? hour - 12 : hour;
-  hour = updateTime(hour);
-  min = updateTime(min);
-  sec = updateTime(sec);
-  curr_date = updateTime(curr_date);
-  els.dClockH.innerHTML = `${
-    isPersianCharacter ? NumbersToPersian(hour) : hour
-  }:${isPersianCharacter ? NumbersToPersian(min) : min}`;
-  els.dClockS.innerHTML = `:${
-    isPersianCharacter ? NumbersToPersian(sec) : sec
-  }`;
+  const now = new Date();
+  let hours = now.getHours();
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+  const day = now.getDate();
+
+  let midday = hours >= 12 ? "PM" : "AM";
+  let hour12 = hours % 12 || 12;
+  hour12 = updateTime(hour12);
+  const minStr = updateTime(minutes);
+  const secStr = updateTime(seconds);
+  const dayStr = updateTime(day);
+
+  els.dClockH.innerHTML = `${isPersian ? NumbersToPersian(hour12) : hour12
+    }:${isPersian ? NumbersToPersian(minStr) : minStr}`;
+  els.dClockS.innerHTML = `:${isPersian ? NumbersToPersian(secStr) : secStr
+    }`;
   els.dClockM.innerHTML = `${midday}`;
-  els.dateW.innerHTML = ` ${date.toLocaleDateString('fa-ir', {weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric'  })} `
+  els.dateW.innerHTML = ` ${now.toLocaleDateString("fa-ir", {
+    weekday: "long",
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+  })} `;
 }
+
+// ------------------------------------------------------------------
+// News, market, and gold prices
+// ------------------------------------------------------------------
 
 async function fetchNews() {
   try {
-    const response = await fetch("https://htmliha.ir/get/");
-    const data = await response.json();
-
-    if (data && data.data) {
-      const newsText = data?.data
-        ?.map((item) => {
-          return `${item.source}: ${item.title}`;
-        })
+    const res = await fetch("https://htmliha.ir/get/");
+    const data = await res.json();
+    if (data?.data) {
+      const newsText = data.data
+        .map((item) => `${item.source}: ${item.title}`)
         .join("  \u0020   |    \u0020  ");
       els.NewsC.innerHTML = newsText;
       const newsLength = newsText.length * 3.41;
@@ -529,7 +607,7 @@ async function fetchNews() {
       dynamicTranslateKeyframe(
         "news",
         `-${newsLength}px, 0px, 0px`,
-        `${newsLength}px, 0px, 0px`,
+        `${newsLength}px, 0px, 0px`
       );
     }
   } catch (error) {
@@ -540,18 +618,16 @@ async function fetchNews() {
 async function fetchMarketPrices() {
   const isFa = checkPersianCharacters(localStorage.getItem("last_search"));
   try {
-    const response = await fetch(
-      "https://apiv2.nobitex.ir/market/stats?srcCurrency=usdt,btc&dstCurrency=rls,usdt",
+    const res = await fetch(
+      "https://apiv2.nobitex.ir/market/stats?srcCurrency=usdt,btc&dstCurrency=rls,usdt"
     );
-    const data = await response.json();
-
-    if (data && data.stats && data.stats["usdt-rls"]) {
+    const data = await res.json();
+    if (data?.stats?.["usdt-rls"]) {
       const usdtPrice = data.stats["usdt-rls"].latest;
       const btcPrice = data.stats["btc-usdt"].latest;
       updatePriceWidget(usdtPrice, btcPrice);
     }
-  } catch (error) {
-    console.error("Error fetching market prices:", error);
+  } catch (_) {
     els.usdt.innerHTML = isFa ? "خطا" : "error";
   }
 }
@@ -559,29 +635,26 @@ async function fetchMarketPrices() {
 async function fetchGoldPrices() {
   const isFa = checkPersianCharacters(localStorage.getItem("last_search"));
   try {
-    const response = await fetch("https://azard.net/gold/");
-    const data = await response.json();
-    // console.log("nwesss", data);
-
-    if (data && data.average) {
+    const res = await fetch("https://azard.net/gold/");
+    const data = await res.json();
+    if (data?.average) {
       els.gold.innerHTML = formatNumber(data.average);
     } else {
       els.gold.innerHTML = isFa ? "خطا" : "error";
     }
-
-  } catch (error) {
+  } catch (_) {
+    // fallback to wallgold
     try {
-      const response = await fetch(
-        "https://api.wallgold.ir/api/v1/price?symbol=GLD_18C_750TMN&side=buy",
+      const res2 = await fetch(
+        "https://api.wallgold.ir/api/v1/price?symbol=GLD_18C_750TMN&side=buy"
       );
-      const data = await response.json();
-
-      if (data && data.result && data.result.price) {
-        els.gold.innerHTML = formatNumber(data.result.price);
+      const data2 = await res2.json();
+      if (data2?.result?.price) {
+        els.gold.innerHTML = formatNumber(data2.result.price);
       } else {
         els.gold.innerHTML = isFa ? "خطا" : "error";
       }
-    } catch (error) {
+    } catch (_) {
       els.gold.innerHTML = isFa ? "خطا" : "error";
     }
   }
@@ -593,41 +666,44 @@ function updatePriceWidget(usdtPrice, btcPrice) {
     els.btct.innerHTML = "N/A";
     return;
   }
-
-  const formattedUsdtPrice = formatNumber(Math.round(usdtPrice / 10));
-  const formattedBtctPrice = formatNumber(btcPrice);
-  els.usdt.innerHTML = formattedUsdtPrice;
-  els.btct.innerHTML = formattedBtctPrice;
+  els.usdt.innerHTML = formatNumber(Math.round(usdtPrice / 10));
+  els.btct.innerHTML = formatNumber(btcPrice);
 }
 
-function onPortalModalClose() {
-  document.body.classList.remove("blur");
-  els.pModal.classList.remove("active");
-}
+// ------------------------------------------------------------------
+// Initialisation
+// ------------------------------------------------------------------
 
 function onContentLoaded() {
   els.ISpeed.classList.add("error");
-  setTimeout(() => {
-    InitiateSpeedDetection();
-  }, 400);
+  setTimeout(InitiateSpeedDetection, 400);
+
+  // Initial weather
   searchWeather(localStorage.getItem("last_search") || DEFAILT_CITY, false);
 
+  // Initial data fetches
   fetchMarketPrices();
-
   fetchGoldPrices();
   fetchNews();
 
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker
-      .register("service-worker.js", { scope: "/sc-weather/" })
-      .then((registration) => {
-        console.log("SW registered: ", registration);
-      })
-      .catch((registrationError) => {
-        console.log("SW registration failed: ", registrationError);
-      });
-  }
+  // Service worker
+  // if ("serviceWorker" in navigator) {
+  //   navigator.serviceWorker
+  //     .register("service-worker.js", { scope: "/sc-weather/" })
+  //     .then((reg) => console.log("SW registered: ", reg))
+  //     .catch((err) => console.log("SW registration failed: ", err));
+  // }
 }
+
+// ------------------------------------------------------------------
+// Interval timers
+// ------------------------------------------------------------------
+
+setInterval(() => {
+  searchWeather(localStorage.getItem("last_search") || DEFAILT_CITY, true);
+}, REQUEST_INTERVAL);
+
+setInterval(MeasureConnectionSpeed, SPEED_DETECTION_DELAY);
 
 setInterval(() => {
   fetchMarketPrices();
@@ -635,26 +711,29 @@ setInterval(() => {
   fetchNews();
 }, 500000);
 
+setInterval(currentTime, 1000);
+
+// ------------------------------------------------------------------
+// Event listeners
+// ------------------------------------------------------------------
+
 window.addEventListener("click", onWindowClick);
+document.addEventListener("fullscreenchange", onFullScreenChange);
+window.addEventListener("DOMContentLoaded", onContentLoaded);
+
 els.input.addEventListener("keydown", onInputKeydown);
-els.input.addEventListener("focus", () => {
-  els.cList.classList.add("active");
-});
+els.input.addEventListener("focus", () => els.cList.classList.add("active"));
 els.input.addEventListener("blur", () => {
-  setTimeout(() => {
-    els.cList.classList.remove("active");
-  }, 100);
+  setTimeout(() => els.cList.classList.remove("active"), 100);
 });
-els.fColor.addEventListener("input", handleChangeColor, false);
-els.mOpacity.addEventListener("input", handleMapOpacityChange, false);
-els.animationD.addEventListener("input", handleAnimationDurationChange, false);
+
+els.fColor.addEventListener("input", handleChangeColor);
+els.mOpacity.addEventListener("input", handleMapOpacityChange);
+els.animationD.addEventListener("input", handleAnimationDurationChange);
 els.pModalC.addEventListener("click", onPortalModalClose);
 els.FScreen.addEventListener("click", onFullScreenClick);
 els.sButton.addEventListener("click", onSettingButtonClick);
 els.Sreset.addEventListener("click", onSettingResetButtonClick);
 els.SSubmit.addEventListener("click", onSettingSubmitButtonClick);
-els.fScreen.addEventListener("input", handleFullScreenImageChange, false);
-els.Winfo.addEventListener("mousemove", handleMouseMoveOnInfo, false);
-document.addEventListener("fullscreenchange", onFullScreenChange);
-window.addEventListener("DOMContentLoaded", onContentLoaded);
-setInterval(currentTime, 1000);
+els.fScreen.addEventListener("input", handleFullScreenImageChange);
+els.Winfo.addEventListener("mousemove", handleMouseMoveOnInfo);
