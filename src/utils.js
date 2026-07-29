@@ -1,22 +1,9 @@
-const imageLink = [
-  "https://azardnet.github.io/sc-weather/img/128747-1.3052c8c7fd93c649d6e8937b06bb6f2f.jpg",
-  "http://azard.net/upload/f.jpg",
-  "https://se3.ir/up/f.jpg"
-];
-const downloadSize = 1471649; // bytes
-let lastNumber = 0;
-
-export function sl(selector) {
-  return document.querySelector(selector);
-}
-
 export function NumbersToPersian(text) {
   const farsiDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
   if (text === 0) {
     return "۰";
-  } else {
-    return text && text.toString().replace(/\d/g, (char) => farsiDigits[char]);
   }
+  return text && text.toString().replace(/\d/g, (char) => farsiDigits[char]);
 }
 
 export function dynamicTranslateKeyframe(
@@ -25,7 +12,7 @@ export function dynamicTranslateKeyframe(
   endTranformValue,
 ) {
   const style = document.createElement("style");
-  const keyFrames = `
+  style.innerHTML = `
 @keyframes ${name} {
     0% {
       transform: translate3d(${startTranformValue});
@@ -34,15 +21,13 @@ export function dynamicTranslateKeyframe(
         transform: translate3d(${endTranformValue});
     }
 }`;
-  style.innerHTML = keyFrames;
   document.getElementsByTagName("head")[0].appendChild(style);
 }
 
 export function debounce(func, wait, immediate) {
   let timeout;
-  return function () {
-    const context = this,
-      args = arguments;
+  return function (...args) {
+    const context = this;
     clearTimeout(timeout);
     timeout = setTimeout(function () {
       timeout = null;
@@ -54,8 +39,7 @@ export function debounce(func, wait, immediate) {
 
 export function checkPersianCharacters(string) {
   const PersianCharactersRange = /^[\u0600-\u06FF\s]+$/;
-  if (PersianCharactersRange.test(string)) return true;
-  return false;
+  return PersianCharactersRange.test(string || "");
 }
 
 export function createJsFile(url) {
@@ -66,72 +50,74 @@ export function createJsFile(url) {
 }
 
 export function checkExistJsFile(filename) {
-  let result = false;
-  const allScriptFile = document.querySelectorAll("script");
-  for (let i = 0; i < allScriptFile.length; i++) {
-    result = allScriptFile[i].src.includes(filename);
-  }
-  return result;
-}
-
-export function deleteMap() {
-  sl("main .weather #map").innerHTML = "";
+  return Array.from(document.querySelectorAll("script")).some((s) =>
+    s.src.includes(filename),
+  );
 }
 
 export function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export function startNumberAnimation(selector, start, end, unit, time, speed) {
-  increaseNumber(start, end, sl(selector), unit, time, speed);
+const imageLink = [
+  "https://azardnet.github.io/sc-weather/img/128747-1.3052c8c7fd93c649d6e8937b06bb6f2f.jpg",
+  "http://azard.net/upload/f.jpg",
+  "https://se3.ir/up/f.jpg",
+];
+const downloadSize = 1471649;
+let lastNumber = 0;
+
+export function startNumberAnimation(el, start, end, unit, time, speed) {
+  increaseNumber(start, end, el, unit, time, speed);
 }
 
-export function increaseNumber(start, end, el, unit, time, speed) {
+function increaseNumber(start, end, el, unit, time, speed) {
+  if (!el) return;
   if (start <= end) {
     el.innerHTML = `${start.toFixed(2)} ${unit}`;
     setTimeout(() => {
-      increaseNumber(start + 1, end, el, unit);
+      increaseNumber(start + 1, end, el, unit, time, speed);
     }, speed);
     setTimeout(() => {
       if (start > end) {
         el.innerHTML = `${end.toFixed(2)} ${unit}`;
-        return false;
       }
     }, time);
   } else {
     el.innerHTML = `${end.toFixed(2)} ${unit}`;
-    return false;
   }
 }
 
-export function MeasureConnectionSpeed() {
-  let startTime, endTime;
+export function MeasureConnectionSpeed(el) {
+  if (!el) return;
+  let startTime;
+  let endTime;
   const download = new Image();
   download.onload = () => {
-    sl("main .weather .bottom-overlay span").className = "";
+    el.className = "";
     endTime = new Date().getTime();
     showResults();
   };
 
   download.onerror = () => {
-    sl("main .weather .bottom-overlay span").className = "internet-speed error";
+    el.className = "internet-speed error";
   };
 
   startTime = new Date().getTime();
   const cacheBuster = `?d=${startTime}`;
   download.src =
     imageLink[randomIntFromInterval(0, imageLink.length - 1)] + cacheBuster;
+
   function showResults() {
     const duration = (endTime - startTime) / 1000;
     const bitsLoaded = downloadSize * 8;
     const speedBps = (bitsLoaded / duration).toFixed(2);
     const speedKbps = (speedBps / 1024).toFixed(2) * 1;
     const speedMbps = (speedKbps / 1024).toFixed(2) * 1;
-    sl("main .weather .bottom-overlay span").className =
-      "internet-speed loaded";
+    el.className = "internet-speed loaded";
     const result = speedKbps / 1024 > 1.24 ? speedMbps : speedKbps;
     startNumberAnimation(
-      "main .weather .bottom-overlay span",
+      el,
       lastNumber,
       result,
       speedKbps / 1024 > 1.24 ? "Mb/s" : "Kb/s",
@@ -139,33 +125,28 @@ export function MeasureConnectionSpeed() {
       speedKbps / 1024 > 1.24 ? 100 : 50,
     );
     setTimeout(() => {
-      sl("main .weather .bottom-overlay span").innerHTML = `${result} ${
-        speedKbps / 1024 > 1.24 ? "Mb/s" : "Kb/s"
-      }`;
+      el.innerHTML = `${result} ${speedKbps / 1024 > 1.24 ? "Mb/s" : "Kb/s"}`;
       setTimeout(() => {
-        sl("main .weather .bottom-overlay span").classList.remove(
-          lastNumber > result * 1 ? "top" : "down",
-        );
-        sl("main .weather .bottom-overlay span").classList.add(
-          lastNumber > result * 1 ? "down" : "top",
-        );
+        el.classList.remove(lastNumber > result * 1 ? "top" : "down");
+        el.classList.add(lastNumber > result * 1 ? "down" : "top");
         lastNumber = result - 1;
       }, 250);
     }, 150);
   }
 }
 
-export function InitiateSpeedDetection() {
-  sl("main .weather .bottom-overlay span").className = "internet-speed loading";
-  setTimeout(MeasureConnectionSpeed, 100);
-}
-
-export function setStorage(key, data) {
-  return localStorage.setItem(key, JSON.stringify(data));
+export function InitiateSpeedDetection(el) {
+  if (!el) return;
+  el.className = "internet-speed loading";
+  setTimeout(() => MeasureConnectionSpeed(el), 100);
 }
 
 export function getStorage(key) {
-  return JSON.parse(localStorage.setItem(key));
+  try {
+    return JSON.parse(localStorage.getItem(key));
+  } catch {
+    return localStorage.getItem(key);
+  }
 }
 
 const MONTH_NAMES = [
@@ -189,16 +170,12 @@ function getFormattedDate(date) {
   const year = date.getFullYear();
   const hours = date.getHours();
   let minutes = date.getMinutes();
-
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
-  }
+  if (minutes < 10) minutes = `0${minutes}`;
   return `${day}. ${month} ${year}. at ${hours}:${minutes}`;
 }
+
 export function timeAgo(dateParam, lang) {
-  if (!dateParam) {
-    return null;
-  }
+  if (!dateParam) return null;
 
   const date = typeof dateParam === "object" ? dateParam : new Date(dateParam);
   const today = new Date();
@@ -206,21 +183,20 @@ export function timeAgo(dateParam, lang) {
   const minutes = Math.round(seconds / 60);
 
   if (seconds < 5) {
-    return `${lang === "fa" ? "الان" : "now"}`;
-  } else if (seconds < 60) {
-    return `${
-      lang === "fa"
-        ? `${NumbersToPersian(seconds)} ثانیه پیش`
-        : `${seconds} seconds ago`
-    }`;
-  } else if (seconds < 90) {
-    return `${lang === "fa" ? "حدودا یک دقیقه پیش" : "about a minute ago"}`;
-  } else if (minutes < 60) {
-    return `${
-      lang === "fa"
-        ? `${NumbersToPersian(minutes)} دقیقه پیش`
-        : `${minutes} minutes ago`
-    }`;
+    return lang === "fa" ? "الان" : "now";
+  }
+  if (seconds < 60) {
+    return lang === "fa"
+      ? `${NumbersToPersian(seconds)} ثانیه پیش`
+      : `${seconds} seconds ago`;
+  }
+  if (seconds < 90) {
+    return lang === "fa" ? "حدودا یک دقیقه پیش" : "about a minute ago";
+  }
+  if (minutes < 60) {
+    return lang === "fa"
+      ? `${NumbersToPersian(minutes)} دقیقه پیش`
+      : `${minutes} minutes ago`;
   }
   return getFormattedDate(date);
 }
@@ -235,21 +211,22 @@ export function arrayMove(array, oldIndex, newIndex) {
 
 export function isLight(color) {
   const hex = color.replace("#", "");
-  const c_r = parseInt(hex.substring(0, 0 + 2), 16);
-  const c_g = parseInt(hex.substring(2, 2 + 2), 16);
-  const c_b = parseInt(hex.substring(4, 4 + 2), 16);
+  const c_r = parseInt(hex.substring(0, 2), 16);
+  const c_g = parseInt(hex.substring(2, 4), 16);
+  const c_b = parseInt(hex.substring(4, 6), 16);
   const brightness = (c_r * 299 + c_g * 587 + c_b * 114) / 1000;
   return brightness > 155;
 }
 
 export function updateTime(k) {
-  if (k < 10) {
-    return "0" + k;
-  } else {
-    return k;
-  }
+  return k < 10 ? "0" + k : k;
 }
 
 export function formatNumber(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export function assetUrl(path) {
+  const base = import.meta.env.BASE_URL || "/";
+  return `${base}${path.replace(/^\//, "")}`;
 }

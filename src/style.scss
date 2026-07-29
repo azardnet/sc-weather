@@ -17,16 +17,16 @@
 // ============================================
 @font-face {
   font-family: Vazir;
-  src: url('./static/fonts/Vazir-Medium.woff2') format('woff2'),
-       url('./static/fonts/Vazir-Medium.ttf') format('truetype');
+  src: url('#{$base-url}static/fonts/Vazir-Medium.woff2') format('woff2'),
+       url('#{$base-url}static/fonts/Vazir-Medium.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: Ephesis;
-  src: url('./static/fonts/Ephesis-Regular.woff2') format('woff2'),
-       url('./static/fonts/Ephesis-Regular.ttf') format('truetype');
+  src: url('#{$base-url}static/fonts/Ephesis-Regular.woff2') format('woff2'),
+       url('#{$base-url}static/fonts/Ephesis-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -163,11 +163,11 @@ main {
       }
 
       &.loading::before {
-        @include bg-icon('./static/icons/import-loading.svg');
+        @include bg-icon('#{$base-url}static/icons/import-loading.svg');
         animation: loading-rotate 2000ms infinite ease-in;
       }
-      &.loaded::before  { @include bg-icon('./static/icons/import-wifi.svg'); }
-      &.error::before   { @include bg-icon('./static/icons/import-error.svg', 50%); }
+      &.loaded::before  { @include bg-icon('#{$base-url}static/icons/import-wifi.svg'); }
+      &.error::before   { @include bg-icon('#{$base-url}static/icons/import-error.svg', 50%); }
 
       &.top  { color: rgba(0, 255, 0, 0.35); }
       &.down { color: rgba(255, 0, 0, 0.75); }
@@ -291,7 +291,7 @@ main {
         }
 
         .info {
-          @include bg-icon('./static/icons/import-info.svg');
+          @include bg-icon('#{$base-url}static/icons/import-info.svg');
           width: 30px;
           height: 30px;
           position: absolute;
@@ -463,7 +463,7 @@ main {
             width: 30px;
             height: 100%;
             opacity: 0.75;
-            @include bg-icon('./static/icons/import-arrow-up.svg', 70%);
+            @include bg-icon('#{$base-url}static/icons/import-arrow-up.svg', 70%);
           }
         }
 
