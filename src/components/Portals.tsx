@@ -37,12 +37,14 @@ interface SettingsPortalProps {
   animationDuration: number;
   fullScreenImage: boolean;
   simpleMode: boolean;
+  clockSound: boolean;
   labels: SettingsLabels;
   onColorChange: (value: string) => void;
   onOpacityChange: (value: string) => void;
   onAnimationChange: (value: string) => void;
   onFullScreenImageChange: (checked: boolean) => void;
   onSimpleModeChange: (checked: boolean) => void;
+  onClockSoundChange: (checked: boolean) => void;
   onReset: () => void;
   onSubmit: () => void;
 }
@@ -55,12 +57,14 @@ export function SettingsPortal({
   animationDuration,
   fullScreenImage,
   simpleMode,
+  clockSound,
   labels,
   onColorChange,
   onOpacityChange,
   onAnimationChange,
   onFullScreenImageChange,
   onSimpleModeChange,
+  onClockSoundChange,
   onReset,
   onSubmit,
 }: SettingsPortalProps) {
@@ -80,6 +84,15 @@ export function SettingsPortal({
           type="checkbox"
           checked={simpleMode}
           onChange={(e) => onSimpleModeChange(e.target.checked)}
+        />
+      </div>
+      <div>
+        <h6>Clock sound</h6>
+        <input
+          id="clockSound"
+          type="checkbox"
+          checked={clockSound}
+          onChange={(e) => onClockSoundChange(e.target.checked)}
         />
       </div>
       <div>

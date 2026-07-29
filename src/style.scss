@@ -823,7 +823,7 @@ header {
 .portal-settings {
   position: fixed;
   width: 285px;
-  height: 236px;
+  height: 268px;
   right: 0;
   left: 0;
   margin: auto;
@@ -891,17 +891,21 @@ header {
   }
   > div:nth-child(2) h6 {
     font-size: 0;
-    &::before { content: 'رنگ '; font-size: 13px; }
+    &::before { content: 'صدای ساعت'; font-size: 13px; }
   }
   > div:nth-child(3) h6 {
     font-size: 0;
-    &::before { content: 'تاری رنگ اصلی '; font-size: 13px; }
+    &::before { content: 'رنگ '; font-size: 13px; }
   }
   > div:nth-child(4) h6 {
     font-size: 0;
-    &::before { content: 'سرعت اخبار'; font-size: 13px; }
+    &::before { content: 'تاری رنگ اصلی '; font-size: 13px; }
   }
   > div:nth-child(5) h6 {
+    font-size: 0;
+    &::before { content: 'سرعت اخبار'; font-size: 13px; }
+  }
+  > div:nth-child(6) h6 {
     font-size: 0;
     &::before { content: 'عکس تمام صفحه'; font-size: 13px; }
   }

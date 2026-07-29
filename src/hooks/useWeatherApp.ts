@@ -18,6 +18,7 @@ import {
   assetUrl
 } from '../lib/utils'
 import { CITY_HAVE_IMAGE, CITY_HAVE_VIDEO } from '../lib/cities'
+import { playHourChime } from '../lib/chime'
 import {
   CREATE_MAP_DELAY,
   DEFAULT_ANIMATION_DURATION,
@@ -75,6 +76,7 @@ export function useWeatherApp() {
   )
   const [fullScreenImage, setFullScreenImage] = useState(() => localStorage.getItem('fsi') === 'true')
   const [simpleMode, setSimpleMode] = useState(false)
+  const [clockSound, setClockSound] = useState(() => localStorage.getItem('clock_sound') === 'true')
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [portalModal, setPortalModal] = useState<PortalModalState>({
     active: false,
@@ -126,11 +128,17 @@ export function useWeatherApp() {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const blurRef = useRef(false)
   const simpleModeRef = useRef(false)
+  const clockSoundRef = useRef(clockSound)
+  const lastChimeKeyRef = useRef('')
   const searchWeatherRef = useRef<(city: string, interval: boolean) => void>(() => {})
 
   useEffect(() => {
     blurRef.current = blurred
   }, [blurred])
+
+  useEffect(() => {
+    clockSoundRef.current = clockSound
+  }, [clockSound])
 
   const markLoaded = useCallback((delay = true) => {
     setMainVisible(true)
@@ -451,6 +459,18 @@ export function useWeatherApp() {
       const minStr = updateTime(now.getMinutes())
       const secStr = updateTime(now.getSeconds())
 
+      if (
+        clockSoundRef.current &&
+        now.getMinutes() === 0 &&
+        now.getSeconds() === 0
+      ) {
+        const chimeKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}-${now.getHours()}`
+        if (lastChimeKeyRef.current !== chimeKey) {
+          lastChimeKeyRef.current = chimeKey
+          playHourChime()
+        }
+      }
+
       setClock({
         hour: `${isPersian ? NumbersToPersian(hour12) : hour12}:${isPersian ? NumbersToPersian(minStr) : minStr}`,
         second: `:${isPersian ? NumbersToPersian(secStr) : secStr}`,
@@ -638,9 +658,11 @@ export function useWeatherApp() {
     setMainBlur(false)
     setSettingsOpen(false)
     setFullScreenImage(false)
+    setClockSound(false)
     localStorage.setItem('color', DEFAULT_COLOR)
     localStorage.setItem('opacity', String(DEFAULT_OPACITY))
     localStorage.setItem('fsi', 'false')
+    localStorage.setItem('clock_sound', 'false')
   }
 
   const onLastUpdateHover = () => {
@@ -710,6 +732,7 @@ export function useWeatherApp() {
       animationDuration,
       fullScreenImage,
       simpleMode,
+      clockSound,
       labels: settingsLabels,
       onColorChange: handleColorChange,
       onOpacityChange: handleOpacityChange,
@@ -719,6 +742,12 @@ export function useWeatherApp() {
         localStorage.setItem('fsi', String(checked))
       },
       onSimpleModeChange,
+      onClockSoundChange: (checked: boolean) => {
+        setClockSound(checked)
+        localStorage.setItem('clock_sound', String(checked))
+        // Unlock audio on user gesture so the next hour chime can play.
+        if (checked) playHourChime()
+      },
       onReset: onSettingsReset,
       onSubmit: () => {
         setMainBlur(false)
