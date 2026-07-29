@@ -74,6 +74,7 @@ export function useWeatherApp() {
     () => +(localStorage.getItem('animation-duration') || DEFAULT_ANIMATION_DURATION)
   )
   const [fullScreenImage, setFullScreenImage] = useState(() => localStorage.getItem('fsi') === 'true')
+  const [simpleMode, setSimpleMode] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [portalModal, setPortalModal] = useState<PortalModalState>({
     active: false,
@@ -124,6 +125,7 @@ export function useWeatherApp() {
   const settingsBtnRef = useRef<HTMLButtonElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const blurRef = useRef(false)
+  const simpleModeRef = useRef(false)
   const searchWeatherRef = useRef<(city: string, interval: boolean) => void>(() => {})
 
   useEffect(() => {
@@ -520,6 +522,14 @@ export function useWeatherApp() {
 
     const onFullScreenChange = () => {
       if (document.fullscreenElement) return
+
+      if (simpleModeRef.current) {
+        simpleModeRef.current = false
+        setSimpleMode(false)
+        document.body.classList.remove('simple-mode-active')
+        return
+      }
+
       setHeaderVisible(true)
       setShowMapOverlayBottom(true)
       setWeatherStyle({
@@ -597,6 +607,29 @@ export function useWeatherApp() {
     document.documentElement.requestFullscreen()
   }
 
+  const exitSimpleMode = useCallback(() => {
+    simpleModeRef.current = false
+    setSimpleMode(false)
+    document.body.classList.remove('simple-mode-active')
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {})
+    }
+  }, [])
+
+  const enterSimpleMode = useCallback(() => {
+    setSettingsOpen(false)
+    setMainBlur(false)
+    simpleModeRef.current = true
+    setSimpleMode(true)
+    document.body.classList.add('simple-mode-active')
+    document.documentElement.requestFullscreen().catch(() => {})
+  }, [])
+
+  const onSimpleModeChange = (checked: boolean) => {
+    if (checked) enterSimpleMode()
+    else exitSimpleMode()
+  }
+
   const onSettingsReset = () => {
     setColor(DEFAULT_COLOR)
     applyTheme(DEFAULT_COLOR)
@@ -620,6 +653,7 @@ export function useWeatherApp() {
   return {
     mainVisible,
     mainBlur,
+    simpleMode,
     header: {
       visible: headerVisible,
       direction: headerDir,
@@ -675,6 +709,7 @@ export function useWeatherApp() {
       mapOpacity,
       animationDuration,
       fullScreenImage,
+      simpleMode,
       labels: settingsLabels,
       onColorChange: handleColorChange,
       onOpacityChange: handleOpacityChange,
@@ -683,6 +718,7 @@ export function useWeatherApp() {
         setFullScreenImage(checked)
         localStorage.setItem('fsi', String(checked))
       },
+      onSimpleModeChange,
       onReset: onSettingsReset,
       onSubmit: () => {
         setMainBlur(false)

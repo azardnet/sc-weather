@@ -36,11 +36,13 @@ interface SettingsPortalProps {
   mapOpacity: number;
   animationDuration: number;
   fullScreenImage: boolean;
+  simpleMode: boolean;
   labels: SettingsLabels;
   onColorChange: (value: string) => void;
   onOpacityChange: (value: string) => void;
   onAnimationChange: (value: string) => void;
   onFullScreenImageChange: (checked: boolean) => void;
+  onSimpleModeChange: (checked: boolean) => void;
   onReset: () => void;
   onSubmit: () => void;
 }
@@ -52,11 +54,13 @@ export function SettingsPortal({
   mapOpacity,
   animationDuration,
   fullScreenImage,
+  simpleMode,
   labels,
   onColorChange,
   onOpacityChange,
   onAnimationChange,
   onFullScreenImageChange,
+  onSimpleModeChange,
   onReset,
   onSubmit,
 }: SettingsPortalProps) {
@@ -69,6 +73,15 @@ export function SettingsPortal({
         opacity: open ? 1 : 0,
       }}
     >
+      <div>
+        <h6>Simple mode</h6>
+        <input
+          id="simpleMode"
+          type="checkbox"
+          checked={simpleMode}
+          onChange={(e) => onSimpleModeChange(e.target.checked)}
+        />
+      </div>
       <div>
         <h6>Color</h6>
         <input

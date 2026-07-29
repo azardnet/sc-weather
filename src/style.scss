@@ -823,7 +823,7 @@ header {
 .portal-settings {
   position: fixed;
   width: 285px;
-  height: 184px;
+  height: 236px;
   right: 0;
   left: 0;
   margin: auto;
@@ -887,17 +887,21 @@ header {
   }
   > div:nth-child(1) h6 {
     font-size: 0;
-    &::before { content: 'رنگ '; font-size: 13px; }
+    &::before { content: 'حالت ساده'; font-size: 13px; }
   }
   > div:nth-child(2) h6 {
     font-size: 0;
-    &::before { content: 'تاری رنگ اصلی '; font-size: 13px; }
+    &::before { content: 'رنگ '; font-size: 13px; }
   }
   > div:nth-child(3) h6 {
     font-size: 0;
-    &::before { content: 'سرعت اخبار'; font-size: 13px; }
+    &::before { content: 'تاری رنگ اصلی '; font-size: 13px; }
   }
   > div:nth-child(4) h6 {
+    font-size: 0;
+    &::before { content: 'سرعت اخبار'; font-size: 13px; }
+  }
+  > div:nth-child(5) h6 {
     font-size: 0;
     &::before { content: 'عکس تمام صفحه'; font-size: 13px; }
   }
@@ -1194,4 +1198,97 @@ header {
 .loaded .portal-loading {
   opacity: 0;
   visibility: hidden;
+}
+
+// ============================================
+// Simple Mode — black fullscreen analog clock
+// ============================================
+body.simple-mode-active {
+  background-color: #000 !important;
+  overflow: hidden;
+}
+
+.simple-mode {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  justify-items: center;
+  padding: 7vh 6vw 6vh;
+  background: #000;
+  color: #fff;
+  font-family: var(--font-vazir), system-ui, sans-serif;
+}
+
+.simple-mode__date,
+.simple-mode__temp,
+.simple-mode__city {
+  margin: 0;
+  font-size: clamp(13px, 1.6vw, 18px);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.38);
+  text-align: center;
+  line-height: 1;
+}
+
+.simple-mode__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 1.25em;
+}
+
+.simple-mode__temp span {
+  margin-inline-start: 1px;
+  font-size: 0.85em;
+  opacity: 0.75;
+}
+
+.simple-mode__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.simple-mode__clock {
+  width: min(78vmin, 720px);
+  height: min(78vmin, 720px);
+  overflow: visible;
+}
+
+.simple-mode__meta {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 4vw, 40px);
+}
+
+.simple-mode__meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 88px;
+}
+
+.simple-mode__meta-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.simple-mode__meta-value {
+  font-size: clamp(14px, 1.8vw, 18px);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.72);
+  font-variant-numeric: tabular-nums;
+}
+
+.simple-mode__meta-sep {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.12);
 }
