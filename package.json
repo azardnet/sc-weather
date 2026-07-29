@@ -7,9 +7,14 @@
   "scripts": {
     "dev": "vite",
     "start": "vite",
-    "build": "vite build",
+    "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "typecheck": "tsc -b --noEmit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "check": "biome check --write . && tsc -b --noEmit"
   },
   "repository": {
     "type": "git",
@@ -18,13 +23,19 @@
   "license": "ISC",
   "homepage": "https://azardnet.github.io/sc-weather",
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
-    "gh-pages": "^5.0.0",
-    "sass": "^1.97.1",
-    "vite": "^5.4.11"
-  }
+    "@biomejs/biome": "2.5.6",
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.2.0",
+    "gh-pages": "^6.3.0",
+    "sass": "^1.102.0",
+    "typescript": "^5.9.2",
+    "vite": "^7.3.6"
+  },
+  "packageManager": "pnpm@10.19.0"
 }
