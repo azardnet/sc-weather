@@ -50,10 +50,10 @@ export function HumidityIcon() {
       <path
         fill="transparent"
         d="m 13.552735,2.0426703 q 1.5,3.7999997 10,14.9999997 a 12.8,12.8 0 1 1 -20.0000007,0 Q 12.052736,5.84267 13.552735,2.0426703 Z"
-        style={{ stroke: "#ffffff", strokeWidth: 1.3 }}
+        style={{ stroke: "#ffffff", strokeWidth: 1.3, transform: 'translate(-1px, 0px)' }}
       />
       <path
-        style={{ opacity: 1, fillOpacity: 1, stroke: "none" }}
+        style={{ opacity: 1, fillOpacity: 1, stroke: "none", fill: 'transparent' }}
         d="M 0,1.3127116e-4 V 38.582162 H 27.10547 V 1.3127116e-4 Z M 13.552735,2.0431 c 1,2.5333332 4.333334,7.5333335 10,15 a 12.8,12.8 0 1 1 -20.000001,0 c 5.6666682,-7.4666665 9.000002,-12.4666668 10.000001,-15 z"
       />
     </svg>
