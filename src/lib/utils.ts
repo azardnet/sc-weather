@@ -65,7 +65,6 @@ export function randomIntFromInterval(min: number, max: number): number {
 }
 
 const imageLink = [
-  "https://azardnet.github.io/sc-weather/img/128747-1.3052c8c7fd93c649d6e8937b06bb6f2f.jpg",
   "http://azard.net/upload/f.jpg",
   "https://se3.ir/up/f.jpg",
 ];

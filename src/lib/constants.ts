@@ -14,6 +14,3 @@ export const MARKET_REFRESH_INTERVAL = 500000;
 export const DEFAULT_COLOR = "#072322";
 export const DEFAULT_OPACITY = 90;
 export const DEFAULT_ANIMATION_DURATION = 120;
-
-/** @deprecated typo alias — use DEFAULT_CITY */
-export const DEFAILT_CITY = DEFAULT_CITY;
