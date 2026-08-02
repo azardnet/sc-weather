@@ -109,3 +109,4 @@ tmp/
 temp/
 build/
 .DS_Store
+.pnpm-store/
