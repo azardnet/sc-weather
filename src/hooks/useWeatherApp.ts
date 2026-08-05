@@ -364,7 +364,7 @@ export function useWeatherApp() {
       if (!data?.data) return
       const newsText = data.data.map((item) => `${item.source}: ${item.title}`).join('  \u0020   |    \u0020  ')
       setNews(newsText)
-      const newsLength = newsText.length * 3.41
+      const newsLength = newsText.length * 3.521;
       setNewsTransform(`translate3d(-${newsLength}px, 0px, 0px)`)
       dynamicTranslateKeyframe('news', `-${newsLength}px, 0px, 0px`, `${newsLength}px, 0px, 0px`)
     } catch (error) {
