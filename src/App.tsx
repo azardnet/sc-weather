@@ -1,21 +1,34 @@
 import { useState } from "react";
 
 import Header from "./components/Header";
+import NeonClock from "./components/NeonClock";
 import { LoadingPortal, PortalModal, SettingsPortal } from "./components/Portals";
+import ScriptClock from "./components/ScriptClock";
 import SimpleModeClock from "./components/SimpleModeClock";
 import { TooltipProvider } from "./components/ui/tooltip";
 import WeatherSection from "./components/WeatherSection";
 import { useWeatherApp } from "./hooks/useWeatherApp";
+import { isOverlayClockTheme } from "./lib/clock-theme";
 import { formatTemp } from "./lib/format";
 import { cn } from "@/lib/utils";
 
 export default function App() {
-  const { mainVisible, simpleMode, header, weatherSection, portalModal, settings } =
+  const { mainVisible, clockTheme, header, weatherSection, portalModal, settings } =
     useWeatherApp();
   const [shell, setShell] = useState<HTMLDivElement | null>(null);
 
   const { weather, prices, clock, cityTitle } = weatherSection;
   const temperature = weather ? formatTemp(weather.temp, weather.isPersian) : "";
+  const overlay = isOverlayClockTheme(clockTheme);
+  const overlayProps = {
+    date: clock.date,
+    temperature,
+    city: cityTitle,
+    usdt: prices.usdt,
+    gold: prices.gold,
+    clock,
+    onOpenSettings: header.onOpenSettings,
+  };
 
   return (
     <TooltipProvider>
@@ -23,26 +36,20 @@ export default function App() {
         <main
           className={cn(
             "absolute inset-0 w-screen flex-col items-center",
-            mainVisible && !simpleMode ? "flex" : "hidden",
+            mainVisible && !overlay ? "flex" : "hidden",
           )}
         >
           <Header {...header} />
           <WeatherSection {...weatherSection} />
         </main>
 
-        {simpleMode ? (
-          <SimpleModeClock
-            date={clock.date}
-            temperature={temperature}
-            city={cityTitle}
-            usdt={prices.usdt}
-            gold={prices.gold}
-          />
-        ) : null}
+        {clockTheme === "simple" ? <SimpleModeClock {...overlayProps} /> : null}
+        {clockTheme === "neon" ? <NeonClock {...overlayProps} /> : null}
+        {clockTheme === "script" ? <ScriptClock {...overlayProps} /> : null}
 
         <LoadingPortal />
         <PortalModal {...portalModal} container={shell} />
-        {!simpleMode ? <SettingsPortal {...settings} container={shell} /> : null}
+        <SettingsPortal {...settings} container={shell} />
       </div>
     </TooltipProvider>
   );

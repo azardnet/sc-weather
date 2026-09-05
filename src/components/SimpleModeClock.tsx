@@ -1,19 +1,12 @@
 import { useEffect, useState } from "react";
 
-import { RiLoader4Line } from "@/components/ui/icon";
+import type { OverlayClockProps } from "./ClockOverlay";
+import { OverlayClockShell, OverlayHeader, OverlayPrices } from "./ClockOverlay";
 
 interface Hands {
   hour: number;
   minute: number;
   second: number;
-}
-
-export interface SimpleModeClockProps {
-  date: string;
-  temperature: string;
-  city: string;
-  usdt: string | null;
-  gold: string | null;
 }
 
 function getHands(now: Date): Hands {
@@ -28,16 +21,14 @@ function getHands(now: Date): Hands {
   };
 }
 
-const metaText =
-  "m-0 text-center text-[clamp(13px,1.6vw,18px)] font-normal leading-none tracking-[0.08em] text-white/38";
-
 export default function SimpleModeClock({
   date,
   temperature,
   city,
   usdt,
   gold,
-}: SimpleModeClockProps) {
+  onOpenSettings,
+}: OverlayClockProps & { onOpenSettings: () => void }) {
   const [hands, setHands] = useState(() => getHands(new Date()));
 
   useEffect(() => {
@@ -51,17 +42,8 @@ export default function SimpleModeClock({
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[10000] grid grid-rows-[auto_1fr_auto] items-center justify-items-center bg-black px-[6vw] py-[7vh] pb-[6vh] font-sans text-white">
-      <div className="flex items-baseline justify-center gap-[1.25em]">
-        {city ? <p className={metaText}>{city}</p> : null}
-        {temperature ? (
-          <p className={metaText}>
-            {temperature}
-            <span className="ms-px text-[0.85em] opacity-75">°</span>
-          </p>
-        ) : null}
-        <p className={metaText}>{date.trim()}</p>
-      </div>
+    <OverlayClockShell onOpenSettings={onOpenSettings}>
+      <OverlayHeader city={city} temperature={temperature} date={date} />
 
       <div className="flex flex-col items-center">
         <svg
@@ -144,21 +126,7 @@ export default function SimpleModeClock({
         </svg>
       </div>
 
-      <div className="flex items-center gap-[clamp(18px,4vw,40px)]">
-        <div className="flex min-w-[88px] flex-col items-center gap-1.5">
-          <span className="text-[10px] tracking-[0.22em] text-white/28">USDT</span>
-          <span className="flex min-h-[1.2em] items-center text-[clamp(14px,1.8vw,18px)] font-normal tracking-[0.04em] text-white/72 tabular-nums">
-            {usdt == null ? <RiLoader4Line size={16} className="animate-spin" /> : usdt}
-          </span>
-        </div>
-        <span className="h-7 w-px bg-white/12" aria-hidden="true" />
-        <div className="flex min-w-[88px] flex-col items-center gap-1.5">
-          <span className="text-[10px] tracking-[0.22em] text-white/28">GOLD</span>
-          <span className="flex min-h-[1.2em] items-center text-[clamp(14px,1.8vw,18px)] font-normal tracking-[0.04em] text-white/72 tabular-nums">
-            {gold == null ? <RiLoader4Line size={16} className="animate-spin" /> : gold}
-          </span>
-        </div>
-      </div>
-    </div>
+      <OverlayPrices usdt={usdt} gold={gold} />
+    </OverlayClockShell>
   );
 }

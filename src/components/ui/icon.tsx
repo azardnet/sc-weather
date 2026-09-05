@@ -3,6 +3,7 @@ export {
   RiArrowDownSLine,
   RiArrowUpSLine,
   RiBitCoinLine,
+  RiCheckLine,
   RiCloseLine,
   RiCloudLine,
   RiCloudyLine,

@@ -4,6 +4,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { playHourChime } from "../lib/chime";
 import { CITY_HAVE_IMAGE, CITY_HAVE_VIDEO } from "../lib/cities";
 import {
+  DEFAULT_CLOCK_THEME,
+  isOverlayClockTheme,
+  parseClockTheme,
+  type ClockTheme,
+} from "../lib/clock-theme";
+import {
   CREATE_MAP_DELAY,
   DEFAULT_ANIMATION_DURATION,
   DEFAULT_CITY,
@@ -89,7 +95,9 @@ export function useWeatherApp() {
   const [fullScreenImage, setFullScreenImage] = useState(
     () => localStorage.getItem("fsi") === "true",
   );
-  const [simpleMode, setSimpleMode] = useState(false);
+  const [clockTheme, setClockTheme] = useState<ClockTheme>(
+    () => parseClockTheme(localStorage.getItem("clock_theme")),
+  );
   const [clockSound, setClockSound] = useState(
     () => localStorage.getItem("clock_sound") === "true",
   );
@@ -150,7 +158,7 @@ export function useWeatherApp() {
   const settingsBtnRef = useRef<HTMLButtonElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const blurRef = useRef(false);
-  const simpleModeRef = useRef(false);
+  const clockThemeRef = useRef(clockTheme);
   const clockSoundRef = useRef(clockSound);
   const clock24HourRef = useRef(clock24Hour);
   const lastChimeKeyRef = useRef("");
@@ -159,6 +167,10 @@ export function useWeatherApp() {
   useEffect(() => {
     blurRef.current = blurred;
   }, [blurred]);
+
+  useEffect(() => {
+    clockThemeRef.current = clockTheme;
+  }, [clockTheme]);
 
   useEffect(() => {
     clockSoundRef.current = clockSound;
@@ -589,28 +601,9 @@ export function useWeatherApp() {
   );
 
   useEffect(() => {
-    const onWindowClick = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (
-        settingsRef.current &&
-        !settingsRef.current.contains(target) &&
-        settingsBtnRef.current &&
-        !settingsBtnRef.current.contains(target)
-      ) {
-        setMainBlur(false);
-        setSettingsOpen(false);
-      }
-    };
-
     const onFullScreenChange = () => {
       if (document.fullscreenElement) return;
-
-      if (simpleModeRef.current) {
-        simpleModeRef.current = false;
-        setSimpleMode(false);
-        document.body.classList.remove("simple-mode-active");
-        return;
-      }
+      if (isOverlayClockTheme(clockThemeRef.current)) return;
 
       setHeaderVisible(true);
       setShowMapOverlayBottom(true);
@@ -623,10 +616,8 @@ export function useWeatherApp() {
       if (!cityHasImage(lastId)) createMap();
     };
 
-    window.addEventListener("click", onWindowClick);
     document.addEventListener("fullscreenchange", onFullScreenChange);
     return () => {
-      window.removeEventListener("click", onWindowClick);
       document.removeEventListener("fullscreenchange", onFullScreenChange);
     };
   }, [createMap]);
@@ -689,28 +680,20 @@ export function useWeatherApp() {
     document.documentElement.requestFullscreen();
   };
 
-  const exitSimpleMode = useCallback(() => {
-    simpleModeRef.current = false;
-    setSimpleMode(false);
-    document.body.classList.remove("simple-mode-active");
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => {});
-    }
-  }, []);
+  const applyClockTheme = useCallback((theme: ClockTheme) => {
+    setClockTheme(theme);
+    localStorage.setItem("clock_theme", theme);
 
-  const enterSimpleMode = useCallback(() => {
-    setSettingsOpen(false);
-    setMainBlur(false);
-    simpleModeRef.current = true;
-    setSimpleMode(true);
-    document.body.classList.add("simple-mode-active");
+    if (theme === "classic") {
+      setHeaderVisible(true);
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      }
+      return;
+    }
+
     document.documentElement.requestFullscreen().catch(() => {});
   }, []);
-
-  const onSimpleModeChange = (checked: boolean) => {
-    if (checked) enterSimpleMode();
-    else exitSimpleMode();
-  };
 
   const onSettingsReset = () => {
     setColor(DEFAULT_COLOR);
@@ -722,6 +705,7 @@ export function useWeatherApp() {
     setFullScreenImage(false);
     setClockSound(false);
     setClock24Hour(false);
+    applyClockTheme(DEFAULT_CLOCK_THEME);
     localStorage.setItem("color", DEFAULT_COLOR);
     localStorage.setItem("opacity", String(DEFAULT_OPACITY));
     localStorage.setItem("fsi", "false");
@@ -739,7 +723,7 @@ export function useWeatherApp() {
   return {
     mainVisible,
     mainBlur,
-    simpleMode,
+    clockTheme,
     header: {
       visible: headerVisible,
       direction: headerDir,
@@ -794,7 +778,7 @@ export function useWeatherApp() {
       mapOpacity,
       animationDuration,
       fullScreenImage,
-      simpleMode,
+      clockTheme,
       clockSound,
       clock24Hour,
       labels: settingsLabels,
@@ -805,7 +789,7 @@ export function useWeatherApp() {
         setFullScreenImage(checked);
         localStorage.setItem("fsi", String(checked));
       },
-      onSimpleModeChange,
+      onClockThemeChange: applyClockTheme,
       onClockSoundChange: (checked: boolean) => {
         setClockSound(checked);
         localStorage.setItem("clock_sound", String(checked));

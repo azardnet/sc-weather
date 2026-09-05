@@ -1,5 +1,6 @@
 import type { ReactNode, RefObject } from "react";
 
+import { CLOCK_THEME_LABELS, CLOCK_THEMES, type ClockTheme } from "../lib/clock-theme";
 import type { SettingsLabels } from "../lib/types";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +14,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AzardLogo } from "@/components/ui/logo";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  isSelectLayerTarget,
+} from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 
@@ -58,7 +67,7 @@ interface SettingsPortalProps {
   mapOpacity: number;
   animationDuration: number;
   fullScreenImage: boolean;
-  simpleMode: boolean;
+  clockTheme: ClockTheme;
   clockSound: boolean;
   clock24Hour: boolean;
   labels: SettingsLabels;
@@ -66,7 +75,7 @@ interface SettingsPortalProps {
   onOpacityChange: (value: string) => void;
   onAnimationChange: (value: string) => void;
   onFullScreenImageChange: (checked: boolean) => void;
-  onSimpleModeChange: (checked: boolean) => void;
+  onClockThemeChange: (value: ClockTheme) => void;
   onClockSoundChange: (checked: boolean) => void;
   onClock24HourChange: (checked: boolean) => void;
   onReset: () => void;
@@ -103,7 +112,7 @@ export function SettingsPortal({
   mapOpacity,
   animationDuration,
   fullScreenImage,
-  simpleMode,
+  clockTheme,
   clockSound,
   clock24Hour,
   labels,
@@ -111,7 +120,7 @@ export function SettingsPortal({
   onOpacityChange,
   onAnimationChange,
   onFullScreenImageChange,
-  onSimpleModeChange,
+  onClockThemeChange,
   onClockSoundChange,
   onClock24HourChange,
   onReset,
@@ -125,12 +134,46 @@ export function SettingsPortal({
         if (!next) onSubmit();
       }}
     >
-      <DialogContent ref={settingsRef} className="sm:max-w-[320px]" container={container}>
+      <DialogContent
+        ref={settingsRef}
+        className="sm:max-w-[320px]"
+        container={container}
+        onPointerDownOutside={(event) => {
+          if (isSelectLayerTarget(event.target)) {
+            event.preventDefault();
+          }
+        }}
+        onInteractOutside={(event) => {
+          if (isSelectLayerTarget(event.target)) {
+            event.preventDefault();
+          }
+        }}
+        onFocusOutside={(event) => {
+          if (isSelectLayerTarget(event.target)) {
+            event.preventDefault();
+          }
+        }}
+      >
         <DialogHeader>
           <DialogTitle>Settings</DialogTitle>
         </DialogHeader>
-        <SettingRow htmlFor="simpleMode" en="Simple mode" fa="حالت ساده">
-          <Switch id="simpleMode" checked={simpleMode} onCheckedChange={onSimpleModeChange} />
+        <SettingRow htmlFor="clockTheme" en="Clock theme" fa="تم ساعت">
+          <Select
+            value={clockTheme}
+            onValueChange={(value) => onClockThemeChange(value as ClockTheme)}
+          >
+            <SelectTrigger id="clockTheme" size="sm" className="w-36">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent align="end">
+              {CLOCK_THEMES.map((theme) => (
+                <SelectItem key={theme} value={theme}>
+                  <span className="rtl:hidden">{CLOCK_THEME_LABELS[theme].en}</span>
+                  <span className="hidden rtl:inline">{CLOCK_THEME_LABELS[theme].fa}</span>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </SettingRow>
         <SettingRow htmlFor="clockSound" en="Clock sound" fa="صدای ساعت">
           <Switch id="clockSound" checked={clockSound} onCheckedChange={onClockSoundChange} />

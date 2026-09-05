@@ -87,6 +87,7 @@ export default function Header({
           type="button"
           variant="secondary"
           size="icon"
+          data-settings-trigger
           ref={settingsBtnRef}
           onClick={onOpenSettings}
         >
