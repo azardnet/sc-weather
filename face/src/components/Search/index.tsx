@@ -17,7 +17,7 @@ function Search({ onSubmit }: IProps) {
       >
         <input
           type="text"
-          placeholder="type City and hit Enter"
+          placeholder="Type city and hit enter"
           onChange={(e) => {
             setInput(e.target.value);
           }}

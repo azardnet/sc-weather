@@ -1,4 +1,11 @@
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
 import type { Lang } from "./types";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export function NumbersToPersian(text: string | number | null | undefined): string {
   const farsiDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
@@ -32,13 +39,12 @@ export function debounce<T extends (...args: never[]) => void>(
 ): (...args: Parameters<T>) => void {
   let timeout: ReturnType<typeof setTimeout> | null = null;
   return function (this: unknown, ...args: Parameters<T>) {
-    const context = this;
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(() => {
       timeout = null;
-      if (!immediate) func.apply(context, args);
+      if (!immediate) func.apply(this, args);
     }, wait);
-    if (immediate && !timeout) func.apply(context, args);
+    if (immediate && !timeout) func.apply(this, args);
   };
 }
 
@@ -55,75 +61,42 @@ export function createJsFile(url: string): void {
 }
 
 export function checkExistJsFile(filename: string): boolean {
-  return Array.from(document.querySelectorAll("script")).some((s) =>
-    s.src.includes(filename),
-  );
+  return Array.from(document.querySelectorAll("script")).some((s) => s.src.includes(filename));
 }
 
 export function randomIntFromInterval(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-const imageLink = [
-  "http://azard.net/upload/f.jpg",
-  "https://se3.ir/up/f.jpg",
-];
+const imageLink = ["http://azard.net/upload/f.jpg", "https://se3.ir/up/f.jpg"];
 const downloadSize = 1471649;
 let lastNumber = 0;
 
-export function startNumberAnimation(
-  el: HTMLElement,
-  start: number,
-  end: number,
-  unit: string,
-  time: number,
-  speed: number,
-): void {
-  increaseNumber(start, end, el, unit, time, speed);
+export type SpeedStatus = "loading" | "loaded" | "error";
+export type SpeedTrend = "top" | "down" | null;
+
+export interface SpeedSnapshot {
+  status: SpeedStatus;
+  text: string;
+  trend: SpeedTrend;
 }
 
-function increaseNumber(
-  start: number,
-  end: number,
-  el: HTMLElement,
-  unit: string,
-  time: number,
-  speed: number,
-): void {
-  if (start <= end) {
-    el.innerHTML = `${start.toFixed(2)} ${unit}`;
-    setTimeout(() => {
-      increaseNumber(start + 1, end, el, unit, time, speed);
-    }, speed);
-    setTimeout(() => {
-      if (start > end) {
-        el.innerHTML = `${end.toFixed(2)} ${unit}`;
-      }
-    }, time);
-  } else {
-    el.innerHTML = `${end.toFixed(2)} ${unit}`;
-  }
-}
-
-export function MeasureConnectionSpeed(el: HTMLElement | null): void {
-  if (!el) return;
+export function MeasureConnectionSpeed(onUpdate: (snapshot: SpeedSnapshot) => void): void {
   let startTime = 0;
   let endTime = 0;
   const download = new Image();
   download.onload = () => {
-    el.className = "";
     endTime = Date.now();
     showResults();
   };
 
   download.onerror = () => {
-    el.className = "internet-speed error";
+    onUpdate({ status: "error", text: "", trend: null });
   };
 
   startTime = Date.now();
   const cacheBuster = `?d=${startTime}`;
-  download.src =
-    imageLink[randomIntFromInterval(0, imageLink.length - 1)] + cacheBuster;
+  download.src = imageLink[randomIntFromInterval(0, imageLink.length - 1)] + cacheBuster;
 
   function showResults() {
     const duration = (endTime - startTime) / 1000;
@@ -131,31 +104,21 @@ export function MeasureConnectionSpeed(el: HTMLElement | null): void {
     const speedBps = Number((bitsLoaded / duration).toFixed(2));
     const speedKbps = Number((speedBps / 1024).toFixed(2));
     const speedMbps = Number((speedKbps / 1024).toFixed(2));
-    el!.className = "internet-speed loaded";
+    const unit = speedKbps / 1024 > 1.24 ? "Mb/s" : "Kb/s";
     const result = speedKbps / 1024 > 1.24 ? speedMbps : speedKbps;
-    startNumberAnimation(
-      el!,
-      lastNumber,
-      result,
-      speedKbps / 1024 > 1.24 ? "Mb/s" : "Kb/s",
-      1000,
-      speedKbps / 1024 > 1.24 ? 100 : 50,
-    );
-    setTimeout(() => {
-      el!.innerHTML = `${result} ${speedKbps / 1024 > 1.24 ? "Mb/s" : "Kb/s"}`;
-      setTimeout(() => {
-        el!.classList.remove(lastNumber > result ? "top" : "down");
-        el!.classList.add(lastNumber > result ? "down" : "top");
-        lastNumber = result - 1;
-      }, 250);
-    }, 150);
+    const trend: SpeedTrend = lastNumber > result ? "down" : "top";
+    lastNumber = result - 1;
+    onUpdate({
+      status: "loaded",
+      text: `${result} ${unit}`,
+      trend,
+    });
   }
 }
 
-export function InitiateSpeedDetection(el: HTMLElement | null): void {
-  if (!el) return;
-  el.className = "internet-speed loading";
-  setTimeout(() => MeasureConnectionSpeed(el), 100);
+export function InitiateSpeedDetection(onUpdate: (snapshot: SpeedSnapshot) => void): void {
+  onUpdate({ status: "loading", text: "", trend: null });
+  setTimeout(() => MeasureConnectionSpeed(onUpdate), 100);
 }
 
 export function getStorage(key: string): unknown {
@@ -204,17 +167,13 @@ export function timeAgo(
 
   if (seconds < 5) return lang === "fa" ? "الان" : "now";
   if (seconds < 60) {
-    return lang === "fa"
-      ? `${NumbersToPersian(seconds)} ثانیه پیش`
-      : `${seconds} seconds ago`;
+    return lang === "fa" ? `${NumbersToPersian(seconds)} ثانیه پیش` : `${seconds} seconds ago`;
   }
   if (seconds < 90) {
     return lang === "fa" ? "حدودا یک دقیقه پیش" : "about a minute ago";
   }
   if (minutes < 60) {
-    return lang === "fa"
-      ? `${NumbersToPersian(minutes)} دقیقه پیش`
-      : `${minutes} minutes ago`;
+    return lang === "fa" ? `${NumbersToPersian(minutes)} دقیقه پیش` : `${minutes} minutes ago`;
   }
   return getFormattedDate(date);
 }
@@ -228,9 +187,9 @@ export function arrayMove<T>(array: T[], oldIndex: number, newIndex: number): T[
 
 export function isLight(color: string): boolean {
   const hex = color.replace("#", "");
-  const c_r = parseInt(hex.substring(0, 2), 16);
-  const c_g = parseInt(hex.substring(2, 4), 16);
-  const c_b = parseInt(hex.substring(4, 6), 16);
+  const c_r = Number.parseInt(hex.substring(0, 2), 16);
+  const c_g = Number.parseInt(hex.substring(2, 4), 16);
+  const c_b = Number.parseInt(hex.substring(4, 6), 16);
   const brightness = (c_r * 299 + c_g * 587 + c_b * 114) / 1000;
   return brightness > 155;
 }

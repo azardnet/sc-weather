@@ -19,9 +19,9 @@ export interface ClockState {
 }
 
 export interface PricesState {
-  usdt: string;
-  btc: string;
-  gold: string;
+  usdt: string | null;
+  btc: string | null;
+  gold: string | null;
 }
 
 export interface PortalModalState {

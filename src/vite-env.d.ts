@@ -6,7 +6,6 @@ interface ImportMetaEnv {
   readonly VITE_PUBLIC_PATH?: string;
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: <explanation>
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
@@ -27,7 +26,6 @@ interface YMaps {
   ) => YMapsMap;
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: <explanation>
 interface Window {
   ymaps: YMaps;
 }

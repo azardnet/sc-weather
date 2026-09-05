@@ -25,7 +25,7 @@ export const translate: Record<Lang, TranslateDict> = {
   en: {
     FeelsLike: "Feels Like : ",
     CityNotFound: "City not found.",
-    TypeCity: "type City and hit Enter",
+    TypeCity: "Type city and hit enter",
     ErrorDownloading: "Error downloading.",
     ErrorLoadMap: "Map is not accessible right now.",
     lastUpdate: "last update:",

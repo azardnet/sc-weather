@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { RiLoader4Line } from "@/components/ui/icon";
+
 interface Hands {
   hour: number;
   minute: number;
@@ -10,8 +12,8 @@ export interface SimpleModeClockProps {
   date: string;
   temperature: string;
   city: string;
-  usdt: string;
-  gold: string;
+  usdt: string | null;
+  gold: string | null;
 }
 
 function getHands(now: Date): Hands {
@@ -25,6 +27,9 @@ function getHands(now: Date): Hands {
     second: s * 6,
   };
 }
+
+const metaText =
+  "m-0 text-center text-[clamp(13px,1.6vw,18px)] font-normal leading-none tracking-[0.08em] text-white/38";
 
 export default function SimpleModeClock({
   date,
@@ -46,20 +51,25 @@ export default function SimpleModeClock({
   }, []);
 
   return (
-    <div className="simple-mode">
-      <div className="simple-mode__top">
-        {city ? <p className="simple-mode__city">{city}</p> : null}
+    <div className="fixed inset-0 z-[10000] grid grid-rows-[auto_1fr_auto] items-center justify-items-center bg-black px-[6vw] py-[7vh] pb-[6vh] font-sans text-white">
+      <div className="flex items-baseline justify-center gap-[1.25em]">
+        {city ? <p className={metaText}>{city}</p> : null}
         {temperature ? (
-          <p className="simple-mode__temp">
+          <p className={metaText}>
             {temperature}
-            <span>°</span>
+            <span className="ms-px text-[0.85em] opacity-75">°</span>
           </p>
         ) : null}
-        <p className="simple-mode__date">{date.trim()}</p>
+        <p className={metaText}>{date.trim()}</p>
       </div>
 
-      <div className="simple-mode__stage">
-        <svg className="simple-mode__clock" viewBox="0 0 200 200" role="img" aria-hidden="true">
+      <div className="flex flex-col items-center">
+        <svg
+          className="h-[min(78vmin,720px)] w-[min(78vmin,720px)] overflow-visible"
+          viewBox="0 0 200 200"
+          role="img"
+          aria-hidden="true"
+        >
           <line
             x1="100"
             y1="12"
@@ -134,15 +144,19 @@ export default function SimpleModeClock({
         </svg>
       </div>
 
-      <div className="simple-mode__meta">
-        <div className="simple-mode__meta-item">
-          <span className="simple-mode__meta-label">USDT</span>
-          <span className="simple-mode__meta-value">{usdt}</span>
+      <div className="flex items-center gap-[clamp(18px,4vw,40px)]">
+        <div className="flex min-w-[88px] flex-col items-center gap-1.5">
+          <span className="text-[10px] tracking-[0.22em] text-white/28">USDT</span>
+          <span className="flex min-h-[1.2em] items-center text-[clamp(14px,1.8vw,18px)] font-normal tracking-[0.04em] text-white/72 tabular-nums">
+            {usdt == null ? <RiLoader4Line size={16} className="animate-spin" /> : usdt}
+          </span>
         </div>
-        <span className="simple-mode__meta-sep" aria-hidden="true" />
-        <div className="simple-mode__meta-item">
-          <span className="simple-mode__meta-label">GOLD</span>
-          <span className="simple-mode__meta-value">{gold}</span>
+        <span className="h-7 w-px bg-white/12" aria-hidden="true" />
+        <div className="flex min-w-[88px] flex-col items-center gap-1.5">
+          <span className="text-[10px] tracking-[0.22em] text-white/28">GOLD</span>
+          <span className="flex min-h-[1.2em] items-center text-[clamp(14px,1.8vw,18px)] font-normal tracking-[0.04em] text-white/72 tabular-nums">
+            {gold == null ? <RiLoader4Line size={16} className="animate-spin" /> : gold}
+          </span>
         </div>
       </div>
     </div>

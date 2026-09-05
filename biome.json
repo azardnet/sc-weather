@@ -6,7 +6,17 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!dist", "!build", "!face", "!public", "!news.php", "!pnpm-lock.yaml"]
+    "includes": [
+      "**",
+      "!dist",
+      "!build",
+      "!face",
+      "!public",
+      "!news.php",
+      "!pnpm-lock.yaml",
+      "!node_modules",
+      "!.pnpm-store"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -101,6 +111,9 @@
     }
   },
   "css": {
+    "parser": {
+      "tailwindDirectives": true
+    },
     "formatter": {
       "enabled": true,
       "quoteStyle": "double"

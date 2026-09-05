@@ -26,5 +26,6 @@ export function clearBodyBlur(): void {
 }
 
 export function setBodyRtl(enabled: boolean): void {
+  document.documentElement.setAttribute("dir", enabled ? "rtl" : "ltr");
   document.body.classList.toggle("rtl", enabled);
 }

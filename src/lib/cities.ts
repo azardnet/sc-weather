@@ -109,9 +109,7 @@ export const CITY_HAVE_IMAGE: CityImageMeta[] = [
   {
     name: "amsterdam",
     id: 2759794,
-    images: [
-      { photographer: "Azhar J", link: "https://unsplash.com/@azhrjl" },
-    ],
+    images: [{ photographer: "Azhar J", link: "https://unsplash.com/@azhrjl" }],
   },
   {
     name: "tabriz",
@@ -186,9 +184,7 @@ export const CITY_HAVE_IMAGE: CityImageMeta[] = [
   {
     name: "Tbilisi",
     id: 611717,
-    images: [
-      { photographer: "Kent Tupas", link: "https://unsplash.com/@zplits" },
-    ],
+    images: [{ photographer: "Kent Tupas", link: "https://unsplash.com/@zplits" }],
   },
   {
     name: "Batumi",
@@ -243,9 +239,7 @@ export const CITY_HAVE_IMAGE: CityImageMeta[] = [
   {
     name: "Saint Petersburg",
     id: 498817,
-    images: [
-      { photographer: "Hu Chen", link: "https://unsplash.com/@huchenme" },
-    ],
+    images: [{ photographer: "Hu Chen", link: "https://unsplash.com/@huchenme" }],
   },
   {
     name: "New York",
