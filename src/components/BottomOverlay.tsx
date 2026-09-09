@@ -54,7 +54,7 @@ export default function BottomOverlay({
   prices,
 }: BottomOverlayProps) {
   return (
-    <div className="absolute -bottom-0.5 -left-0.5 z-[2] m-auto box-border flex h-[115px] w-[calc(100%+4px)] items-center gap-3 bg-black/19 px-6 py-2 text-[0.75em] text-white max-[750px]:px-3">
+    <div className="absolute -bottom-0.5 -left-0.5 z-[2] m-auto box-border flex h-[115px] w-[calc(100%+4px)] items-center gap-3 bg-black/19 px-8 py-2 text-[0.75em] text-white max-[750px]:px-3">
       <span
         className={cn(
           "relative flex shrink-0 items-center gap-1.5 font-sans text-[20px] text-white transition-colors duration-[250ms]",

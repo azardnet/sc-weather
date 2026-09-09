@@ -29,7 +29,6 @@ import {
   clearBodyBlur,
   setBodyBlurred,
   setBodyLoaded,
-  setBodyLoading,
   setBodyRtl,
 } from "../lib/theme";
 import { translate } from "../lib/translate";
@@ -188,11 +187,6 @@ export function useWeatherApp() {
     };
     if (delay) setTimeout(finish, LOADING_DELAY);
     else finish();
-  }, []);
-
-  const markLoading = useCallback(() => {
-    setBlurred(true);
-    setBodyLoading();
   }, []);
 
   const showPortalModal = useCallback((text: string) => {
@@ -640,7 +634,6 @@ export function useWeatherApp() {
 
     const city = inputValue.trim();
     if (city.length > 1 && city.length < 22) {
-      markLoading();
       setTimeout(() => searchWeather(city, false), 120);
       setTimeout(() => setWeatherOpacity(1), LOADING_DELAY);
     } else {
@@ -649,7 +642,6 @@ export function useWeatherApp() {
   };
 
   const onHistorySelect = (city: string) => {
-    markLoading();
     setInputValue(city);
     searchWeather(city, false);
   };

@@ -7,22 +7,22 @@ export function applyTheme(color: string): void {
 }
 
 export function setBodyLoading(): void {
-  document.body.classList.remove("loaded");
-  document.body.classList.add("loading", "blur");
+  document.body.classList.remove("loaded", "page-blurred");
+  document.body.classList.add("loading");
 }
 
 export function setBodyLoaded(): void {
-  document.body.classList.remove("loading", "blur");
+  document.body.classList.remove("loading", "page-blurred");
   document.body.classList.add("loaded");
 }
 
 export function setBodyBlurred(): void {
   document.body.classList.remove("loading");
-  document.body.classList.add("loaded", "blur");
+  document.body.classList.add("loaded", "page-blurred");
 }
 
 export function clearBodyBlur(): void {
-  document.body.classList.remove("blur");
+  document.body.classList.remove("page-blurred");
 }
 
 export function setBodyRtl(enabled: boolean): void {

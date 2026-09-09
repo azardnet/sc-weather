@@ -109,6 +109,11 @@
   body {
     @apply text-foreground;
   }
+
+  body.page-blurred main {
+    opacity: 0.25;
+    filter: blur(5px);
+  }
 }
 
 @keyframes logo-fill {
