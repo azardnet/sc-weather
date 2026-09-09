@@ -128,7 +128,6 @@ export function useWeatherApp() {
     date: "",
   });
   const [news, setNews] = useState("");
-  const [newsTransform, setNewsTransform] = useState("");
   const [prices, setPrices] = useState<PricesState>({
     btc: null,
     usdt: null,
@@ -420,7 +419,6 @@ export function useWeatherApp() {
         .map((item) => `${item.source}: ${item.title}`)
         .join("  \u0020   |    \u0020  ");
       setNews(newsText);
-      setNewsTransform(`${newsText.length * 3.521}px`);
     } catch (error) {
       console.error("Error fetching news:", error);
     }
@@ -743,7 +741,6 @@ export function useWeatherApp() {
       mapRef: mapRef as RefObject<HTMLDivElement | null>,
       speed,
       news,
-      newsTransform,
       animationDuration,
       prices,
       mapOverlayInterval,

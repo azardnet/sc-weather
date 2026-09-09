@@ -137,11 +137,18 @@
   }
 }
 
+.news-marquee {
+  animation-name: news;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
 @keyframes news {
   from {
-    transform: translate3d(var(--news-from), 0, 0);
+    transform: translate3d(-50%, 0, 0);
   }
   to {
-    transform: translate3d(var(--news-to), 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }

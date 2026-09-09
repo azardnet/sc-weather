@@ -17,7 +17,6 @@ interface WeatherSectionProps {
   mapRef: RefObject<HTMLDivElement | null>;
   speed: SpeedSnapshot;
   news: string;
-  newsTransform: string;
   animationDuration: number;
   prices: PricesState;
   mapOverlayInterval: boolean;
@@ -43,7 +42,6 @@ export default function WeatherSection({
   mapRef,
   speed,
   news,
-  newsTransform,
   animationDuration,
   prices,
   mapOverlayInterval,
@@ -85,7 +83,6 @@ export default function WeatherSection({
       <BottomOverlay
         speed={speed}
         news={news}
-        newsTransform={newsTransform}
         animationDuration={animationDuration}
         prices={prices}
       />
