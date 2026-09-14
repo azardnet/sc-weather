@@ -15,12 +15,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AzardLogo } from "@/components/ui/logo";
 import {
+  isSelectLayerTarget,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  isSelectLayerTarget,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
@@ -162,7 +162,7 @@ export function SettingsPortal({
             value={clockTheme}
             onValueChange={(value) => onClockThemeChange(value as ClockTheme)}
           >
-            <SelectTrigger id="clockTheme" size="sm" className="w-36">
+            <SelectTrigger id="clockTheme" size="sm" className="w-44">
               <SelectValue />
             </SelectTrigger>
             <SelectContent align="end">

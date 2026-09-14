@@ -1,7 +1,7 @@
 import { useState } from "react";
 
+import CountdownClock from "./components/CountdownClock";
 import Header from "./components/Header";
-import NeonClock from "./components/NeonClock";
 import { LoadingPortal, PortalModal, SettingsPortal } from "./components/Portals";
 import ScriptClock from "./components/ScriptClock";
 import SimpleModeClock from "./components/SimpleModeClock";
@@ -44,7 +44,7 @@ export default function App() {
         </main>
 
         {clockTheme === "simple" ? <SimpleModeClock {...overlayProps} /> : null}
-        {clockTheme === "neon" ? <NeonClock {...overlayProps} /> : null}
+        {clockTheme === "countdown" ? <CountdownClock {...overlayProps} /> : null}
         {clockTheme === "script" ? <ScriptClock {...overlayProps} /> : null}
 
         <LoadingPortal />

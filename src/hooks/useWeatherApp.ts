@@ -4,10 +4,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { playHourChime } from "../lib/chime";
 import { CITY_HAVE_IMAGE, CITY_HAVE_VIDEO } from "../lib/cities";
 import {
+  type ClockTheme,
   DEFAULT_CLOCK_THEME,
   isOverlayClockTheme,
   parseClockTheme,
-  type ClockTheme,
 } from "../lib/clock-theme";
 import {
   CREATE_MAP_DELAY,
@@ -24,13 +24,7 @@ import {
   SPEED_DETECTION_DELAY,
 } from "../lib/constants";
 import { cityFromStorage, parseHistory } from "../lib/storage";
-import {
-  applyTheme,
-  clearBodyBlur,
-  setBodyBlurred,
-  setBodyLoaded,
-  setBodyRtl,
-} from "../lib/theme";
+import { applyTheme, clearBodyBlur, setBodyBlurred, setBodyLoaded, setBodyRtl } from "../lib/theme";
 import { translate } from "../lib/translate";
 import type {
   ClockState,
@@ -94,9 +88,12 @@ export function useWeatherApp() {
   const [fullScreenImage, setFullScreenImage] = useState(
     () => localStorage.getItem("fsi") === "true",
   );
-  const [clockTheme, setClockTheme] = useState<ClockTheme>(
-    () => parseClockTheme(localStorage.getItem("clock_theme")),
-  );
+  const [clockTheme, setClockTheme] = useState<ClockTheme>(() => {
+    const stored = localStorage.getItem("clock_theme");
+    const theme = parseClockTheme(stored);
+    if (stored === "neon") localStorage.setItem("clock_theme", theme);
+    return theme;
+  });
   const [clockSound, setClockSound] = useState(
     () => localStorage.getItem("clock_sound") === "true",
   );
@@ -255,6 +252,7 @@ export function useWeatherApp() {
       humidity: main.humidity,
       isPersian,
     });
+    setWeatherIcon(weather0.icon);
   }, []);
 
   const setupVideoBackground = useCallback(
@@ -339,9 +337,8 @@ export function useWeatherApp() {
             }
           }
 
-          if (result.sys?.country && result.weather?.[0]) {
+          if (result.sys?.country) {
             setFlagSrc(assetUrl(`static/flags/${result.sys.country.toLowerCase()}.svg`));
-            setWeatherIcon(result.weather[0].icon);
           }
 
           updateSearchHistory(isPersian ? city : (result.name ?? ""));
