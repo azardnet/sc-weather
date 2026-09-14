@@ -38,15 +38,17 @@ export default function ScriptClock({
         >
           {hours}
           <span className="mx-[0.04em] text-[#f3e6d0]/40">:</span>
-          {minutes}
+          <span className="relative inline-block">
+            {minutes}
+            {clock.second ? (
+              <span className="absolute start-full bottom-[0.08em] ms-[0.08em] text-[0.22em] leading-none text-[#f3e6d0]/45">
+                {clock.second.replace(/^:/, "")}
+              </span>
+            ) : null}
+          </span>
         </p>
-        <p className="mt-6 text-[clamp(14px,1.7vw,20px)] tracking-[0.18em] text-[#f3e6d0]/42">
+        <p className="mt-6 m-0 text-[clamp(14px,1.7vw,20px)] tracking-[0.18em] text-[#f3e6d0]/42">
           {date.trim()}
-          {clock.second ? (
-            <span className="ms-3 tracking-[0.08em] text-[#f3e6d0]/28 [direction:ltr] tabular-nums">
-              {clock.second.replace(/^:/, "")}
-            </span>
-          ) : null}
         </p>
       </div>
 

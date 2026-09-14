@@ -627,7 +627,7 @@ export function useWeatherApp() {
     inputRef.current?.blur();
     if (blurRef.current) return;
 
-    const city = inputValue.trim();
+    const city = event.currentTarget.value.trim();
     if (city.length > 1 && city.length < 22) {
       setTimeout(() => searchWeather(city, false), 120);
       setTimeout(() => setWeatherOpacity(1), LOADING_DELAY);
@@ -720,7 +720,15 @@ export function useWeatherApp() {
       history,
       cityListActive,
       settingsBtnRef: settingsBtnRef as RefObject<HTMLButtonElement | null>,
-      onInputChange: (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value),
+      onInputChange: (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setInputValue(value);
+        const lastChar = [...value].filter((ch) => ch.trim()).at(-1);
+        if (!lastChar) return;
+        const isPersian = checkPersianCharacters(lastChar);
+        setHeaderDir(isPersian ? "right" : "left");
+        setPlaceholder(isPersian ? translate.fa.TypeCity : translate.en.TypeCity);
+      },
       onInputKeyDown,
       onFocus: () => setCityListActive(true),
       onBlur: () => setTimeout(() => setCityListActive(false), 100),

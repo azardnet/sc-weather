@@ -2,7 +2,9 @@ import { useState } from "react";
 
 import type { OverlayClockProps } from "./ClockOverlay";
 import { OverlayClockShell, OverlayHeader, OverlayPrices } from "./ClockOverlay";
+import MotivationalQuote from "./MotivationalQuote";
 import { Button } from "@/components/ui/button";
+import { useMotivationalQuote } from "@/hooks/useMotivationalQuote";
 import {
   RiAddLine,
   RiCalendarLine,
@@ -12,6 +14,7 @@ import {
 } from "@/components/ui/icon";
 import {
   type CountdownGoal,
+  type CountdownRemaining,
   getCountdownRemaining,
   loadCountdownGoal,
   saveCountdownGoal,
@@ -100,6 +103,7 @@ export default function CountdownClock({
 }: OverlayClockProps & { onOpenSettings: () => void }) {
   const [hours = "", minutes = ""] = clock.hour.split(":");
   const seconds = clock.second.replace(/^:/, "");
+  const quote = useMotivationalQuote();
   const [goal, setGoal] = useState<CountdownGoal | null>(() => loadCountdownGoal());
   const [editing, setEditing] = useState(() => loadCountdownGoal() === null);
   const [draft, setDraft] = useState<GoalDraft>(() => draftFromGoal(loadCountdownGoal()));
@@ -214,6 +218,7 @@ export default function CountdownClock({
                 }}
                 placeholder="نام هدف"
                 autoComplete="off"
+                inputMode="none"
                 className="h-12 w-full border-0 border-b border-white/15 bg-transparent px-1 text-center text-[clamp(22px,2.6vw,34px)] text-white outline-none placeholder:text-white/25"
               />
 
@@ -378,19 +383,7 @@ export default function CountdownClock({
                   زمان این هدف رسید
                 </span>
               ) : (
-                <span className="flex items-end justify-center gap-4" dir="ltr">
-                  <CountdownUnit value={remaining.days} label="روز" wide />
-                  <span className="mb-[1.35em] text-[clamp(20px,2vw,28px)] text-white/20">/</span>
-                  <CountdownUnit value={remaining.hours} label="ساعت" />
-                  <span className="mb-[1.35em] text-[clamp(20px,2vw,28px)] text-amber-200/35">
-                    :
-                  </span>
-                  <CountdownUnit value={remaining.minutes} label="دقیقه" />
-                  <span className="mb-[1.35em] text-[clamp(20px,2vw,28px)] text-amber-200/35">
-                    :
-                  </span>
-                  <CountdownUnit value={remaining.seconds} label="ثانیه" />
-                </span>
+                <CountdownUnits remaining={remaining} />
               )}
               <span className="flex items-center gap-2 text-[clamp(12px,1.3vw,15px)] text-white/35">
                 <RiCalendarLine className="size-3.5" />
@@ -410,7 +403,10 @@ export default function CountdownClock({
         </div>
       </div>
 
-      <OverlayPrices usdt={usdt} gold={gold} />
+      <div className="flex flex-col items-center gap-[clamp(16px,2.4vh,32px)]">
+        <MotivationalQuote quote={quote} />
+        <OverlayPrices usdt={usdt} gold={gold} />
+      </div>
     </OverlayClockShell>
   );
 }
@@ -455,6 +451,48 @@ function TimeStepper({
         </Button>
       </div>
     </div>
+  );
+}
+
+const COUNTDOWN_UNITS = [
+  { key: "days", label: "روز", separator: "/", wide: true },
+  { key: "hours", label: "ساعت", separator: ":" },
+  { key: "minutes", label: "دقیقه", separator: ":" },
+  { key: "seconds", label: "ثانیه", separator: ":" },
+] as const;
+
+function visibleCountdownUnits(remaining: CountdownRemaining) {
+  const start = COUNTDOWN_UNITS.findIndex(
+    (unit) => unit.key === "seconds" || remaining[unit.key] > 0,
+  );
+  return COUNTDOWN_UNITS.slice(start);
+}
+
+function CountdownUnits({ remaining }: { remaining: CountdownRemaining }) {
+  const units = visibleCountdownUnits(remaining);
+
+  return (
+    <span className="flex items-end justify-center gap-4" dir="ltr">
+      {units.map((unit, index) => (
+        <span key={unit.key} className="contents">
+          {index > 0 ? (
+            <span
+              className={cn(
+                "mb-[1.35em] text-[clamp(20px,2vw,28px)]",
+                units[index - 1].separator === "/" ? "text-white/20" : "text-amber-200/35",
+              )}
+            >
+              {units[index - 1].separator}
+            </span>
+          ) : null}
+          <CountdownUnit
+            value={remaining[unit.key]}
+            label={unit.label}
+            wide={"wide" in unit && unit.wide}
+          />
+        </span>
+      ))}
+    </span>
   );
 }
 

@@ -6,6 +6,7 @@ import { LoadingPortal, PortalModal, SettingsPortal } from "./components/Portals
 import ScriptClock from "./components/ScriptClock";
 import SimpleModeClock from "./components/SimpleModeClock";
 import { TooltipProvider } from "./components/ui/tooltip";
+import VirtualKeyboard from "./components/VirtualKeyboard";
 import WeatherSection from "./components/WeatherSection";
 import { useWeatherApp } from "./hooks/useWeatherApp";
 import { isOverlayClockTheme } from "./lib/clock-theme";
@@ -50,6 +51,7 @@ export default function App() {
         <LoadingPortal />
         <PortalModal {...portalModal} container={shell} />
         <SettingsPortal {...settings} container={shell} />
+        <VirtualKeyboard />
       </div>
     </TooltipProvider>
   );

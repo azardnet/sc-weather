@@ -52,6 +52,8 @@ export default function Header({
         <Input
           ref={inputRef}
           type="text"
+          autoComplete="off"
+          spellCheck={false}
           placeholder={placeholder}
           value={inputValue}
           onChange={onInputChange}

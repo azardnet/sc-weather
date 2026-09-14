@@ -5,8 +5,8 @@ export type ClockTheme = (typeof CLOCK_THEMES)[number];
 export const DEFAULT_CLOCK_THEME: ClockTheme = "classic";
 
 export const CLOCK_THEME_LABELS: Record<ClockTheme, { en: string; fa: string }> = {
-  classic: { en: "Classic", fa: "اصلی" },
-  simple: { en: "Simple", fa: "ساده" },
+  classic: { en: "Default", fa: "پیش‌فرض" },
+  simple: { en: "Classic", fa: "کلاسیک" },
   countdown: { en: "Countdown", fa: "شمارش معکوس" },
   script: { en: "Script", fa: "خوش‌نویس" },
 };
