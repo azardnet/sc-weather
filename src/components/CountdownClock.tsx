@@ -45,6 +45,16 @@ function faNum(value: number, digits = 2): string {
   return NumbersToPersian(value.toString().padStart(digits, "0"));
 }
 
+function enNum(value: number, digits = 2): string {
+  return value.toString().padStart(digits, "0");
+}
+
+function toEnglishDigits(text: string): string {
+  return text
+    .replace(/[۰-۹]/g, (char) => String(char.charCodeAt(0) - "۰".charCodeAt(0)))
+    .replace(/[٠-٩]/g, (char) => String(char.charCodeAt(0) - "٠".charCodeAt(0)));
+}
+
 function clampDay(year: number, month: number, day: number): number {
   return Math.min(day, jalaliMonthLength(year, month));
 }
@@ -189,11 +199,11 @@ export default function CountdownClock({
             className="flex items-end gap-[0.08em] font-sans text-[clamp(52px,10vw,148px)] leading-none font-light tracking-[0.04em] text-white tabular-nums [direction:ltr]"
             aria-hidden="true"
           >
-            <span>{hours}</span>
+            <span>{toEnglishDigits(hours)}</span>
             <span className="animate-pulse px-[0.02em] text-white/35">:</span>
-            <span>{minutes}</span>
+            <span>{toEnglishDigits(minutes)}</span>
             <span className="ms-[0.18em] self-end pb-[0.14em] text-[0.28em] tracking-[0.16em] text-white/45">
-              {seconds}
+              {toEnglishDigits(seconds)}
             </span>
           </div>
           {clock.midday ? (
@@ -437,7 +447,7 @@ function TimeStepper({
           −
         </Button>
         <span className="flex h-8 min-w-[2.8ch] items-center justify-center text-[22px] font-medium tabular-nums text-white">
-          {value.toString().padStart(2, "0")}
+          {enNum(value)}
         </span>
         <Button
           type="button"
@@ -513,7 +523,7 @@ function CountdownUnit({
           wide ? "text-[clamp(36px,4.4vw,64px)]" : "text-[clamp(32px,3.8vw,56px)]",
         )}
       >
-        {faNum(value, value >= 100 ? 3 : 2)}
+        {enNum(value, value >= 100 ? 3 : 2)}
       </span>
       <span className="text-[11px] tracking-[0.18em] text-white/30">{label}</span>
     </span>
