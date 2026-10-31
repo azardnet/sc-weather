@@ -10,6 +10,8 @@ export const PORTAL_MODAL_DELAY = 2500;
 export const CREATE_MAP_DELAY = 3000;
 export const SPEED_DETECTION_DELAY = 10000;
 export const MARKET_REFRESH_INTERVAL = 500000;
+export const QUOTE_ROTATE_INTERVAL = 30 * 60 * 1000;
+export const QUOTE_POOL_TTL = 24 * 60 * 60 * 1000;
 
 export const DEFAULT_COLOR = "#072322";
 export const DEFAULT_OPACITY = 90;

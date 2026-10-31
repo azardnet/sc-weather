@@ -1,11 +1,12 @@
 import { useState } from "react";
 
+import CountdownClock from "./components/CountdownClock";
 import Header from "./components/Header";
-import NeonClock from "./components/NeonClock";
 import { LoadingPortal, PortalModal, SettingsPortal } from "./components/Portals";
 import ScriptClock from "./components/ScriptClock";
 import SimpleModeClock from "./components/SimpleModeClock";
 import { TooltipProvider } from "./components/ui/tooltip";
+import VirtualKeyboard from "./components/VirtualKeyboard";
 import WeatherSection from "./components/WeatherSection";
 import { useWeatherApp } from "./hooks/useWeatherApp";
 import { isOverlayClockTheme } from "./lib/clock-theme";
@@ -44,12 +45,13 @@ export default function App() {
         </main>
 
         {clockTheme === "simple" ? <SimpleModeClock {...overlayProps} /> : null}
-        {clockTheme === "neon" ? <NeonClock {...overlayProps} /> : null}
+        {clockTheme === "countdown" ? <CountdownClock {...overlayProps} /> : null}
         {clockTheme === "script" ? <ScriptClock {...overlayProps} /> : null}
 
         <LoadingPortal />
         <PortalModal {...portalModal} container={shell} />
         <SettingsPortal {...settings} container={shell} />
+        <VirtualKeyboard />
       </div>
     </TooltipProvider>
   );

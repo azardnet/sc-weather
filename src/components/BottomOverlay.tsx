@@ -1,5 +1,3 @@
-import type { CSSProperties } from "react";
-
 import type { PricesState } from "../lib/types";
 import type { SpeedSnapshot } from "../lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +6,7 @@ import {
   RiCoinLine,
   RiErrorWarningLine,
   RiLoader4Line,
+  RiMoneyDollarCircleLine,
   RiWifiLine,
 } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
@@ -15,7 +14,6 @@ import { cn } from "@/lib/utils";
 interface BottomOverlayProps {
   speed: SpeedSnapshot;
   news: string;
-  newsTransform: string;
   animationDuration: number;
   prices: PricesState;
 }
@@ -48,12 +46,11 @@ function PriceValue({ value, unit }: { value: string | null; unit: string }) {
 export default function BottomOverlay({
   speed,
   news,
-  newsTransform,
   animationDuration,
   prices,
 }: BottomOverlayProps) {
   return (
-    <div className="absolute -bottom-0.5 -left-0.5 z-[2] m-auto box-border flex h-[115px] w-[calc(100%+4px)] items-center gap-3 bg-black/19 px-4 py-2 text-[0.75em] text-white max-[750px]:px-3">
+    <div className="absolute -bottom-0.5 -left-0.5 z-[2] m-auto box-border flex h-[115px] w-[calc(100%+4px)] items-center gap-3 bg-black/19 px-8 py-2 text-[0.75em] text-white max-[750px]:px-3">
       <span
         className={cn(
           "relative flex shrink-0 items-center gap-1.5 font-sans text-[20px] text-white transition-colors duration-[250ms]",
@@ -65,20 +62,17 @@ export default function BottomOverlay({
         {speed.text}
       </span>
       <div className="flex min-h-0 min-w-0 flex-1 items-center overflow-hidden max-[750px]:absolute max-[750px]:-top-[42px] max-[750px]:right-0 max-[750px]:left-0 max-[750px]:w-full">
-        <span
-          className="inline-block font-sans text-[20px] leading-none font-bold whitespace-nowrap text-white [direction:rtl]"
-          style={
-            {
-              "--news-from": `-${newsTransform}`,
-              "--news-to": newsTransform,
-              animation: newsTransform
-                ? `news ${animationDuration}s linear infinite`
-                : undefined,
-            } as CSSProperties
-          }
-        >
-          {news}
-        </span>
+        {news ? (
+          <span
+            className="news-marquee inline-flex font-sans text-[20px] leading-none font-bold text-white"
+            style={{ animationDuration: `${animationDuration}s` }}
+          >
+            <span className="shrink-0 whitespace-nowrap px-8 [direction:rtl]">{news}</span>
+            <span className="shrink-0 whitespace-nowrap px-8 [direction:rtl]" aria-hidden>
+              {news}
+            </span>
+          </span>
+        ) : null}
       </div>
       <div className="flex shrink-0 flex-col items-start">
         <Badge variant="ghost" className={priceClass}>
@@ -87,7 +81,7 @@ export default function BottomOverlay({
           <PriceValue value={prices.btc} unit="$" />
         </Badge>
         <Badge variant="ghost" className={priceClass}>
-          <RiCoinLine size={14} />
+          <RiMoneyDollarCircleLine size={14} />
           <span className="m-0 text-[18px] font-semibold leading-none text-white">USDT:</span>
           <PriceValue value={prices.usdt} unit="T" />
         </Badge>

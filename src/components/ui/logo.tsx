@@ -1,11 +1,7 @@
 export function AzardLogo() {
   return (
     <>
-      <svg
-        className="h-4/5 w-4/5"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1000 1000"
-      >
+      <svg className="h-4/5 w-4/5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
         <title>Azard</title>
         <path
           className="animate-logo-fill fill-[hsl(32,100%,40%)]"

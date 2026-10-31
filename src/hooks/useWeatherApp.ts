@@ -4,10 +4,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { playHourChime } from "../lib/chime";
 import { CITY_HAVE_IMAGE, CITY_HAVE_VIDEO } from "../lib/cities";
 import {
+  type ClockTheme,
   DEFAULT_CLOCK_THEME,
   isOverlayClockTheme,
   parseClockTheme,
-  type ClockTheme,
 } from "../lib/clock-theme";
 import {
   CREATE_MAP_DELAY,
@@ -24,14 +24,7 @@ import {
   SPEED_DETECTION_DELAY,
 } from "../lib/constants";
 import { cityFromStorage, parseHistory } from "../lib/storage";
-import {
-  applyTheme,
-  clearBodyBlur,
-  setBodyBlurred,
-  setBodyLoaded,
-  setBodyLoading,
-  setBodyRtl,
-} from "../lib/theme";
+import { applyTheme, clearBodyBlur, setBodyBlurred, setBodyLoaded, setBodyRtl } from "../lib/theme";
 import { translate } from "../lib/translate";
 import type {
   ClockState,
@@ -95,9 +88,12 @@ export function useWeatherApp() {
   const [fullScreenImage, setFullScreenImage] = useState(
     () => localStorage.getItem("fsi") === "true",
   );
-  const [clockTheme, setClockTheme] = useState<ClockTheme>(
-    () => parseClockTheme(localStorage.getItem("clock_theme")),
-  );
+  const [clockTheme, setClockTheme] = useState<ClockTheme>(() => {
+    const stored = localStorage.getItem("clock_theme");
+    const theme = parseClockTheme(stored);
+    if (stored === "neon") localStorage.setItem("clock_theme", theme);
+    return theme;
+  });
   const [clockSound, setClockSound] = useState(
     () => localStorage.getItem("clock_sound") === "true",
   );
@@ -129,7 +125,6 @@ export function useWeatherApp() {
     date: "",
   });
   const [news, setNews] = useState("");
-  const [newsTransform, setNewsTransform] = useState("");
   const [prices, setPrices] = useState<PricesState>({
     btc: null,
     usdt: null,
@@ -188,11 +183,6 @@ export function useWeatherApp() {
     };
     if (delay) setTimeout(finish, LOADING_DELAY);
     else finish();
-  }, []);
-
-  const markLoading = useCallback(() => {
-    setBlurred(true);
-    setBodyLoading();
   }, []);
 
   const showPortalModal = useCallback((text: string) => {
@@ -262,6 +252,7 @@ export function useWeatherApp() {
       humidity: main.humidity,
       isPersian,
     });
+    setWeatherIcon(weather0.icon);
   }, []);
 
   const setupVideoBackground = useCallback(
@@ -346,9 +337,8 @@ export function useWeatherApp() {
             }
           }
 
-          if (result.sys?.country && result.weather?.[0]) {
+          if (result.sys?.country) {
             setFlagSrc(assetUrl(`static/flags/${result.sys.country.toLowerCase()}.svg`));
-            setWeatherIcon(result.weather[0].icon);
           }
 
           updateSearchHistory(isPersian ? city : (result.name ?? ""));
@@ -426,7 +416,6 @@ export function useWeatherApp() {
         .map((item) => `${item.source}: ${item.title}`)
         .join("  \u0020   |    \u0020  ");
       setNews(newsText);
-      setNewsTransform(`${newsText.length * 3.521}px`);
     } catch (error) {
       console.error("Error fetching news:", error);
     }
@@ -638,9 +627,8 @@ export function useWeatherApp() {
     inputRef.current?.blur();
     if (blurRef.current) return;
 
-    const city = inputValue.trim();
+    const city = event.currentTarget.value.trim();
     if (city.length > 1 && city.length < 22) {
-      markLoading();
       setTimeout(() => searchWeather(city, false), 120);
       setTimeout(() => setWeatherOpacity(1), LOADING_DELAY);
     } else {
@@ -649,7 +637,6 @@ export function useWeatherApp() {
   };
 
   const onHistorySelect = (city: string) => {
-    markLoading();
     setInputValue(city);
     searchWeather(city, false);
   };
@@ -733,7 +720,15 @@ export function useWeatherApp() {
       history,
       cityListActive,
       settingsBtnRef: settingsBtnRef as RefObject<HTMLButtonElement | null>,
-      onInputChange: (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value),
+      onInputChange: (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setInputValue(value);
+        const lastChar = [...value].filter((ch) => ch.trim()).at(-1);
+        if (!lastChar) return;
+        const isPersian = checkPersianCharacters(lastChar);
+        setHeaderDir(isPersian ? "right" : "left");
+        setPlaceholder(isPersian ? translate.fa.TypeCity : translate.en.TypeCity);
+      },
       onInputKeyDown,
       onFocus: () => setCityListActive(true),
       onBlur: () => setTimeout(() => setCityListActive(false), 100),
@@ -751,7 +746,6 @@ export function useWeatherApp() {
       mapRef: mapRef as RefObject<HTMLDivElement | null>,
       speed,
       news,
-      newsTransform,
       animationDuration,
       prices,
       mapOverlayInterval,
