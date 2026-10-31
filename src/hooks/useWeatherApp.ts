@@ -646,7 +646,7 @@ export function useWeatherApp() {
     setMainBlur(true);
     setFullScreenImage(localStorage.getItem("fsi") === "true");
     setMapOpacity(+(localStorage.getItem("opacity") || DEFAULT_OPACITY));
-    setAnimationDuration(+(localStorage.getItem("animation-duration") || 160));
+    setAnimationDuration(+(localStorage.getItem("animation-duration") || 120));
   };
 
   const onFullscreen = () => {
