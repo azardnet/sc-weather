@@ -393,7 +393,8 @@ export function useWeatherApp() {
       }
 
       fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lang=${lang}&q=${cityNameParam}&APPID=${OPEN_WEATHER_KEY}&units=metric`,
+        // `https://api.openweathermap.org/data/2.5/weather?lang=${lang}&q=${cityNameParam}&APPID=${OPEN_WEATHER_KEY}&units=metric`,
+        `https://azard.net/sc/get/?city=${cityNameParam}&lang=${lang}`,
       )
         .then((res) => res.json() as Promise<OpenWeatherResponse>)
         .then((result) => computeUI(result, cityNameParam, interval));
