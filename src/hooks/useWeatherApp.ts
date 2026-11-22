@@ -18,7 +18,6 @@ import {
   LOADING_DELAY,
   MAP_URL,
   MARKET_REFRESH_INTERVAL,
-  OPEN_WEATHER_KEY,
   PORTAL_MODAL_DELAY,
   REQUEST_INTERVAL,
   SPEED_DETECTION_DELAY,
@@ -29,7 +28,6 @@ import { translate } from "../lib/translate";
 import type {
   ClockState,
   Lang,
-  OpenWeatherResponse,
   PortalModalState,
   PricesState,
   SettingsLabels,
@@ -123,6 +121,7 @@ export function useWeatherApp() {
     second: "",
     midday: "",
     date: "",
+    dataEn: ""
   });
   const [news, setNews] = useState("");
   const [prices, setPrices] = useState<PricesState>({
@@ -236,7 +235,7 @@ export function useWeatherApp() {
     [clearMap, markLoaded, showPortalModal],
   );
 
-  const updateWeatherDisplay = useCallback((result: OpenWeatherResponse, isPersian: boolean) => {
+  const updateWeatherDisplay = useCallback((result: any, isPersian: boolean) => {
     const main = result.main;
     const wind = result.wind;
     const weather0 = result.weather?.[0];
@@ -284,7 +283,7 @@ export function useWeatherApp() {
   }, []);
 
   const computeUI = useCallback(
-    (result: OpenWeatherResponse, city: string, interval: boolean) => {
+    (result: any, city: string, interval: boolean) => {
       const isPersian = checkPersianCharacters(city);
       const cityVideo = CITY_HAVE_VIDEO.find((item) => item.id === result.id);
 
@@ -393,10 +392,9 @@ export function useWeatherApp() {
       }
 
       fetch(
-        // `https://api.openweathermap.org/data/2.5/weather?lang=${lang}&q=${cityNameParam}&APPID=${OPEN_WEATHER_KEY}&units=metric`,
         `https://azard.net/sc/get/?city=${cityNameParam}&lang=${lang}`,
       )
-        .then((res) => res.json() as Promise<OpenWeatherResponse>)
+        .then((res) => res.json() as Promise<any>)
         .then((result) => computeUI(result, cityNameParam, interval));
     },
     [computeUI],
@@ -543,6 +541,12 @@ export function useWeatherApp() {
           weekday: "long",
           year: "numeric",
           month: "numeric",
+          day: "numeric",
+        })} `,
+        dateEn: ` ${now.toLocaleDateString("en-us", {
+          weekday: "long",
+          year: "numeric",
+          month: "short",
           day: "numeric",
         })} `,
       });

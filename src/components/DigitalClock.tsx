@@ -13,11 +13,12 @@ export default function DigitalClock({ clock }: DigitalClockProps) {
             <span id="time">{clock.hour}</span>
             <span id="sec">{clock.second}</span>
           </div>
-          <span className="absolute top-[-0.5em] left-0 w-full text-center font-sans text-[0.125em]">
+          <span className="absolute top-[-0.5em] w-full text-right font-sans text-[0.125em]">
             {clock.midday}
           </span>
         </div>
-        <div className="-mt-[15px] w-full text-center font-sans text-[19px] text-white">
+        <div className="-mt-[15px] w-full flex justify-between text-center font-sans text-[17px] text-white">
+          <span>{clock.dateEn}</span>
           {clock.date}
         </div>
       </div>

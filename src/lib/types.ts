@@ -16,6 +16,7 @@ export interface ClockState {
   second: string;
   midday: string;
   date: string;
+  dateEn: string;
 }
 
 export interface PricesState {
@@ -32,23 +33,6 @@ export interface PortalModalState {
 export interface SettingsLabels {
   reset: string;
   submit: string;
-}
-
-export interface OpenWeatherResponse {
-  id?: number;
-  name?: string;
-  message?: string;
-  coord?: { lat: number; lon: number };
-  sys?: { country: string };
-  weather?: Array<{ description: string; icon: string }>;
-  main?: {
-    temp: number;
-    feels_like: number;
-    temp_max: number;
-    temp_min: number;
-    humidity: number;
-  };
-  wind?: { speed: number };
 }
 
 export interface CityImageMeta {
