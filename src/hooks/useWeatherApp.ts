@@ -121,7 +121,7 @@ export function useWeatherApp() {
     second: "",
     midday: "",
     date: "",
-    dataEn: ""
+    dateEn: ""
   });
   const [news, setNews] = useState("");
   const [prices, setPrices] = useState<PricesState>({
